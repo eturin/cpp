@@ -1,0 +1,6 @@
+LIBRARY    "sap-rfc"
+
+EXPORTS
+GetClassObject
+DestroyObject
+GetClassNames

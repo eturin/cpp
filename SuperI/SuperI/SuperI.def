@@ -1,0 +1,6 @@
+LIBRARY    "SuperI"
+
+EXPORTS
+GetClassObject
+DestroyObject
+GetClassNames

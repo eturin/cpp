@@ -1,0 +1,203 @@
+
+**** ERROR file opened at 20160414 105353 RTZ 2 (çèìà), SAP-REL 730,0,424 RFC-VER 3 1407322 MT-SL
+T:11572 Error in program '1CV8C': ======> Name or password is incorrect (repeat logon)
+T:11572 Error in program '1CV8C': <* RfcReceive [1] : returns 3:RFC_SYS_EXCEPTION
+T:11572 Error in program '1CV8C': ======> 
+
+>>> RfcOpenEx ...
+ Got following connect_param string: 
+   TYPE=3 CLIENT=1 USER=BCUSER PASSWD=******* LANG=E ASHOST=as-msk-n7117 SYSNR=00 USE_SAPGUI=0 
+<<< RfcOpenEx failed
+
+
+
+**** ERROR file opened at 20160414 105538 RTZ 2 (çèìà), SAP-REL 730,0,424 RFC-VER 3 1407322 MT-SL
+T:11572 Error in program '1CV8C': ======> Name or password is incorrect (repeat logon)
+T:11572 Error in program '1CV8C': <* RfcReceive [1] : returns 3:RFC_SYS_EXCEPTION
+T:11572 Error in program '1CV8C': ======> 
+
+>>> RfcOpenEx ...
+ Got following connect_param string: 
+   TYPE=3 CLIENT=1 USER=BCUSER PASSWD=******* LANG=E ASHOST=as-msk-n7117 SYSNR=00 USE_SAPGUI=0 
+<<< RfcOpenEx failed
+
+
+
+**** ERROR file opened at 20160414 111602 RTZ 2 (çèìà), SAP-REL 730,0,424 RFC-VER 3 1407322 MT-SL
+T:11572 Error in program '1CV8C': ======> Name or password is incorrect (repeat logon)
+T:11572 Error in program '1CV8C': <* RfcReceive [1] : returns 3:RFC_SYS_EXCEPTION
+T:11572 Error in program '1CV8C': ======> 
+
+>>> RfcOpenEx ...
+ Got following connect_param string: 
+   TYPE=3 CLIENT=1 USER=BCUSER PASSWD=******* LANG=E ASHOST=as-msk-n7117 SYSNR=00 USE_SAPGUI=0 
+<<< RfcOpenEx failed
+
+
+
+**** ERROR file opened at 20160414 111732 RTZ 2 (çèìà), SAP-REL 730,0,424 RFC-VER 3 1407322 MT-SL
+T:11572 Error in program '1CV8C': ======> Name or password is incorrect (repeat logon)
+T:11572 Error in program '1CV8C': <* RfcReceive [1] : returns 3:RFC_SYS_EXCEPTION
+T:11572 Error in program '1CV8C': ======> 
+
+>>> RfcOpenEx ...
+ Got following connect_param string: 
+   TYPE=3 CLIENT=1 USER=BCUSER PASSWD=******* LANG=E ASHOST=as-msk-n7117 SYSNR=00 USE_SAPGUI=0 
+<<< RfcOpenEx failed
+
+
+
+**** ERROR file opened at 20160414 112024 RTZ 2 (çèìà), SAP-REL 730,0,424 RFC-VER 3 1407322 MT-SL
+T:11572 Error in program '1CV8C': ======> Name or password is incorrect (repeat logon)
+T:11572 Error in program '1CV8C': <* RfcReceive [1] : returns 3:RFC_SYS_EXCEPTION
+T:11572 Error in program '1CV8C': ======> 
+
+>>> RfcOpenEx ...
+ Got following connect_param string: 
+   TYPE=3 CLIENT=1 USER=BCUSER PASSWD=******* LANG=E ASHOST=as-msk-n7117 SYSNR=00 USE_SAPGUI=0 
+<<< RfcOpenEx failed
+
+
+
+**** ERROR file opened at 20160414 112306 RTZ 2 (çèìà), SAP-REL 730,0,424 RFC-VER 3 1407322 MT-SL
+T:11572 Error in program '1CV8C': ======> Password logon no longer possible - too many failed attempts
+T:11572 Error in program '1CV8C': <* RfcReceive [1] : returns 3:RFC_SYS_EXCEPTION
+T:11572 Error in program '1CV8C': ======> 
+
+>>> RfcOpenEx ...
+ Got following connect_param string: 
+   TYPE=3 CLIENT=1 USER=BCUSER PASSWD=******* LANG=E ASHOST=as-msk-n7117 SYSNR=00 USE_SAPGUI=0 
+<<< RfcOpenEx failed
+
+
+
+**** ERROR file opened at 20160414 112547 RTZ 2 (çèìà), SAP-REL 730,0,424 RFC-VER 3 1407322 MT-SL
+T:11572 Error in program '1CV8C': ======> Password logon no longer possible - too many failed attempts
+T:11572 Error in program '1CV8C': <* RfcReceive [1] : returns 3:RFC_SYS_EXCEPTION
+T:11572 Error in program '1CV8C': ======> 
+
+>>> RfcOpenEx ...
+ Got following connect_param string: 
+   TYPE=3 CLIENT=1 USER=BCUSER PASSWD=******* LANG=E ASHOST=as-msk-n7117 SYSNR=00 USE_SAPGUI=0 
+<<< RfcOpenEx failed
+
+
+
+**** ERROR file opened at 20160414 112901 RTZ 2 (çèìà), SAP-REL 730,0,424 RFC-VER 3 1407322 MT-SL
+T:11572 Error in program '1CV8C': ======> Password logon no longer possible - too many failed attempts
+T:11572 Error in program '1CV8C': <* RfcReceive [1] : returns 3:RFC_SYS_EXCEPTION
+T:11572 Error in program '1CV8C': ======> 
+
+>>> RfcOpenEx ...
+ Got following connect_param string: 
+   TYPE=3 CLIENT=1 USER=BCUSER PASSWD=******* LANG=E ASHOST=as-msk-n7117 SYSNR=00 USE_SAPGUI=0 
+<<< RfcOpenEx failed
+
+
+
+**** ERROR file opened at 20160414 113009 RTZ 2 (çèìà), SAP-REL 730,0,424 RFC-VER 3 1407322 MT-SL
+T:11272 Error in program '1CV8C': ======> Password logon no longer possible - too many failed attempts
+T:11272 Error in program '1CV8C': <* RfcReceive [1] : returns 3:RFC_SYS_EXCEPTION
+T:11272 Error in program '1CV8C': ======> 
+
+>>> RfcOpenEx ...
+ Got following connect_param string: 
+   TYPE=3 CLIENT=1 USER=BCUSER PASSWD=******* LANG=E ASHOST=as-msk-n7117 SYSNR=00 USE_SAPGUI=0 
+<<< RfcOpenEx failed
+
+
+
+**** ERROR file opened at 20160414 113132 RTZ 2 (çèìà), SAP-REL 730,0,424 RFC-VER 3 1407322 MT-SL
+T:11272 Error in program '1CV8C': ======> Password logon no longer possible - too many failed attempts
+T:11272 Error in program '1CV8C': <* RfcReceive [1] : returns 3:RFC_SYS_EXCEPTION
+T:11272 Error in program '1CV8C': ======> 
+
+>>> RfcOpenEx ...
+ Got following connect_param string: 
+   TYPE=3 CLIENT=1 USER=BCUSER PASSWD=******* LANG=E ASHOST=as-msk-n7117 SYSNR=00 USE_SAPGUI=0 
+<<< RfcOpenEx failed
+
+
+
+**** ERROR file opened at 20160414 113240 RTZ 2 (çèìà), SAP-REL 730,0,424 RFC-VER 3 1407322 MT-SL
+T:11272 Error in program '1CV8C': ======> Password logon no longer possible - too many failed attempts
+T:11272 Error in program '1CV8C': <* RfcReceive [1] : returns 3:RFC_SYS_EXCEPTION
+T:11272 Error in program '1CV8C': ======> 
+
+>>> RfcOpenEx ...
+ Got following connect_param string: 
+   TYPE=3 CLIENT=1 USER=BCUSER PASSWD=******* LANG=E ASHOST=as-msk-n7117 SYSNR=00 USE_SAPGUI=0 
+<<< RfcOpenEx failed
+
+
+
+**** ERROR file opened at 20160414 113321 RTZ 2 (çèìà), SAP-REL 730,0,424 RFC-VER 3 1407322 MT-SL
+T:11272 Error in program '1CV8C': ======> Password logon no longer possible - too many failed attempts
+T:11272 Error in program '1CV8C': <* RfcReceive [2] : returns 3:RFC_SYS_EXCEPTION
+T:11272 Error in program '1CV8C': ======> 
+
+>>> RfcOpenEx ...
+ Got following connect_param string: 
+   TYPE=3 CLIENT=1 USER=BCUSER PASSWD=******* LANG=E ASHOST=as-msk-n7117 SYSNR=00 USE_SAPGUI=0 
+<<< RfcOpenEx failed
+
+
+>TS> Thu Apr 14 11:33:43 2016
+T:11272 Error in program '1CV8C': ======> Password logon no longer possible - too many failed attempts
+T:11272 Error in program '1CV8C': <* RfcReceive [3] : returns 3:RFC_SYS_EXCEPTION
+T:11272 Error in program '1CV8C': ======> 
+
+>>> RfcOpenEx ...
+ Got following connect_param string: 
+   TYPE=3 CLIENT=1 USER=BCUSER PASSWD=******* LANG=E ASHOST=as-msk-n7117 SYSNR=00 USE_SAPGUI=0 
+<<< RfcOpenEx failed
+
+
+
+**** ERROR file opened at 20160414 115129 RTZ 2 (çèìà), SAP-REL 730,0,424 RFC-VER 3 1407322 MT-SL
+T:9504 Error in program '1CV8C': ======> Password logon no longer possible - too many failed attempts
+T:9504 Error in program '1CV8C': <* RfcReceive [1] : returns 3:RFC_SYS_EXCEPTION
+T:9504 Error in program '1CV8C': ======> 
+
+>>> RfcOpenEx ...
+ Got following connect_param string: 
+   TYPE=3 CLIENT=1 USER=BCUSER PASSWD=******* LANG=E ASHOST=as-msk-n7117 SYSNR=00 USE_SAPGUI=0 
+<<< RfcOpenEx failed
+
+
+
+**** ERROR file opened at 20160414 115253 RTZ 2 (çèìà), SAP-REL 730,0,424 RFC-VER 3 1407322 MT-SL
+T:11444 Error in program '1CV8C': ======> Password logon no longer possible - too many failed attempts
+T:11444 Error in program '1CV8C': <* RfcReceive [1] : returns 3:RFC_SYS_EXCEPTION
+T:11444 Error in program '1CV8C': ======> 
+
+>>> RfcOpenEx ...
+ Got following connect_param string: 
+   TYPE=3 CLIENT=1 USER=BCUSER PASSWD=******* LANG=E ASHOST=as-msk-n7117 SYSNR=00 USE_SAPGUI=0 
+<<< RfcOpenEx failed
+
+
+
+**** ERROR file opened at 20160414 115515 RTZ 2 (çèìà), SAP-REL 730,0,424 RFC-VER 3 1407322 MT-SL
+T:1864 Error in program '1CV8C': ======> Password logon no longer possible - too many failed attempts
+T:1864 Error in program '1CV8C': <* RfcReceive [1] : returns 3:RFC_SYS_EXCEPTION
+T:1864 Error in program '1CV8C': ======> 
+
+>>> RfcOpenEx ...
+ Got following connect_param string: 
+   TYPE=3 CLIENT=1 USER=BCUSER PASSWD=******* LANG=E ASHOST=as-msk-n7117 SYSNR=00 USE_SAPGUI=0 
+<<< RfcOpenEx failed
+
+
+
+**** ERROR file opened at 20160414 115652 RTZ 2 (çèìà), SAP-REL 730,0,424 RFC-VER 3 1407322 MT-SL
+T:10740 Error in program '1CV8C': ======> Password logon no longer possible - too many failed attempts
+T:10740 Error in program '1CV8C': <* RfcReceive [1] : returns 3:RFC_SYS_EXCEPTION
+T:10740 Error in program '1CV8C': ======> 
+
+>>> RfcOpenEx ...
+ Got following connect_param string: 
+   TYPE=3 CLIENT=1 USER=BCUSER PASSWD=******* LANG=E ASHOST=as-msk-n7117 SYSNR=00 USE_SAPGUI=0 
+<<< RfcOpenEx failed
+
+
