@@ -64,9 +64,7 @@ int main() {
 		else if(size < 0 && show_err(L"Ошибка получения")!=0) 			
 			break;
 		else  {
-			data[size] = '\0';
-			if(!strcmp(data, "off\n")) //условие выхода - получен "off\n" 
-				break;
+			data[size] = '\0';			
 			printf(data);
 		}
 	}
