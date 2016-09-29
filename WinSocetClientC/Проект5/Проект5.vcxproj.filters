@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Исходный код.c">
+    <ClCompile Include="main.c">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
   </ItemGroup>

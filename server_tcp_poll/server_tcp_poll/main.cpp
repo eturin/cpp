@@ -5,19 +5,21 @@
 #include <ws2tcpip.h>
 #include <ws2ipdef.h>
 
-#include <iostream>                                                                                                              
 #include <vector>                                                                                                                   
 #include <set>   
 #include <string>                           
 
 const int MAX_POLLS = 2048;
-int set_nonblock(int fd);
+int set_nonblock(int);
+int show_err(const wchar_t *);
 
 int main() {
 	//инициализация
 	WSADATA wsaData;
-	if(WSAStartup(MAKEWORD(2, 2), &wsaData))
+	if(WSAStartup(MAKEWORD(2, 2), &wsaData)) {
+		show_err(L"Ошибка инициализации среды");
 		return -1;
+	}
 	
 	//формируем сокет                                                                                                        
 	int m_socket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
@@ -27,13 +29,13 @@ int main() {
 	inet_pton(AF_INET, "0.0.0.0", &(saddr.sin_addr));
 
 	//биндим                                                                                                                 
-	if(bind(m_socket, (sockaddr*)&saddr, sizeof(saddr)))
-		std::cout << "Error on bind.\n";
+	if(bind(m_socket, (sockaddr*)&saddr, sizeof(saddr))) 
+		show_err(L"Error on bind");		
 	else {
 		//не блокирующий сокет                                                                                           
 		set_nonblock(m_socket);
-		if(listen(m_socket, SOMAXCONN)) //слушаем                                                                    
-			std::cout << "Error on listen.\n";
+		if(listen(m_socket, SOMAXCONN))  //слушаем                                                                    
+			show_err(L"Error on listen");
 		else {
 			//повторное использование сокета                                                                         
 			int optval = 1;
@@ -80,7 +82,7 @@ int main() {
 						} else if(cnt > 0) {
 							//выводим на консоль
 							buf[511] = '\0';
-							std::cout << buf;
+							printf(buf);
 						}
 					}
 				//отключение
@@ -95,6 +97,8 @@ int main() {
 			closesocket(m_socket);
 		}
 	}
+	WSACleanup();
+
 	std::system("pause");
 	return 0;
 }
@@ -102,4 +106,15 @@ int main() {
 int set_nonblock(int fd) {
 	u_long flags = 1;
 	return ioctlsocket(fd, FIONBIO, &flags);
+}
+
+int show_err(const wchar_t * msg) {
+	int      no = WSAGetLastError();
+	wchar_t  str_err[10000] = {0};
+	if(FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, NULL, no, MAKELANGID(LANG_RUSSIAN, SUBLANG_DEFAULT), str_err, sizeof(str_err), NULL))
+		wprintf(L"%s:\n%s\n", msg, str_err);
+	else
+		wprintf(L"%s:\nномер ошибки %d\n", msg, no);
+
+	return no;
 }
