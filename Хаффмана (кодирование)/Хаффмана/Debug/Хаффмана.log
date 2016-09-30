@@ -1,0 +1,17 @@
+﻿  main.cpp
+c:\program files (x86)\microsoft visual studio 12.0\vc\include\utility(144): warning C4244: инициализация: преобразование "unsigned __int64" в "unsigned int", возможна потеря данных
+          c:\users\etyurin\documents\visual studio 2013\projectscpp\хаффмана\хаффмана\main.cpp(33): см. ссылку на создание экземпляров функции шаблон при компиляции "std::pair<unsigned int,Node *>::pair<_Ty2&,Node*,void>(_Other1,_Other2 &&)"
+          with
+          [
+              _Ty2=unsigned __int64
+  ,            _Other1=unsigned __int64 &
+  ,            _Other2=Node *
+          ]
+          c:\users\etyurin\documents\visual studio 2013\projectscpp\хаффмана\хаффмана\main.cpp(33): см. ссылку на создание экземпляров функции шаблон при компиляции "std::pair<unsigned int,Node *>::pair<_Ty2&,Node*,void>(_Other1,_Other2 &&)"
+          with
+          [
+              _Ty2=unsigned __int64
+  ,            _Other1=unsigned __int64 &
+  ,            _Other2=Node *
+          ]
+  Хаффмана.vcxproj -> C:\Users\etyurin\Documents\Visual Studio 2013\ProjectsCPP\Хаффмана\Debug\Хаффмана.exe
