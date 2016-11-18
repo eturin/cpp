@@ -143,8 +143,7 @@ int main() {
 					//!!!!условие выхода!!!!!
 					if(!strncmp(cur->data, "OFF",5))
 						is_repeat = FALSE;
-
-					if(!strncmp(cur->data + cur->len-4, "\r\n\r\n", 4)) {
+					else if(!strncmp(cur->data + cur->len-4, "\r\n\r\n", 4)) {
 						cur->is_read = FALSE;//все сообщение получено
 						//подготовить ответ
 						make_response(&cur->data, &cur->len);
@@ -212,7 +211,7 @@ int main() {
 	while(cur != NULL) {
 		free(cur->data);
 		shutdown(cur->sfd, SD_BOTH);
-		close(cur->sfd);
+		closesocket(cur->sfd);
 		struct Client *tmp = cur;
 		cur = cur->next;
 		free(tmp);
