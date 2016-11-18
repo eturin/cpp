@@ -1,0 +1,4 @@
+﻿  main.c
+c:\users\etyurin\documents\visual studio 2013\projectscpp\winsocetserverc\проект5\main.c(215): warning C4013: close: нет определения; предполагается "extern" с возвратом типа "int"
+c:\users\etyurin\documents\visual studio 2013\projectscpp\winsocetserverc\проект5\main.c(256): warning C4133: функция: несовместимые типы - из "int *" в "const char *"
+  Проект5.vcxproj -> C:\Users\etyurin\Documents\Visual Studio 2013\ProjectsCPP\WinSocetServerC\Debug\Проект5.exe
