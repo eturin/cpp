@@ -22,8 +22,7 @@ int main(int argc, char ** argv) {
 	printf("Укажите имя разделяемого файла: ");
 	char name[LEN];
 	gets(name);
-	sprintf(name, "%s.fifo", name);
-	
+		
 	printf("Пробуем открыть объект общей памяти в ядре OS: %s...", name);
 	/*открываем объект общей памяти в ядре OS*/
 	HANDLE fd = OpenFileMapping(FILE_MAP_READ | FILE_MAP_WRITE, /*режим доступа*/
@@ -38,7 +37,7 @@ int main(int argc, char ** argv) {
 							 FILE_SHARE_READ | FILE_SHARE_WRITE,/*режим совместного доступа*/							 
 							 NULL,                              /*NULL - это запрет наследования дочерними процессами*/
 							 OPEN_ALWAYS,                       /*открыть существующий или создать новый*/
-							 FILE_ATTRIBUTE_NORMAL,             /*атрибуты файла (в данном случае OS будет избегать записи на диск, если достаточно кеш-памяти)*/
+							 FILE_ATTRIBUTE_TEMPORARY,          /*атрибуты файла (в данном случае OS будет избегать записи на диск, если достаточно кеш-памяти)*/
 							 NULL                               /*нет шаблона с дополнительными атрибутами*/);
 		if(INVALID_HANDLE_VALUE != fd_file) {
 			/*задаем размер файла*/
