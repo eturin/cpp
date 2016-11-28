@@ -54,7 +54,7 @@ int loop(HANDLE fd) {
 	while(isRepeat) {
 		char buf[LEN];
 		size_t len = 0;
-		BOOL isOk = ReadFile(fd,buf,LEN,&len,NULL);
+		BOOL isOk = ReadFile(fd,buf,LEN,&len,NULL);//прочитает всё, что скопилось, если дескриптор файла получен до отправки сообщений в очередь (иначе не получит, даже если их не читали)
 		if(!isOk || len == 0)
 			show_err("Ошибка чтения из очереди");
 		else {
