@@ -126,10 +126,10 @@ int main() {
 					shutdown(cur->sfd, SD_BOTH);
 					closesocket(cur->sfd);
 					free(cur->data);
-					if(last != NULL)
-						last->next = cur->next;
+					if(last == NULL)
+						root = cur->next;
 					else
-						root = tail = NULL;
+						last->next = cur->next;
 					if(cur == tail)
 						tail = last;
 					free(cur);
@@ -158,10 +158,10 @@ int main() {
 					shutdown(cur->sfd, SD_BOTH);
 					closesocket(cur->sfd);
 					free(cur->data);
-					if(last != NULL)
-						last->next = cur->next;
+					if(last == NULL)
+						root = cur->next;
 					else
-						root = tail = NULL;
+						last->next = cur->next;
 					if(cur == tail)
 						tail = last;
 					free(cur);
