@@ -18,11 +18,12 @@ char * format500 =  "HTTP/1.1 500 ERROR\r\n"
 					"Connection: close\r\n"
 					"Content-Length: 0 \r\n\r\n";
 
-struct Client * init_Client() {
+struct Client * init_Client(struct Server * psrv) {
 	++cnt;
 	struct Client * new_Client = (struct Client*)malloc(sizeof(struct Client));
 	memset(new_Client, 0, sizeof(struct Client));
 
+	new_Client->psrv = psrv;
 	new_Client->sfd = 0;
 	new_Client->type = READ;
 

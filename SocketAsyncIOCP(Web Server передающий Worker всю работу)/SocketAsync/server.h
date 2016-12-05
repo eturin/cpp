@@ -3,9 +3,26 @@
 
 #include "common.h"
 
-/*рабочий каталог*/
-extern char work_path[];
+/*количество событий ожидаемых в главной потоке*/
+#define MAX_EVENTS 2
 
-int start_server();
+struct Server {
+	/*рабочий каталог, в котором будет работать сервер*/
+	char work_path[256];
+	/*мастер-сокет сервера*/
+	int msfd;
+	/*прослушиваемый порт*/
+	int port;
+	/*прослушиваемый сетевой адрес*/
+	struct sockaddr_in addr;
+	/*Каталог событий*/
+	WSAEVENT hEvents[MAX_EVENTS];
+	/*событие принудительной остановки (отправляется из поточных функций главному потоку по команде OFF)*/
+	WSAEVENT *phEvent_STOP;
+};
+
+
+struct Server * init_Server();
+int start_server(struct Server*);
 
 #endif

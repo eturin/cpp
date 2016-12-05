@@ -4,8 +4,6 @@
 #include "worker.h" 
 #include "error.h" 
 
-/*рабочий каталог, в котором будет работать сервер*/
-char work_path[256];
 
 BOOL start_async(struct Client * pcln, DWORD len, LPVOID iocp) {
 	BOOL isOk = TRUE;
@@ -116,21 +114,17 @@ void WorkingThread(LPVOID iocp) {
 		else if(len == 0 && pcln->type!=WAIT) {
 			/*разрыв соединения*/
 			release_Client(pcln);
-		} else if(!start_async(pcln, len, iocp)) {//запускаем асинхронные операции
-			/*узнаем количество ядер процессора*/
-			SYSTEM_INFO sys_inf;
-			GetSystemInfo(&sys_inf);
-			for(DWORD i = 0; i < sys_inf.dwNumberOfProcessors - 1; ++i)
-				PostQueuedCompletionStatus(iocp, 0, 0, 0);//это вызовет немедленное пробуждение одного потоков 
-			TerminateProcess(INVALID_HANDLE_VALUE, NO_ERROR); //останется пристрелить главный поток
+		} else if(!start_async(pcln, len, iocp)) {
+			/*приводим событие принудительной остановки в сигнальное состояние*/
+			WSASetEvent(*pcln->psrv->phEvent_STOP);
 			break;
 		}
 	}
 	printf("Поток завершился\n");
 }
 
-int loop(int msfd) {
-	BOOL is_repeat = TRUE;
+int loop(struct Server * psrv) {
+	BOOL is_repeat = TRUE;	
 
 	/*узнаем количество ядер процессора*/
 	SYSTEM_INFO sys_inf;
@@ -154,34 +148,68 @@ int loop(int msfd) {
 		else
 			phWorking[i] = INVALID_HANDLE_VALUE;
 
+	/*создаем в ядре событие, для отслеживания асинхронных операций на мастер-сокете*/
+	for(int i = 0; i < MAX_EVENTS; ++i)
+		psrv->hEvents[i] = WSACreateEvent();
+	/*событие принудительной остановки*/
+	psrv->phEvent_STOP = &psrv->hEvents[1];
+
 	while(is_repeat) {
-		/*подготовимся к хранению сведений о новом подключение*/
-		struct Client * pcln = init_Client();
-		
-		/*принимаем новое соединение (только такие события на мастере)*/
-		size_t len = sizeof(struct sockaddr_in);
-		int sfd_slave = WSAAccept(msfd, (struct sockaddr *)&pcln->addr, &len, NULL, 0);
-		if(sfd_slave != -1) {
-			pcln->sfd = sfd_slave; //!!!соект нельзя делать не блокирующим!!!!						
-			
-			/*связываем socket с портом (любая асинхронная операция с этим сокетом будет использовать указанный порт)*/
-			pcln->iocp = CreateIoCompletionPort((HANDLE)sfd_slave,                 /*дескриптор сокета*/
-												iocp,                              /*дескриптор существующего порта завершения I/O (для связи с имеющейся очередью)*/
-												(ULONG_PTR)pcln,                   /*ключ завершения (параметр будет доступен при наступление события)*/
-												1                                  /*число одновременно  исполняемых потоков (0-по количеству ядер процессора)*/);
-			if(pcln->iocp == NULL) {
-				show_err("Не удалось привязать slave socket к порту завершения в ядре OS", TRUE);
-				release_Client(pcln);
-			} else {
-				/*запускаем асинхронные операции*/
-				DWORD len = 0;
-				start_async(pcln, len, iocp);
-			}
-		} else if(WSAEWOULDBLOCK != WSAGetLastError()) {
-			show_err_wsa("Не удалось принять соединение");
-			release_Client(pcln);
+		/*взводим события для master socket*/
+		int rc = WSAEventSelect(psrv->msfd, psrv->hEvents[0], FD_ACCEPT | FD_CLOSE);
+		if(rc == SOCKET_ERROR) {
+			show_err_wsa("Не удалось зарегистрировать событие select на мастер-сокете");
+			break;
+		}	
+
+		/*ждём наступления события (!!!не более 64 разных WSAEVENT событий!!!)*/
+		rc = WSAWaitForMultipleEvents(MAX_EVENTS, psrv->hEvents, FALSE, INFINITE, FALSE);
+		if(rc == -1) {
+			show_err_wsa("Ошибка ожидания асинхронных событий WSAWaitForMultipleEvents");
+			break;
+		} else if(rc == 1) {
+			/*наступило событие принудительной остановки*/
+			break;
 		}
+		
+		WSANETWORKEVENTS hEvent;
+		/*выясняем случилось ли событие на мастер-сокете*/		
+		rc = WSAEnumNetworkEvents(psrv->msfd, psrv->hEvents[0], &hEvent);
+		if(hEvent.lNetworkEvents & FD_ACCEPT &&	hEvent.iErrorCode[FD_ACCEPT_BIT] == 0) {
+			/*подготовимся к хранению сведений о новом подключение*/
+			struct Client * pcln = init_Client(psrv);			
+			size_t len = sizeof(struct sockaddr_in);
+			/*принимаем новое соединение (только такие события на мастере)*/			
+			int sfd_slave = WSAAccept(psrv->msfd, (struct sockaddr *)&pcln->addr, &len, NULL, 0);			
+			if(sfd_slave != -1) {
+				pcln->sfd = sfd_slave; //!!!соект нельзя делать не блокирующим!!!!						
+
+				/*связываем socket с портом (любая асинхронная операция с этим сокетом будет использовать указанный порт)*/
+				pcln->iocp = CreateIoCompletionPort((HANDLE)sfd_slave,                 /*дескриптор сокета*/
+													iocp,                              /*дескриптор существующего порта завершения I/O (для связи с имеющейся очередью)*/
+													(ULONG_PTR)pcln,                   /*ключ завершения (параметр будет доступен при наступление события)*/
+													1                                  /*число одновременно  исполняемых потоков (0-по количеству ядер процессора)*/);
+				if(pcln->iocp == NULL) {
+					show_err("Не удалось привязать slave socket к порту завершения в ядре OS", TRUE);
+					release_Client(pcln);
+				} else {
+					/*запускаем асинхронные операции*/
+					DWORD len = 0;
+					start_async(pcln, len, iocp);
+				}
+			} else if(WSAEWOULDBLOCK != WSAGetLastError()) {
+				show_err_wsa("Не удалось принять соединение");
+				release_Client(pcln);
+			}
+		} else if(hEvent.lNetworkEvents & FD_CLOSE &&	hEvent.iErrorCode[FD_CLOSE_BIT] == 0) {
+			/*закрыт мастер сокет*/
+			is_repeat=FALSE;
+		}		
 	}
+
+	/*закрываем в ядре событие отслеживающее асинхронные операции на мастер-сокете*/
+	for(int i = 0; i < MAX_EVENTS;++i)
+		CloseHandle(psrv->hEvents[i]);
 
 	/*закрываем дескриптор в ядре*/
 	for(DWORD i = 0; i < sys_inf.dwNumberOfProcessors; ++i)
@@ -201,59 +229,55 @@ int loop(int msfd) {
 	return 0;
 }
 
-int start_server() {
-	/*Инициализация*/
-	WSADATA ws;
-	if(WSAStartup(MAKEWORD(2, 2), &ws) != NO_ERROR) {
-		show_err_wsa("Ошибка инициализация среды");
-		return -1;
-	}
-
+int start_server(struct Server* psrv) {
 	/*получаем дескриптор мастер сокета*/
-	int msfd = WSASocketW(AF_INET, SOCK_STREAM, IPPROTO_TCP, NULL, 0, WSA_FLAG_OVERLAPPED); //флаг WSA_FLAG_OVERLAPPED нужен для быстрого запуска асинхронных операций (чтоб сразу возвращали "сведения" о старте - будут кидать SOCKET_ERROR и WSAGetLastError() сообщит о статусе продолжающейся операции - WSA_IO_PENDING)
-	if(msfd == -1) {
+	psrv->msfd = WSASocketW(AF_INET, SOCK_STREAM, IPPROTO_TCP, NULL, 0, WSA_FLAG_OVERLAPPED); //флаг WSA_FLAG_OVERLAPPED нужен для быстрого запуска асинхронных операций (чтоб сразу возвращали "сведения" о старте - будут кидать SOCKET_ERROR и WSAGetLastError() сообщит о статусе продолжающейся операции - WSA_IO_PENDING)
+	if(psrv->msfd == -1) {
 		show_err_wsa("Не получен дескриптор сокета");
 		return 1;
 	}
 
-	/*связываем сокет с сетевым адресом (коротый хотим использовать)*/
-	struct sockaddr_in addr;
-	memset(&addr, 0, sizeof(addr));
-	addr.sin_family = AF_INET;
-	addr.sin_port = htons(12001);
+	/*связываем сокет с сетевым адресом (коротый хотим использовать)*/	
+	psrv->addr.sin_port = htons(psrv->port);
+	psrv->addr.sin_family = AF_INET;
 	char * ip_str = "0.0.0.0";
-	inet_ntop(addr.sin_family, &addr, ip_str, strlen(ip_str) + 1);
-	int res = bind(msfd, (struct sockaddr*)&addr, sizeof(addr));
+	inet_ntop(psrv->addr.sin_family, &psrv->addr, ip_str, strlen(ip_str) + 1);
+	int res = bind(psrv->msfd, (struct sockaddr*)&psrv->addr, sizeof(psrv->addr));
 	if(res == -1) {
 		show_err_wsa("Ошибка связывания мастер сокета с сетевым адресом");
-		closesocket(msfd);
+		closesocket(psrv->msfd);
 		return 2;
 	}
 
 	/*включаем повторное использование*/
-	res = set_repitable(msfd);
+	res = set_repitable(psrv->msfd);
 	if(res != 0) {
 		show_err_wsa("Не удалось установить опцию повторного использования мастер сокета");
-		closesocket(msfd);
+		closesocket(psrv->msfd);
 		return 2;
 	}
 
 	/*начинаем слушать сетевой адрес*/
-	res = listen(msfd, SOMAXCONN);
+	res = listen(psrv->msfd, SOMAXCONN);
 	if(res == -1) {
 		show_err_wsa("Не удалось начать прослущивание сетевого адреса");
-		closesocket(msfd);
+		closesocket(psrv->msfd);
 		return 2;
 	}
 
 	/*цикл мультиплексирования*/
-	loop(msfd);
+	loop(psrv);
 
 	/*закрываем дескриптор мастер сокета*/
-	shutdown(msfd, SD_BOTH);
-	closesocket(msfd);
-	WSACleanup();
-
+	shutdown(psrv->msfd, SD_BOTH);
+	closesocket(psrv->msfd);
 	
 	return 0;
+}
+
+struct Server * init_Server() {
+	struct Server *psrv = malloc(sizeof(struct Server));
+	memset(psrv, 0, sizeof(struct Server));		
+
+	return psrv;
 }

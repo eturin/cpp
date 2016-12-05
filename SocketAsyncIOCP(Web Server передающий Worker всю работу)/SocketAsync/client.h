@@ -17,13 +17,11 @@
 /**/
 extern int flag;
 
-#ifndef REQ_H
 struct Req;
-#endif
 
-#ifndef WORKER_H
 struct Worker;
-#endif
+struct Server;
+
 
 /*сокеты клиентов и их контекст*/
 struct Client {
@@ -56,10 +54,13 @@ struct Client {
 
 	/*назначенный worker*/
 	struct Worker * pwrk;
+
+	/*сервер, связанный с клиентом*/
+	struct Server * psrv;
 };
 
 /*инициализация сведений о новом клиенте*/
-struct Client * init_Client();
+struct Client * init_Client(struct Server *);
 
 /*сброс сведений о клиенте в исходное состояние*/
 struct Client * clear_Client(struct Client *);

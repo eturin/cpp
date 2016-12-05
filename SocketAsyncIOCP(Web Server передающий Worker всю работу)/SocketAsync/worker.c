@@ -1,3 +1,4 @@
+#include "server.h"
 #include "worker.h"
 #include "req.h"
 #include "client.h"
@@ -245,7 +246,7 @@ struct Worker * init_Worker(const char *name, size_t len, struct Client * pcln, 
 		}
 		memcpy(pwrk->name, name, len);
 		char path[256];
-		sprintf(path, "%s%s.exe", work_path, pwrk->name);
+		sprintf(path, "%s%s.exe", pcln->psrv->work_path, pwrk->name);
 
 		/*создаем три анонимных канала*/
 		isOk = create_pipe(iocp, pwrk, 0, TRUE, "STDIN");
@@ -254,9 +255,6 @@ struct Worker * init_Worker(const char *name, size_t len, struct Client * pcln, 
 		if(!isOk) break;
 		isOk = create_pipe(iocp, pwrk, 2, FALSE, "STDERR");
 		if(!isOk) break;
-
-		/*DWORD flags;
-		isOk = GetHandleInformation(fd_r_1,&flags);*/
 
 		/*создаем дочерний процесс*/
 		pwrk->sti.cb = sizeof(STARTUPINFO);			// указать размер
