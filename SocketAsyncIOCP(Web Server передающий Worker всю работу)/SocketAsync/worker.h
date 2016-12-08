@@ -13,7 +13,7 @@ struct Client;
 
 /*процессы обработчиков*/
 struct Worker {
-	/*режим текущий режим работы*/
+	/*Признак типа*/
 	char type;
 
 	/*тип воркера*/
@@ -23,6 +23,17 @@ struct Worker {
 	struct FD {
 		HANDLE fd_r, fd_w;  /*дескрипторы каналов*/
 		HANDLE iocp;        /*порт канала worker*/
+		DWORD size;         /*max объем данных    */
+		DWORD len;          /*общий объем данных  */
+		DWORD cur;          /*сколько уже передано*/
+		char * data;        /*передаваемые/получаемые данные*/
+		
+		/*структура, для выполнения асинхронных вызовов*/
+		struct overlapped_inf_w {
+			WSAOVERLAPPED overlapped;
+			char type;
+			CRITICAL_SECTION * pcs; /*критическая секция этого клиента (для управления потоками)*/
+		} overlapped_inf;
 	} fd[3];
 
 	/*сведения о процессе*/
@@ -32,9 +43,7 @@ struct Worker {
 	STARTUPINFO sti;
 
 	/*текущий клиент*/
-	struct Client *pcln;	
-
-	struct Worker * next;
+	struct Client *pcln;		
 };
 
 /*инициализация worker*/

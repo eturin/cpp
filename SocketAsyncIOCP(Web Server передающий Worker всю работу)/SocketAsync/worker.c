@@ -5,14 +5,13 @@
 #include "error.h"
 #include "http_parser.h"
 
-
-
 /*выделение URL*/
 int call_request_url_cb(http_parser *parser, const char *buf, size_t len) {
 	struct Req *req = (struct Req*)parser->data;
 	req->url = malloc((len + 1)*sizeof(char));
 	strncpy(req->url, buf, len);
 	req->url[len] = '\0';
+		
 	return 0;
 }
 /*выделение имени заголовка*/
@@ -107,14 +106,14 @@ BOOL create_pipe(LPVOID iocp, struct Worker *pwrk, int i, BOOL isIn,const char *
 	sprintf(path, "\\\\.\\pipe\\%s\\%d\\%s", pwrk->name, (unsigned)pwrk, msg);
 
 	int lpMode = PIPE_NOWAIT;
-	if(isIn) {
+	if(isIn) {		
 		/*создание именованного канала*/
 		pwrk->fd[i].fd_w = CreateNamedPipe(path,                        /*имя канала*/
-										   PIPE_ACCESS_OUTBOUND | FILE_FLAG_OVERLAPPED,/*режим открытия канала (в данном случае - канал двунаправленный и АСИНХРОННЫЙ )*/
+										   PIPE_ACCESS_OUTBOUND | FILE_FLAG_OVERLAPPED,/*режим открытия канала (в данном случае - канал однонаправленный и АСИНХРОННЫЙ )*/
 										   PIPE_TYPE_BYTE | PIPE_WAIT,  /*режим работы канала (в данном случае - передача байт и блокирующий)*/
 										   1,                           /*максимальное количество реализаций канала (т.е. сколько может быть клиентов)*/
-										   LEN,                         /*размер выходного буфера в байтах (придется ждать освобождения)*/
-										   LEN,                         /*размер входного буфера в байтах (придется ждать освобождения)*/
+										   MAX_HEAD_HTTP,               /*размер выходного буфера в байтах (придется ждать освобождения)*/
+										   MAX_HEAD_HTTP,               /*размер входного буфера в байтах (придется ждать освобождения)*/
 										   0,                           /*время ожидания в миллисекундах (для блокирующего режима работы NMPWAIT_USE_DEFAULT_WAIT)*/
 										   NULL                         /*адрес структуры с особыми атрибутами*/);
 		if(pwrk->fd[i].fd_w == INVALID_HANDLE_VALUE) {
@@ -122,7 +121,7 @@ BOOL create_pipe(LPVOID iocp, struct Worker *pwrk, int i, BOOL isIn,const char *
 			sprintf(msg_str, "%s не удалось создать именованный канала [out]", msg);
 			show_err(msg_str, TRUE);			
 			return FALSE;
-		} else if(!ConnectNamedPipe(pwrk->fd[i].fd_w, &pwrk->pcln->overlapped) && ERROR_IO_PENDING != GetLastError()) {			/*подключаемся к именованному каналу (заблокируется в блокирующим режиме)*/
+		} else if(!ConnectNamedPipe(pwrk->fd[i].fd_w, (OVERLAPPED*)&pwrk->fd[i].overlapped_inf) && ERROR_IO_PENDING != GetLastError()) {			/*подключаемся к именованному каналу (заблокируется в блокирующим режиме)*/
 			char msg_str[MAXLEN];
 			sprintf(msg_str, "%s серверу не удалось подключиться к именованному каналу [out]", msg);
 			show_err(msg_str, TRUE);
@@ -131,10 +130,10 @@ BOOL create_pipe(LPVOID iocp, struct Worker *pwrk, int i, BOOL isIn,const char *
 		/*открываем существующий канал*/
 		pwrk->fd[i].fd_r = CreateFile(path,                              /*имя канала*/
 							          GENERIC_READ,                      /*режим доступа*/
-							          FILE_SHARE_READ,                   /*режим совместного использования*/
+									  FILE_SHARE_READ | FILE_SHARE_WRITE,/*режим совместного использования*/
 							          NULL,                              /*особые атрибуты*/
 							          OPEN_EXISTING,                     /*открывать существующий или ошибка*/
-							          0,                                 /*атрибуты файла*/
+									  FILE_FLAG_WRITE_THROUGH,           /*атрибуты файла (здесь отмена промежуточного кеширования)*/
 							          NULL                               /*особые атрибуты*/);
 		if(pwrk->fd[i].fd_r == INVALID_HANDLE_VALUE) {
 			char msg_str[MAXLEN];
@@ -142,6 +141,17 @@ BOOL create_pipe(LPVOID iocp, struct Worker *pwrk, int i, BOOL isIn,const char *
 			show_err(msg_str, TRUE);
 			return FALSE;			
 		}
+
+		//DWORD mode = PIPE_NOWAIT;
+		//if(!SetNamedPipeHandleState(pwrk->fd[i].fd_r,       /*дескриптор канала*/
+		//	                        &mode,                  /* адрес переменной, в которой указан новый режим канала*/
+		//	                        NULL,                   /* адрес переменной, в которой указывается максимальный размер пакета, передаваемого в канал*/
+		//	                        NULL                    /* адрес максимальной задержки перед передачей данных*/)) {
+		//	char msg_str[MAXLEN];
+		//	sprintf(msg_str, "%s не удалось включить не блокирующий режим работы канала [out]", msg);
+		//	show_err(msg_str, TRUE);
+		//	return FALSE;
+		//}
 		
 		/*включаем наследование для тех концов канала, которые должны быть у потомка*/		
 		if(!SetHandleInformation(pwrk->fd[i].fd_r,       /* дескриптор канала*/
@@ -151,11 +161,12 @@ BOOL create_pipe(LPVOID iocp, struct Worker *pwrk, int i, BOOL isIn,const char *
 			sprintf(msg_str, "%s не удалось включить наследование дескриптору канала [out]", msg);
 			show_err(msg_str, TRUE);
 			return FALSE;
-		}
+		}		
+
 		/*связываем конец канала с портом (любая асинхронная операция с этим концом будет использовать указанный порт)*/
 		pwrk->fd[i].iocp = CreateIoCompletionPort(pwrk->fd[i].fd_w,                  /*дескриптор сокета*/
 												  iocp,                              /*дескриптор существующего порта завершения I/O (для связи с имеющейся очередью)*/
-												  (ULONG_PTR)pwrk->pcln,             /*ключ завершения (параметр будет доступен при наступление события)*/
+												  (ULONG_PTR)pwrk,                   /*ключ завершения (параметр будет доступен при наступление события)*/
 												  1                                  /*число одновременно  исполняемых потоков (0-по количеству ядер процессора)*/);
 		if(pwrk->fd[i].iocp == NULL) {
 			char msg_str[MAXLEN];
@@ -166,7 +177,7 @@ BOOL create_pipe(LPVOID iocp, struct Worker *pwrk, int i, BOOL isIn,const char *
 	}else{
 		/*создание именованного канала*/
 		pwrk->fd[i].fd_r = CreateNamedPipe(path,                        /*имя канала*/
-										   PIPE_ACCESS_INBOUND | FILE_FLAG_OVERLAPPED,/*режим открытия канала (в данном случае - канал двунаправленный и АСИНХРОННЫЙ )*/
+										   PIPE_ACCESS_INBOUND | FILE_FLAG_OVERLAPPED,/*режим открытия канала (в данном случае - канал однонаправленный и АСИНХРОННЫЙ )*/
 										   PIPE_TYPE_BYTE | PIPE_WAIT,  /*режим работы канала (в данном случае - передача байт и блокирующий)*/
 										   1,                           /*максимальное количество реализаций канала (т.е. сколько может быть клиентов)*/
 										   LEN,                         /*размер выходного буфера в байтах (придется ждать освобождения)*/
@@ -178,7 +189,7 @@ BOOL create_pipe(LPVOID iocp, struct Worker *pwrk, int i, BOOL isIn,const char *
 			sprintf(msg_str, "%s не удалось создать именованный канала [out]", msg);
 			show_err(msg_str, TRUE);
 			return FALSE;
-		} else if(!ConnectNamedPipe(pwrk->fd[i].fd_r, &pwrk->pcln->overlapped) && ERROR_IO_PENDING != GetLastError()) {			/*подключаемся к именованному каналу (заблокируется в блокирующим режиме)*/
+		} else if(!ConnectNamedPipe(pwrk->fd[i].fd_r, (OVERLAPPED*)&pwrk->fd[i].overlapped_inf) && ERROR_IO_PENDING != GetLastError()) {			/*подключаемся к именованному каналу (заблокируется в блокирующим режиме)*/
 			char msg_str[MAXLEN];
 			sprintf(msg_str, "%s серверу не удалось подключиться к именованному каналу [out]", msg);
 			show_err(msg_str, TRUE);
@@ -187,10 +198,10 @@ BOOL create_pipe(LPVOID iocp, struct Worker *pwrk, int i, BOOL isIn,const char *
 		/*открываем существующий канал*/
 		pwrk->fd[i].fd_w = CreateFile(path,                              /*имя канала*/
 									  GENERIC_WRITE,                     /*режим доступа*/
-									  FILE_SHARE_WRITE,/*режим совместного использования*/
+									  FILE_SHARE_WRITE | FILE_SHARE_READ,/*режим совместного использования*/
 									  NULL,                              /*особые атрибуты*/
 									  OPEN_EXISTING,                     /*открывать существующий или ошибка*/
-									  0,                                 /*атрибуты файла*/
+									  FILE_FLAG_WRITE_THROUGH,           /*атрибуты файла (здесь отмена промежуточного кеширования)*/
 									  NULL                               /*особые атрибуты*/);
 		if(pwrk->fd[i].fd_w == INVALID_HANDLE_VALUE) {
 			char msg_str[MAXLEN];
@@ -198,6 +209,17 @@ BOOL create_pipe(LPVOID iocp, struct Worker *pwrk, int i, BOOL isIn,const char *
 			show_err(msg_str, TRUE);
 			return FALSE;
 		}
+
+		//DWORD mode = PIPE_READMODE_BYTE | PIPE_NOWAIT; //см. подробнее http://www.frolov-lib.ru/books/bsp/v27/ch2_3.htm
+		//if(!SetNamedPipeHandleState(pwrk->fd[i].fd_w,       /*дескриптор канала*/
+		//	                        &mode,                  /* адрес переменной, в которой указан новый режим канала*/
+		//	                        NULL,                   /* адрес переменной, в которой указывается максимальный размер пакета, передаваемого в канал*/
+		//	                        NULL                    /* адрес максимальной задержки перед передачей данных*/)) {
+		//	char msg_str[MAXLEN];
+		//	sprintf(msg_str, "%s не удалось включить не блокирующий режим работы канала [out]", msg);
+		//	show_err(msg_str, TRUE);
+		//	return FALSE;
+		//}
 		
 		/*включаем наследование для тех концов канала, которые должны быть у потомка*/
 		if(!SetHandleInformation(pwrk->fd[i].fd_w,       /* дескриптор канала*/
@@ -208,10 +230,11 @@ BOOL create_pipe(LPVOID iocp, struct Worker *pwrk, int i, BOOL isIn,const char *
 			show_err(msg_str, TRUE);
 			return FALSE;
 		}
+		
 		/*связываем конец канала с портом (любая асинхронная операция с этим концом будет использовать указанный порт)*/
 		pwrk->fd[i].iocp = CreateIoCompletionPort(pwrk->fd[i].fd_r,                  /*дескриптор сокета*/
 												  iocp,                              /*дескриптор существующего порта завершения I/O (для связи с имеющейся очередью)*/
-												  (ULONG_PTR)pwrk->pcln,             /*ключ завершения (параметр будет доступен при наступление события)*/
+												  (ULONG_PTR)pwrk,                   /*ключ завершения (параметр будет доступен при наступление события)*/
 												  1                                  /*число одновременно  исполняемых потоков (0-по количеству ядер процессора)*/);
 		if(pwrk->fd[i].iocp == NULL) {
 			char msg_str[MAXLEN];
@@ -232,11 +255,10 @@ struct Worker * init_Worker(const char *name, size_t len, struct Client * pcln, 
 	memset(pwrk, 0, sizeof(struct Worker)); //!!!обязательно!!!
 	for(int i = 0; i < 3; ++i)
 		pwrk->fd[i].fd_r = pwrk->fd[i].fd_w = INVALID_HANDLE_VALUE;
+	pwrk->type = WORKER;
 	pwrk->procInf.hProcess = INVALID_HANDLE_VALUE;
 	pwrk->procInf.hThread = INVALID_HANDLE_VALUE;
-	pwrk->type = WAIT;
-	pwrk->pcln = pcln;
-
+	
 	while(isOk) {
 		/*сформируем путь к worker*/
 		if(len == 0 || len >= LEN_WORKER) {
@@ -249,13 +271,37 @@ struct Worker * init_Worker(const char *name, size_t len, struct Client * pcln, 
 		sprintf(path, "%s%s.exe", pcln->psrv->work_path, pwrk->name);
 
 		/*создаем три анонимных канала*/
+		//pwrk->fd[0].overlapped_inf.pcs = pcln->overlapped_inf.pcs; /*инициализация критической секции*/
+		pwrk->fd[0].overlapped_inf.type = WRITE_WORKER;
+		pwrk->fd[0].overlapped_inf.overlapped.hEvent = CreateEvent(NULL, /*атрибут защиты*/
+																   TRUE, /*тип сброса TRUE - ручной*/
+																   TRUE, /*начальное состояние TRUE - сигнальное*/
+																   NULL  /*имя обьекта*/);
 		isOk = create_pipe(iocp, pwrk, 0, TRUE, "STDIN");
 		if(!isOk) break;
+		
+		
+		//pwrk->fd[1].overlapped_inf.pcs = malloc(sizeof(CRITICAL_SECTION));/*инициализация критической секции*/
+		pwrk->fd[1].overlapped_inf.type = READ_WORKER;
+		//InitializeCriticalSection(pwrk->fd[1].overlapped_inf.pcs);
+		pwrk->fd[1].overlapped_inf.overlapped.hEvent = CreateEvent(NULL, /*атрибут защиты*/
+																   TRUE, /*тип сброса TRUE - ручной*/
+																   TRUE, /*начальное состояние TRUE - сигнальное*/
+																   NULL  /*имя обьекта*/);
 		isOk = create_pipe(iocp, pwrk, 1, FALSE, "STDOUT");
 		if(!isOk) break;
+		
+		
+		//pwrk->fd[2].overlapped_inf.pcs = malloc(sizeof(CRITICAL_SECTION));/*инициализация критической секции*/
+		pwrk->fd[2].overlapped_inf.type = READ_WORKER_ERR;
+		//InitializeCriticalSection(pwrk->fd[2].overlapped_inf.pcs);
+		pwrk->fd[2].overlapped_inf.overlapped.hEvent = CreateEvent(NULL, /*атрибут защиты*/
+																   TRUE, /*тип сброса TRUE - ручной*/
+																   TRUE, /*начальное состояние TRUE - сигнальное*/
+																   NULL  /*имя обьекта*/);
 		isOk = create_pipe(iocp, pwrk, 2, FALSE, "STDERR");
 		if(!isOk) break;
-
+		
 		/*создаем дочерний процесс*/
 		pwrk->sti.cb = sizeof(STARTUPINFO);			// указать размер
 		/*устанавливаем потомку дескрипторы stdin, stdout и stderr*/
@@ -288,47 +334,115 @@ struct Worker * init_Worker(const char *name, size_t len, struct Client * pcln, 
 		break;
 	}
 
-	if(!isOk) 
-		pcln->pwrk = pwrk = release_Worker(pwrk);
-	else {
-		/*готовимся отправлять worker данные клиента*/
-		pcln->DataBuf.buf = pcln->data;
-		pcln->cur = 0;
+	/*готовимся отправлять worker данные клиента*/
+	if(isOk) {
+		//STDERR		
+		pwrk->fd[2].len = 0;
+		pwrk->fd[2].cur = 0;
+		pwrk->fd[2].size = MAX_HEAD_HTTP;
+		pwrk->fd[2].data = malloc(MAX_HEAD_HTTP);
+		if(!ReadFile(pwrk->fd[2].fd_r, pwrk->fd[2].data, LEN, &len, (OVERLAPPED*)&pwrk->fd[2].overlapped_inf) && ERROR_IO_PENDING != GetLastError()) {
+			show_err("Ошибка запуска асинхронной операции ReadFile [STDERR]", TRUE);
+		}
+		
+		//STDOUT		
+		pwrk->fd[1].len = 0;
+		pwrk->fd[1].cur = 0;
+		pwrk->fd[1].size = MAX_HEAD_HTTP;
+		pwrk->fd[1].data = malloc(MAX_HEAD_HTTP);
+		if(!ReadFile(pwrk->fd[1].fd_r, pwrk->fd[1].data + pwrk->fd[1].len, LEN, &len, (OVERLAPPED*)&pwrk->fd[1].overlapped_inf) && ERROR_IO_PENDING != GetLastError()) {
+			show_err("Ошибка запуска асинхронной операции ReadFile [STDOUT]", TRUE);
+			isOk = FALSE;
+		}
+
+		//STDIN	(!!!самым последним, т.к. переставляется буфер клиента!!!)
+		pwrk->fd[0].size = pcln->size;
+		pwrk->fd[0].len = pcln->len;
+		pwrk->fd[0].cur = 0;
+		pwrk->fd[0].data = pcln->data;
+		pcln->data = NULL;
+		pcln->DataBuf.buf = NULL;
+		/*признак конца данных, для worker*/
+		pwrk->fd[0].data[pwrk->fd[0].len] = '\0';
+		++pwrk->fd[0].len;
 	}
 	
+	if(!isOk) {
+		if(pwrk->fd[0].data != NULL) {
+			/*!!!возвращаем буфер клиента в исходное состояние!!!*/
+			pcln->size = pwrk->fd[0].size;
+			pcln->len  = pwrk->fd[0].len-1;			
+			pcln->data = pwrk->fd[0].data;
+			pwrk->fd[0].data = NULL;
+			pcln->DataBuf.buf = pcln->data + pcln->cur;
+		}
+		pwrk = release_Worker(pwrk);
+	} else {
+		pwrk->pcln = pcln;
+		pcln->overlapped_inf.type = WAIT;
+	}
+
 	pcln->pwrk = pwrk;
 	
 	return pwrk;
 }
 struct Worker * release_Worker(struct Worker *pwrk) {
-	if(pwrk != NULL) {
+	if(pwrk != NULL 
+	   /*&& (pwrk->pcln == NULL || TryEnterCriticalSection(pwrk->pcln->overlapped_inf.pcs))*/) {
+
+		DWORD rc = 0;
 		/*убиваем процесс и закрываем его дескрипторы*/
 		if(pwrk->procInf.hProcess != INVALID_HANDLE_VALUE) {
+			/*забираем код возврата дочернего процесса*/
+			GetExitCodeProcess(pwrk->procInf.hProcess, &rc);
+			if(rc == STILL_ACTIVE) /*процесс отламался*/;
+				
 			TerminateProcess(pwrk->procInf.hProcess, NO_ERROR);
 			CloseHandle(pwrk->procInf.hProcess);
 			CloseHandle(pwrk->procInf.hThread);
 		}
 
+		if(pwrk->pcln != NULL) {
+			/*нужно известить клиента об ошибке сервера 500*/
+			free(pwrk->pcln->data);
+			pwrk->pcln->size = pwrk->fd[1].size;
+			pwrk->pcln->len  = pwrk->fd[1].len;
+			pwrk->pcln->data = pwrk->fd[1].data;
+			pwrk->fd[1].data = NULL;
+			pwrk->pcln->cur  = 0;
+			pwrk->pcln->DataBuf.buf = pwrk->pcln->data;
+			
+			pwrk->pcln->pwrk = NULL;
+
+			if(rc == 0 && pwrk->pcln->len>0) 
+				make200(pwrk->pcln);				
+			else if(rc == 0)
+				make404(pwrk->pcln);
+			else 
+				make500(pwrk->pcln);
+			
+			/*запускаем асинхронные операции*/
+			pwrk->pcln->overlapped_inf.type = WRITE;
+			start_async(pwrk->pcln, 0, pwrk->pcln->psrv->iocp, &pwrk->pcln->overlapped_inf);
+			//LeaveCriticalSection(pwrk->pcln->overlapped_inf.pcs);
+		} 
+
 		/*закрываем дескрипторы*/
 		for(int i = 0; i < 3; ++i) {
 			CloseHandle(pwrk->fd[i].fd_r);
 			CloseHandle(pwrk->fd[i].fd_w);
+			WSACloseEvent(pwrk->fd[i].overlapped_inf.overlapped.hEvent);			
+			free(pwrk->fd[i].data);			
 		}
-				
-		if(pwrk->type == READ) {
-			/*worker выполнил задачу*/
-			make200(pwrk->pcln);
-			pwrk->pcln->pwrk = NULL;
-		} else if(pwrk->type == WRITE && pwrk->pcln != NULL) {
-			/*нужно известить клиента об ошибке сервера 500*/
-			make500(pwrk->pcln);
-			pwrk->pcln->pwrk = NULL;
-		} else  if(pwrk->pcln != NULL) {
-			/*нужно известить клиента о 404*/
-			make404(pwrk->pcln);
-			pwrk->pcln->pwrk = NULL;
-		}
-
+		//pwrk->fd[1].overlapped_inf.pcs = NULL; //это секция клиента, её не нужно удалять
+		//if(pwrk->fd[1].overlapped_inf.pcs != NULL) {
+		//	DeleteCriticalSection(pwrk->fd[1].overlapped_inf.pcs);
+		//	free(pwrk->fd[1].overlapped_inf.pcs);
+		//}
+		//if(pwrk->fd[2].overlapped_inf.pcs != NULL) {
+		//	DeleteCriticalSection(pwrk->fd[2].overlapped_inf.pcs);
+		//	free(pwrk->fd[2].overlapped_inf.pcs);
+		//}
 		free(pwrk);
 	}
 
@@ -348,20 +462,20 @@ BOOL work(struct Client * pcln, LPVOID iocp) {
 		char *begin = strchr(pcln->preq->url, '/') + 1;
 		char *end = strchr(begin, '/');
 		if(end == NULL)
+			end = strchr(begin, '?');
+		if(end == NULL)
 			end = begin + strlen(begin);
 		struct Worker * pwrk = init_Worker(begin, end - begin, pcln, iocp);		
 
 		if(pwrk == NULL) {
 			/*worker не запущен*/
 			make404(pcln);
-		} else {
-			/*свяжем worker с client и изменим режимы их работы (клиент ждет, данные отправляем worker)*/
-			pcln->type = WAIT;
-			pwrk->type = WRITE;	
-			/*признак конца данных, для worker*/
-			pcln->data[pcln->len] = '\0';
-			++pcln->len;
-		}
+			/*запускаем асинхронную операцию записи в сокет клиента*/
+			pcln->overlapped_inf.type = WRITE;
+			start_async((void*)pcln, 0, pcln->psrv->iocp, &pcln->overlapped_inf);
+		} else
+			/*запускаем асинхронную операцию записи в канал STDIN worker*/
+			start_async((void*)pwrk, 0, pwrk->pcln->psrv->iocp, (struct overlapped_inf*)&pwrk->fd[0].overlapped_inf);		
 	}
 	
 	return isOk;

@@ -3,51 +3,57 @@
 #include "socket.h"
 
 int cnt = 0;
-char * format200 =	"HTTP / 1.1 200 OK\r\nVersion: HTTP / 1.1\r\n"
-                    "Content-Type: text/html; charset=utf-8\r\n"
+char * format200 =	"HTTP / 1.1 200 OK\r\n"
+                    "Version: HTTP / 1.1\r\n"
+					"Cache-Control: no-cache\r\n"
+                    "Content-Type: text/html; charset=windows-1251\r\n"					
                     "Content-Length: %d\r\n\r\n%s";
 
 char * format404 =  "HTTP/1.1 404 ERROR\r\n"
 					"Version: HTTP/1.1\r\n"
+					"Cache-Control: no-cache\r\n"
 					"Content-Type: text/html; charset=utf-8\r\n"
 					"Content-Length: 0 \r\n\r\n";
 
 char * format500 =  "HTTP/1.1 500 ERROR\r\n"
 				    "Version: HTTP/1.1\r\n"
+					"Cache-Control: no-cache\r\n"
 					"Content-Type: text/html; charset=utf-8\r\n"
 					"Connection: close\r\n"
 					"Content-Length: 0 \r\n\r\n";
 
-struct Client * init_Client(struct Server * psrv) {
-	++cnt;
-	struct Client * new_Client = (struct Client*)malloc(sizeof(struct Client));
-	memset(new_Client, 0, sizeof(struct Client));
+struct Client * init_Client(struct Server * psrv) {	
+	struct Client * pcln = (struct Client*)malloc(sizeof(struct Client));
+	memset(pcln, 0, sizeof(struct Client));
 
-	new_Client->psrv = psrv;
-	new_Client->sfd = 0;
-	new_Client->type = READ;
+	pcln->type = CLIENT;              /*первым полем указываем, что это клиент*/
+	pcln->psrv = psrv;                /*связываем его с сервером*/
 
-	new_Client->len = new_Client->cur = 0;
-	new_Client->data = malloc(MAX_HEAD_HTTP);
-	new_Client->DataBuf.len = LEN;
-	new_Client->DataBuf.buf = new_Client->data;
+	/*готовим и форматируем буфер клиента*/
+	pcln->size = MAX_HEAD_HTTP;
+	pcln->data = malloc(MAX_HEAD_HTTP);
+	memset(pcln->data, 0, MAX_HEAD_HTTP);
+	pcln->DataBuf.len = LEN;
+	pcln->DataBuf.buf = pcln->data;
 
-	/*формируем структуру события*/
-	new_Client->overlapped.hEvent = CreateEvent(NULL, /*атрибут защиты*/
-												TRUE, /*тип сброса TRUE - ручной*/
-												TRUE, /*начальное состояние TRUE - сигнальное*/
-												NULL  /*имя обьекта*/);
-	
+	/*формируем структуру события, для обслуживания асинхронных операций*/
+	pcln->overlapped_inf.overlapped.hEvent = CreateEvent(NULL, /*атрибут защиты*/
+														 TRUE, /*тип сброса TRUE - ручной*/
+														 TRUE, /*начальное состояние TRUE - сигнальное*/
+														 NULL  /*имя обьекта*/);
+	pcln->overlapped_inf.type = READ; /*первая асинхронная операция на клиенте - чтение из сокета*/
+		
 	/*инициализация критической секции*/
-	InitializeCriticalSection(&new_Client->cs);
+	//pcln->overlapped_inf.pcs = malloc(sizeof(CRITICAL_SECTION));
+	//InitializeCriticalSection(pcln->overlapped_inf.pcs);
 
-	return new_Client;
+	return pcln;
 }
 struct Client * release_Client(struct Client * pcln) {
 	/*эту операцию следует выполнять не одновременно*/
-	if(pcln != NULL && TryEnterCriticalSection(&pcln->cs)) {
+	if(pcln != NULL /*&& TryEnterCriticalSection(pcln->overlapped_inf.pcs)*/) {
 		/*закрываем хендл события в ядре*/
-		WSACloseEvent(pcln->overlapped.hEvent);
+		WSACloseEvent(pcln->overlapped_inf.overlapped.hEvent);
 		/*закрываем порт клиента*/
 		//if(pcln->iocp) CloseHandle(pcln->iocp); //валится ошибка
 
@@ -55,8 +61,9 @@ struct Client * release_Client(struct Client * pcln) {
 		free(pcln->data);
 		/*закрываем сокет*/
 		close_socket(pcln->sfd);
-		LeaveCriticalSection(&pcln->cs);
-		DeleteCriticalSection(&pcln->cs);
+		//LeaveCriticalSection(pcln->overlapped_inf.pcs);
+		//DeleteCriticalSection(pcln->overlapped_inf.pcs);
+		//free(pcln->overlapped_inf.pcs);
 		if(pcln->pwrk != NULL)
 			pcln->pwrk=release_Worker(pcln->pwrk);
 
@@ -67,26 +74,26 @@ struct Client * release_Client(struct Client * pcln) {
 }
 struct Client * clear_Client(struct Client * pcln) {
 	/*эту операцию следует выполнять не одновременно*/
-	if(TryEnterCriticalSection(&pcln->cs)) {
+	//if(TryEnterCriticalSection(pcln->overlapped_inf.pcs)) {
 		if(pcln != NULL) {
-			pcln->type = READ;
+			pcln->overlapped_inf.type = READ;
 			/*реинициализируем данные передачи*/
 			free(pcln->data);
 			pcln->len = pcln->cur = 0;
-			pcln->data = malloc(MAX_HEAD_HTTP);
-			memset(pcln->data, 0, MAX_HEAD_HTTP);
+			pcln->size = MAX_HEAD_HTTP;
+			pcln->data = malloc(pcln->size);			
+			memset(pcln->data, 0, pcln->size);
 			pcln->DataBuf.len = LEN;
 			pcln->DataBuf.buf = pcln->data;
 		}
-		LeaveCriticalSection(&pcln->cs);
-	}
+		//LeaveCriticalSection(pcln->overlapped_inf.pcs);
+	//}
 
 	return pcln;
 }
 
 BOOL make200(struct Client * pcln) {
-	BOOL isOk = TRUE;
-	pcln->type = WAIT;
+	BOOL isOk = TRUE;	
 	
 	size_t len = pcln->len + strlen(format200)*sizeof(char) + 15; //15 байт на вставку %d
 	char * response = malloc(len);
@@ -94,28 +101,25 @@ BOOL make200(struct Client * pcln) {
 	sprintf(response, format200, pcln->len, pcln->data);
 	free(pcln->data);
 	pcln->data = response;
-	pcln->len = strlen(response)*sizeof(char);
-	
-	/*еще не отправлено ничего*/
-	pcln->type = WRITE;
+	pcln->size = (strlen(response) + 1)*sizeof(char);
+	pcln->len = pcln->size;
+	/*еще не отправлено ничего*/	
 	pcln->DataBuf.buf = pcln->data;
 	pcln->cur = 0;
-	pcln->pwrk = NULL;
-	
+		
 	return isOk;
 }
 
 BOOL make404(struct Client * pcln) {
-	BOOL isOk = TRUE;
-	pcln->type = WAIT;
+	BOOL isOk = TRUE;	
 
 	free(pcln->data); //запрос больше не нужен (на его месте будет ответ)
-	pcln->len = (strlen(format404) + 1)*sizeof(char);
-	pcln->data = malloc(pcln->len);
-	memcpy(pcln->data, format404, pcln->len);	
+	pcln->size = (strlen(format404) + 1)*sizeof(char);
+	pcln->len = pcln->size;
+	pcln->data = malloc(pcln->size);
+	memcpy(pcln->data, format404, pcln->size);
 
-	/*еще не отправлено ничего*/
-	pcln->type = WRITE;
+	/*еще не отправлено ничего*/	
 	pcln->DataBuf.buf = pcln->data;
 	pcln->cur = 0;
 	pcln->pwrk = NULL;
@@ -125,15 +129,14 @@ BOOL make404(struct Client * pcln) {
 
 BOOL make500(struct Client * pcln) {
 	BOOL isOk = TRUE;
-	pcln->type = WAIT;
-
+	
 	free(pcln->data); //запрос больше не нужен (на его месте будет ответ)
-	pcln->len = (strlen(format500) + 1)*sizeof(char);
-	pcln->data = malloc(pcln->len);
-	memcpy(pcln->data, format500, pcln->len);
+	pcln->size = (strlen(format500) + 1)*sizeof(char);
+	pcln->len = pcln->size;
+	pcln->data = malloc(pcln->size);
+	memcpy(pcln->data, format500, pcln->size);
 
-	/*еще не отправлено ничего*/
-	pcln->type = WRITE;
+	/*еще не отправлено ничего*/	
 	pcln->DataBuf.buf = pcln->data;
 	pcln->cur = 0;
 	pcln->pwrk = NULL;

@@ -4,9 +4,12 @@
 #include "common.h"
 
 /*состояние сокета*/
-#define READ     0
-#define WRITE    1
-#define WAIT     2
+#define READ            0
+#define WRITE           1
+#define WAIT            2
+#define READ_WORKER     3
+#define WRITE_WORKER    4
+#define READ_WORKER_ERR 5
 
 /*максимальный размер входящего сообщения*/
 #define MAX_HEAD_HTTP 4096
@@ -25,32 +28,38 @@ struct Server;
 
 /*сокеты клиентов и их контекст*/
 struct Client {
-	/*режим чтения или записи в сокет*/
+	/*Признак типа*/
 	char type;
+
 	/*дескриптор сокета*/
 	int sfd;
 	
-	DWORD len;  /*общий объем данных*/
+	DWORD size; /*max объем данных    */
+	DWORD len;  /*общий объем данных  */
 	DWORD cur;  /*сколько уже передано*/
-	char * data;/*передаваемые/получаемые данные*/
-
+	char *data; /*передаваемые/получаемые данные*/
+	
+	/*буфер обмена*/
+	WSABUF DataBuf;
+	
 	/*распарсенный запрос*/
 	struct Req * preq;
 	
 	/*структура, для выполнения асинхронных вызовов*/
-	WSAOVERLAPPED overlapped;
+	struct overlapped_inf {
+		WSAOVERLAPPED overlapped;
+		char type;		
+		CRITICAL_SECTION * pcs; /*критическая секция этого клиента (для управления потоками)*/
+	} overlapped_inf;
 		
-	/*буфер обмена*/
-	WSABUF DataBuf;
+	
 
 	/*порт клиента*/
 	HANDLE iocp;
 	
 	/*сетевой адрес*/
 	struct sockaddr_in addr;
-
-	/*критическая секция этого клиента (для управления потоками)*/
-	CRITICAL_SECTION cs;
+		
 
 	/*назначенный worker*/
 	struct Worker * pwrk;

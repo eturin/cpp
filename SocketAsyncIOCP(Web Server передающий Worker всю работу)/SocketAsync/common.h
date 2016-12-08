@@ -15,4 +15,9 @@
 #include <stdlib.h>
 #include <string.h>
 
+/*признаки типа*/
+#define SERVER 0
+#define CLIENT 1
+#define WORKER 2
+
 #endif
