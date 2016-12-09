@@ -1,0 +1,5 @@
+LIBRARY      my_isapi
+
+EXPORTS
+  GetExtensionVersion
+  HttpExtensionProc
