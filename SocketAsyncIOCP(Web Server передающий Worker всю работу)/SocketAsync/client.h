@@ -11,9 +11,8 @@
 #define WRITE_WORKER    4
 #define READ_WORKER_ERR 5
 
-/*максимальный размер входящего сообщения*/
-#define MAX_HEAD_HTTP 4096
-
+/*максимальный размер входящего сообщения (64k)*/
+#define MAX_HEAD_HTTP 65536
 /*максимальный размер буфера обмена асинхронной операции*/
 #define LEN 10
 

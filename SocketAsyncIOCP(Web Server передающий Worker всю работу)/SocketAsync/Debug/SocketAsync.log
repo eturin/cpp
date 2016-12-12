@@ -1,0 +1,5 @@
+﻿  worker.c
+  server.c
+  client.c
+  Создание кода...
+  SocketAsync.vcxproj -> C:\Users\etyurin\Documents\Visual Studio 2013\ProjectsCPP\SocketAsyncIOCP(Web Server передающий Worker всю работу)\Debug\SocketAsync.exe

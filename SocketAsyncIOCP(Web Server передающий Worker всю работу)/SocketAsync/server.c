@@ -68,7 +68,9 @@ BOOL start_async(void *pp, DWORD len, LPVOID iocp, struct overlapped_inf *pOverl
 			if(pcln->len == 3 && !strncmp(pcln->data, "OFF", 3)) {
 				printf("ѕолучена команда принудительного выхода\n");
 				return FALSE;
-			} else if(pcln->len >= 4 && !strncmp(pcln->data + pcln->len - 4, "\r\n\r\n", 4)) {
+			} 
+			char * begin = strchr(pcln->data + pcln->cur - len - (pcln->cur - len >=3 ? 3 : 0), '\r');
+			if(begin!=NULL && pcln->len >= 4 && !strncmp(begin, "\r\n\r\n", 4)) {
 				/*сообщение получено, запуск worker и асинхронной операции*/
 				work(pcln, iocp); //подготовить ответ								
 			} else {				

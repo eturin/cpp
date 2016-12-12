@@ -60,6 +60,6 @@ int main(int argc, char **argv) {
 	}
 	free(psrv);
 
-	//system("pause");
+	system("pause");
 	return 0;
 }

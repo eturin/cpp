@@ -7,6 +7,8 @@
 #include <stdio.h>
 #include <string.h>
 
+/*для отладки нужно цеплять w3wp.exe*/
+
 BOOL WINAPI GetExtensionVersion(HSE_VERSION_INFO *pVersion) {
 	//Sleep(5000);
 	pVersion->dwExtensionVersion = MAKELONG(HSE_VERSION_MINOR, HSE_VERSION_MAJOR);

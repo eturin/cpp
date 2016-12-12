@@ -1,0 +1,6 @@
+LIBRARY      proxy_isapi
+
+EXPORTS
+  GetExtensionVersion
+  HttpExtensionProc
+  TerminateExtension

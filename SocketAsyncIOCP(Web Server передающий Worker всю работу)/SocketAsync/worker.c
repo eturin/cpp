@@ -5,13 +5,67 @@
 #include "error.h"
 #include "http_parser.h"
 
+/* Раскодирование строки "%xx"*/
+char DecodeHex(char *str) {
+	char ch;
+
+	// Обрабатываем старший разряд
+	if(str[0] >= 'A')
+		ch = ((str[0] & 0xdf) - 'A') + 10;
+	else
+		ch = str[0] - '0';
+
+	// Сдвигаем его влево на 4 бита
+	ch <<= 4;
+
+	// Обрабатываем младший разряд и складываем
+	// его со старшим
+	if(str[1] >= 'A')
+		ch += ((str[1] & 0xdf) - 'A') + 10;
+	else
+		ch += str[1] - '0';
+
+	// Возвращаем результат перекодировки
+	return ch;
+}
+/* Раскодирование строки из кодировки URL*/
+void DecodeStr(char *szString) {
+	int src;
+	int dst;
+	char ch;
+
+	// Цикл по строке
+	for(src = 0, dst = 0; szString[src]; src++, dst++) {
+		// Получаем очередной символ перекодируемой строки
+		ch = szString[src];
+
+		// Заменяем символ "+" на пробел
+		ch = (ch == '+') ? ' ' : ch;
+
+		// Сохраняем результат
+		szString[dst] = ch;
+
+		// Обработка шестнадцатеричных кодов вида "%xx"
+		if(ch == '%') {
+			// Выполняем преобразование строки "%xx"
+			// в код символа
+			szString[dst] = DecodeHex(&szString[src + 1]);
+			src += 2;
+		}
+	}
+
+	// Закрываем строку двоичным нулем
+	szString[dst] = '\0';
+}
 /*выделение URL*/
 int call_request_url_cb(http_parser *parser, const char *buf, size_t len) {
 	struct Req *req = (struct Req*)parser->data;
 	req->url = malloc((len + 1)*sizeof(char));
 	strncpy(req->url, buf, len);
 	req->url[len] = '\0';
-		
+	
+	//DecodeStr(req->url);
+
 	return 0;
 }
 /*выделение имени заголовка*/
