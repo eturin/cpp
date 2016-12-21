@@ -6,10 +6,9 @@
 #include "error.h" 
 
 
-BOOL start_async(void *pp, DWORD len, LPVOID iocp, struct overlapped_inf *pOverlapped_inf) {
+BOOL start_async(void *pp, DWORD len, LPVOID iocp, struct Overlapped_inf *pOverlapped_inf) {
 	BOOL isOk = TRUE; 
-
-	//EnterCriticalSection(pOverlapped_inf->pcs);
+		
 	/*если асинхронная операция немедленно выполнилась, то нужно назначить следующую*/
 	while(TRUE) {
 		if(pOverlapped_inf->type == READ_WORKER) {
@@ -104,7 +103,7 @@ BOOL start_async(void *pp, DWORD len, LPVOID iocp, struct overlapped_inf *pOverl
 				pcln->cur = pcln->len = pcln->size = 0;
 				/*запишем его в worker*/
 				pcln->pwrk->fd[0].overlapped_inf.type = WRITE_WORKER;
-				start_async(pcln->pwrk, 0, pcln->psrv->iocp, (struct overlapped_inf*)&pcln->pwrk->fd[0].overlapped_inf);
+				start_async(pcln->pwrk, 0, pcln->psrv->iocp, &pcln->pwrk->fd[0].overlapped_inf);
 			} else {
 				pcln->DataBuf.len = pcln->size - pcln->len;
 				pcln->DataBuf.len = LEN < pcln->DataBuf.len ? LEN : pcln->DataBuf.len;
@@ -139,7 +138,8 @@ BOOL start_async(void *pp, DWORD len, LPVOID iocp, struct overlapped_inf *pOverl
 				/*запуск асинхронной операции (в случае успеха, недьзя обращаться п памяти по адресу указателя pcln)*/
 				int rc = WSARecv(pcln->sfd, &pcln->DataBuf, 1, &len, &flag, (WSAOVERLAPPED*)pOverlapped_inf, NULL);
 				if(SOCKET_ERROR == rc && WSA_IO_PENDING != WSAGetLastError()) {
-					show_err_wsa("Ошибка WSARecv");
+					/*сервер сам не закрывает соединений и не анализирует команды удержания соединения*/
+					//show_err_wsa("Ошибка WSARecv");
 					release_Client(pcln);
 				}				
 			}
@@ -167,8 +167,7 @@ BOOL start_async(void *pp, DWORD len, LPVOID iocp, struct overlapped_inf *pOverl
 				len = 0; //для последующей операции чтения
 			}
 		}
-	}
-	//LeaveCriticalSection(pOverlapped_inf->pcs);
+	}	
 
 	return TRUE;
 }
@@ -177,7 +176,7 @@ void WorkingThread(LPVOID iocp) {
 	/*эта функция работает в потоках*/
 	while(TRUE) {
 		char * type = NULL;
-		struct overlapped_inf *pOverlapped_inf = NULL;
+		struct Overlapped_inf *pOverlapped_inf = NULL;
 		DWORD len = 0;
 		if(!GetQueuedCompletionStatus(iocp,              /*дескриптор порта завершения*/
 			                          &len,              /*количество перемещенных байт*/
@@ -185,12 +184,12 @@ void WorkingThread(LPVOID iocp) {
 									  (OVERLAPPED**)&pOverlapped_inf,      /*структура этой асинхронной операции*/
 			                          INFINITE           /*длительность ожидания завершения запрошенной асинхронной операции*/)) {
 			if(type != NULL 
-			   && (*type == WORKER || *type == WORKER_ISAPI)
+			   && (*type == WORKER)
 			   && pOverlapped_inf->type==READ_WORKER) {
 				/*разрыв на worker*/
 				release_Worker((struct Worker*)type);
 			} else if(type == NULL){
-				show_err_wsa("Ошибка в ожидания завершения асинхронной операции");
+				show_err_wsa("Ошибка ожидания завершения асинхронной операции");
 				break;
 			}			
 		} else if(type == NULL)
@@ -214,6 +213,9 @@ void WorkingThread(LPVOID iocp) {
 
 int loop(struct Server * psrv) {
 	BOOL is_repeat = TRUE;	
+
+	/*инициализируем критическую секцию*/
+	InitializeCriticalSection(&psrv->cs);
 
 	/*узнаем количество ядер процессора*/
 	SYSTEM_INFO sys_inf;
@@ -298,7 +300,7 @@ int loop(struct Server * psrv) {
 
 	/*закрываем в ядре событие отслеживающее асинхронные операции на мастер-сокете*/
 	for(int i = 0; i < MAX_EVENTS;++i)
-		CloseHandle(psrv->hEvents[i]);
+		WSACloseEvent(psrv->hEvents[i]);
 
 	/*закрываем дескриптор в ядре*/
 	for(DWORD i = 0; i < sys_inf.dwNumberOfProcessors; ++i)
@@ -311,7 +313,11 @@ int loop(struct Server * psrv) {
 			CloseHandle(phWorking[i]);
 		}
 	free(phWorking);
+	/*закрываем порт завершения*/
 	CloseHandle(psrv->iocp);	
+
+	/*удаляем критическую секцию*/
+	DeleteCriticalSection(&psrv->cs);
 
 	/*ресурсы клиентов отвалятся с закрытием программы(!!!УВЫ!!!)*/
 
@@ -328,9 +334,10 @@ int start_server(struct Server* psrv) {
 
 	/*связываем сокет с сетевым адресом (коротый хотим использовать)*/	
 	psrv->addr.sin_port = htons(psrv->port);
-	psrv->addr.sin_family = AF_INET;
-	char * ip_str = "0.0.0.0";
-	inet_ntop(psrv->addr.sin_family, &psrv->addr, ip_str, strlen(ip_str) + 1);
+	psrv->addr.sin_family = AF_INET;	
+	inet_pton(AF_INET, "0.0.0.0", &psrv->addr.sin_addr);
+	/*char * ip_str = "0.0.0.0";
+	inet_ntop(psrv->addr.sin_family, &psrv->addr, ip_str, strlen(ip_str) + 1);*/
 	int res = bind(psrv->msfd, (struct sockaddr*)&psrv->addr, sizeof(psrv->addr));
 	if(res == -1) {
 		show_err_wsa("Ошибка связывания мастер сокета с сетевым адресом");
@@ -359,8 +366,8 @@ int start_server(struct Server* psrv) {
 
 	/*закрываем дескриптор мастер сокета*/
 	shutdown(psrv->msfd, SD_BOTH);
-	closesocket(psrv->msfd);
-	
+	closesocket(psrv->msfd);	
+
 	return 0;
 }
 
@@ -372,3 +379,4 @@ struct Server * init_Server() {
 
 	return psrv;
 }
+

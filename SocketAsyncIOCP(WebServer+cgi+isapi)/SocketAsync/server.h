@@ -19,17 +19,25 @@ struct Server {
 	int port;
 	/*прослушиваемый сетевой адрес*/
 	struct sockaddr_in addr;
-	/* аталог событий*/
+
+	/* аталог событий (создаетс€ и закрываетс€ в loop)*/
 	WSAEVENT hEvents[MAX_EVENTS];
-	/*событие принудительной остановки (отправл€етс€ из поточных функций главному потоку по команде OFF)*/
+	/*событие принудительной остановки хранитс€ в hEvents (отправл€етс€ из поточных функций главному потоку по команде OFF)*/
 	WSAEVENT *phEvent_STOP;
-	/*порт очереди событий*/
+	
+	/*порт очереди событий (создаетс€ и закрываетс€ в loop)*/
 	HANDLE iocp;
+
+	/*сведени€ о процессе, обслуживающем загружаемые библиотеки*/
+	struct Worker * pWIsapi;
+	
+	/*критическа€ секци€, дл€ инициализации одного процесса isapi*/
+	CRITICAL_SECTION cs;
 };
 
 
 struct Server * init_Server();
 int start_server(struct Server*);
-BOOL start_async(void*, DWORD, LPVOID, struct overlapped_inf*);
+BOOL start_async(void*, DWORD, LPVOID, struct Overlapped_inf*);
 
 #endif

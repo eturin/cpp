@@ -7,7 +7,11 @@ int set_repitable(int sfd) {
 	return setsockopt(sfd, SOL_SOCKET, SO_REUSEADDR, (char*)&optval, sizeof(optval));
 }
 
-void close_socket(int fd) {
-	shutdown(fd, SD_BOTH);
-	closesocket(fd);
+int close_socket(int fd) {
+	if(fd != 0) {
+		shutdown(fd, SD_BOTH);
+		closesocket(fd);
+	}
+
+	return 0;
 }

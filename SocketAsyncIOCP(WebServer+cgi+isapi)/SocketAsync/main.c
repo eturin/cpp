@@ -58,6 +58,8 @@ int main(int argc, char **argv) {
 		/*освобождение среды*/
 		WSACleanup();
 	}
+	
+	/*освобождаем ресурсы сервера*/
 	free(psrv);
 
 	system("pause");

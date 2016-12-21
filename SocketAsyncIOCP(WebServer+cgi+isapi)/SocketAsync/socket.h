@@ -9,6 +9,6 @@ extern int flag;
 int set_repitable(int);
 
 /*закрыть сокет*/
-void close_socket(int);
+int close_socket(int);
 
 #endif

@@ -10,6 +10,7 @@ extern char work_path[];
 #define LEN_WORKER 50
 
 struct Client;
+struct Overlapped_inf;
 
 /*процессы обработчиков*/
 struct Worker {
@@ -33,11 +34,7 @@ struct Worker {
 		char * data;        /*передаваемые/получаемые данные*/
 		
 		/*структура, для выполнения асинхронных вызовов*/
-		struct overlapped_inf_w {
-			WSAOVERLAPPED overlapped;
-			char type;
-			CRITICAL_SECTION * pcs; /*критическая секция этого клиента (для управления потоками)*/
-		} overlapped_inf;
+		struct Overlapped_inf overlapped_inf;
 	} fd[3];
 
 	/*сведения о процессе*/
@@ -47,7 +44,10 @@ struct Worker {
 	STARTUPINFO sti;
 
 	/*текущий клиент*/
-	struct Client *pcln;		
+	struct Client *pcln;
+
+	/*прослушиваемый сетевой адрес*/
+	struct sockaddr_in addr;
 };
 
 /*инициализация worker*/

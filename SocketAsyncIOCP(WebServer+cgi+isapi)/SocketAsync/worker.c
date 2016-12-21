@@ -1,8 +1,11 @@
+#include "error.h"
+#include "socket.h"
 #include "server.h"
-#include "worker.h"
 #include "req.h"
 #include "client.h"
-#include "error.h"
+#include "worker.h"
+
+
 
 BOOL create_pipe(LPVOID iocp, struct Worker *pwrk, int i, BOOL isIn,const char * msg) {
 #define MAXLEN 1000
@@ -181,7 +184,7 @@ char * create_env(const struct Client * pcln, const struct Worker * pwrk) {
 
 	if(preq != NULL) {
 		/*формируем переменные окружения на основе заголовков*/
-		for(struct Header const * s = preq->pHeader; s != NULL; s = (struct Header const*)(s->hh.next)) {
+		for(struct hTab const * s = preq->pHeader; s != NULL; s = (struct hTab const*)(s->hh.next)) {
 			if(!strcmp(s->key, "HOST")) {
 				char * pos = strchr(s->val, ':');
 				if(pos != NULL) {
@@ -254,7 +257,7 @@ char * create_env(const struct Client * pcln, const struct Worker * pwrk) {
 		pTemp += strlen(pTemp) + 1;
 
 		strcat(pTemp, "CONTENT_TYPE=");
-		const struct Header *s = htab_find(preq->pHeader, "CONTENT-TYPE", 0);
+		const struct hTab *s = htab_find(preq->pHeader, "CONTENT-TYPE", 0);
 		if(s != NULL) 
 			strcat(pTemp, s->val);
 		pTemp += strlen(pTemp) + 1;
@@ -326,6 +329,27 @@ char * create_env(const struct Client * pcln, const struct Worker * pwrk) {
 	return pEnv;
 }
 
+char * create_env_isapi(const struct Client * pcln, const struct Worker * pwrk) {
+	/*формируем переменные окружения (каждая пара заканчивается '\0' и в конце всех еще один '\0')*/
+	char * pEnv = malloc(3 * MAX_HEAD_HTTP), *pTemp = pEnv;
+	memset(pEnv, 0, 3 * MAX_HEAD_HTTP); //много переменных окружения у мастер процесса
+
+	/*передаем переменные среды, доступные серверу*/
+	extern char ** environ;
+	for(char ** env = environ; *env != NULL; ++env) {
+		strcat(pTemp, *env);
+		pTemp += strlen(pTemp) + 1;
+	}
+	
+	sprintf(pTemp, "ISAPI_PARH=%s", pcln->psrv->work_path);	
+	pTemp += strlen(pTemp) + 1;
+
+	sprintf(pTemp, "ISAPI_PORT=%d", pcln->psrv->port+1);
+	pTemp += strlen(pTemp) + 1;
+
+	return pEnv;
+}
+
 struct Worker * init_Worker(const char *name, size_t len, struct Client * pcln, LPVOID iocp) {
 	/*признак успеха*/
 	BOOL isOk = TRUE;
@@ -335,9 +359,8 @@ struct Worker * init_Worker(const char *name, size_t len, struct Client * pcln, 
 	for(int i = 0; i < 3; ++i)
 		pwrk->fd[i].fd_r = pwrk->fd[i].fd_w = INVALID_HANDLE_VALUE;
 
-	pwrk->type = WORKER;
 	pwrk->procInf.hProcess = INVALID_HANDLE_VALUE;
-	pwrk->procInf.hThread = INVALID_HANDLE_VALUE;
+	pwrk->procInf.hThread  = INVALID_HANDLE_VALUE;
 	
 	while(isOk) {
 		/*сформируем путь к worker*/
@@ -350,13 +373,16 @@ struct Worker * init_Worker(const char *name, size_t len, struct Client * pcln, 
 		memcpy(pwrk->name, name, len);
 		if(strstr(pwrk->name, "isapi") != NULL) {
 			pwrk->type = WORKER_ISAPI;
-		}
-
-		
+			/*связываем сокет с сетевым адресом (коротый хотим использовать)*/
+			pwrk->addr.sin_port = htons(pcln->psrv->port + 1);
+			pwrk->addr.sin_family = AF_INET;
+			inet_pton(AF_INET, "127.0.0.1", &pwrk->addr.sin_addr);
+		}else
+			pwrk->type = WORKER;
+				
 		sprintf(pwrk->abs_path, "%s%s.exe", pcln->psrv->work_path, pwrk->name);
 
-		/*создаем три анонимных канала*/
-		//pwrk->fd[0].overlapped_inf.pcs = pcln->overlapped_inf.pcs; /*инициализация критической секции*/
+		/*создаем три анонимных канала (STDIN, STDOUT и STDERR)*/		
 		pwrk->fd[0].overlapped_inf.type = WRITE_WORKER;
 		pwrk->fd[0].overlapped_inf.overlapped.hEvent = CreateEvent(NULL, /*атрибут защиты*/
 																   TRUE, /*тип сброса TRUE - ручной*/
@@ -366,9 +392,7 @@ struct Worker * init_Worker(const char *name, size_t len, struct Client * pcln, 
 		if(!isOk) break;
 		
 		
-		//pwrk->fd[1].overlapped_inf.pcs = malloc(sizeof(CRITICAL_SECTION));/*инициализация критической секции*/
 		pwrk->fd[1].overlapped_inf.type = READ_WORKER;
-		//InitializeCriticalSection(pwrk->fd[1].overlapped_inf.pcs);
 		pwrk->fd[1].overlapped_inf.overlapped.hEvent = CreateEvent(NULL, /*атрибут защиты*/
 																   TRUE, /*тип сброса TRUE - ручной*/
 																   TRUE, /*начальное состояние TRUE - сигнальное*/
@@ -377,9 +401,7 @@ struct Worker * init_Worker(const char *name, size_t len, struct Client * pcln, 
 		if(!isOk) break;
 		
 		
-		//pwrk->fd[2].overlapped_inf.pcs = malloc(sizeof(CRITICAL_SECTION));/*инициализация критической секции*/
 		pwrk->fd[2].overlapped_inf.type = READ_WORKER_ERR;
-		//InitializeCriticalSection(pwrk->fd[2].overlapped_inf.pcs);
 		pwrk->fd[2].overlapped_inf.overlapped.hEvent = CreateEvent(NULL, /*атрибут защиты*/
 																   TRUE, /*тип сброса TRUE - ручной*/
 																   TRUE, /*начальное состояние TRUE - сигнальное*/
@@ -387,16 +409,20 @@ struct Worker * init_Worker(const char *name, size_t len, struct Client * pcln, 
 		isOk = create_pipe(iocp, pwrk, 2, FALSE, "STDERR");
 		if(!isOk) break;
 		
-		/*создаем дочерний процесс*/
+		/*создаем дочерний процесс, указывая потомку дескрипторы stdin, stdout и stderr*/
 		pwrk->sti.cb = sizeof(STARTUPINFO);			// указать размер
-		/*устанавливаем потомку дескрипторы stdin, stdout и stderr*/
-		pwrk->sti.dwFlags = STARTF_USESTDHANDLES; //!!!обязательно!!!
+		pwrk->sti.dwFlags = STARTF_USESTDHANDLES;   //!!!обязательно!!!, чтоб использовал указанные дескрипторы
 		pwrk->sti.hStdInput  = pwrk->fd[0].fd_r;
 		pwrk->sti.hStdOutput = pwrk->fd[1].fd_w;
 		pwrk->sti.hStdError  = pwrk->fd[2].fd_w;
 
-		/*формируем переменные окружения (каждая пара заканчивается '\0' и в конце всех еще один '\0')*/
-		char * pEnv = create_env(pcln, pwrk);
+		/*формируем переменные окружения только обычным worker (каждая пара заканчивается '\0' и в конце всех еще один '\0')*/
+		char * pEnv = NULL;
+		if(pwrk->type == WORKER)
+			pEnv = create_env(pcln, pwrk);
+		else
+			pEnv = create_env_isapi(pcln, pwrk);
+
 		isOk = CreateProcess(pwrk->abs_path,/*путь к программе*/
 							 "",            /*параметры коммандной строки*/
 							 NULL,          /*доступ AD для нового процесса*/
@@ -407,14 +433,14 @@ struct Worker * init_Worker(const char *name, size_t len, struct Client * pcln, 
 							 NULL,          /*Текущий диск или каталог (NULL - значит как у родителя)*/
 							 &pwrk->sti,    /*Используется для настройки свойств процесса, например расположения окон и заголовок*/
 							 &pwrk->procInf /*сведения о процессе (сами заполнятся)*/);
+		/*удаляем строку с переменными окружения*/
+		free(pEnv);
 		if(!isOk) {
 			char msg_str[MAXLEN];
 			sprintf(msg_str, "Не удалось создать дочерний процесс: %s ", pwrk->abs_path);
-			show_err(msg_str, TRUE);			
-			free(pEnv);
+			show_err(msg_str, TRUE);						
 			break;
-		}
-		free(pEnv);
+		}		
 
 		/*родитель закрывает дексрипторы дочернего процесса*/
 		CloseHandle(pwrk->fd[0].fd_r); pwrk->fd[0].fd_r = INVALID_HANDLE_VALUE;
@@ -433,39 +459,34 @@ struct Worker * init_Worker(const char *name, size_t len, struct Client * pcln, 
 		pwrk->fd[2].size = MAX_HEAD_HTTP;
 		pwrk->fd[2].data = malloc(MAX_HEAD_HTTP);
 		memset(pwrk->fd[2].data, 0, MAX_HEAD_HTTP);
-		start_async(pwrk, 0, pcln->psrv->iocp, (struct overlapped_inf*)&pwrk->fd[2].overlapped_inf);
-		/*if(!ReadFile(pwrk->fd[2].fd_r, pwrk->fd[2].data, LEN, &len, (OVERLAPPED*)&pwrk->fd[2].overlapped_inf) && ERROR_IO_PENDING != GetLastError()) {
-			show_err("Ошибка запуска асинхронной операции ReadFile [STDERR]", TRUE);
-		}*/
-		
+		start_async(pwrk, 0, pcln->psrv->iocp, &pwrk->fd[2].overlapped_inf);
+				
 		//STDOUT		
 		pwrk->fd[1].len = 0;
 		pwrk->fd[1].cur = 0;
 		pwrk->fd[1].size = MAX_HEAD_HTTP;
 		pwrk->fd[1].data = malloc(MAX_HEAD_HTTP);
 		memset(pwrk->fd[1].data, 0, MAX_HEAD_HTTP);
-		/*if(start_async(pwrk, 0, pcln->psrv->iocp, (struct overlapped_inf*)&pwrk->fd[1].overlapped_inf)) {
-			show_err("Ошибка запуска асинхронной операции ReadFile [STDOUT]", TRUE);
-			isOk = FALSE;
-		}*/
 		if(!ReadFile(pwrk->fd[1].fd_r, pwrk->fd[1].data + pwrk->fd[1].len, LEN, &len, (OVERLAPPED*)&pwrk->fd[1].overlapped_inf) && ERROR_IO_PENDING != GetLastError()) {
 			show_err("Ошибка запуска асинхронной операции ReadFile [STDOUT]", TRUE);
 			isOk = FALSE;
 		}
 
 		//STDIN	(!!!самым последним, т.к. переставляется буфер клиента!!!)
-		pwrk->fd[0].size = pcln->size;
-		pwrk->fd[0].len = pcln->len;
-		pwrk->fd[0].data = pcln->data;
-		pcln->data = NULL;
-		pcln->DataBuf.buf = NULL;				
-		pcln->cur = pcln->len = pcln->size;
-
-		if(pwrk->type == WORKER_ISAPI) {
-			/*нужно передавать только тело*/
-			pwrk->fd[0].cur = strstr(pwrk->fd[0].data, "\r\n\r\n") - pwrk->fd[0].data + 4;
-		} else
-			pwrk->fd[0].cur = 0;
+		if(pwrk->type == WORKER) {
+			pwrk->fd[0].size = pcln->size;
+			pwrk->fd[0].len  = pcln->len;
+			pwrk->fd[0].data = pcln->data;
+			pcln->data = NULL;
+			pcln->DataBuf.buf = NULL;
+			pcln->cur = pcln->len = pcln->size;
+		}
+		
+		//if(pwrk->type == WORKER_ISAPI) {
+		//	/*нужно передавать только тело*/
+		//	pwrk->fd[0].cur = strstr(pwrk->fd[0].data, "\r\n\r\n") - pwrk->fd[0].data + 4;
+		//} else
+		//	pwrk->fd[0].cur = 0;
 	}
 	
 	if(!isOk) {
@@ -479,7 +500,8 @@ struct Worker * init_Worker(const char *name, size_t len, struct Client * pcln, 
 		}
 		pwrk = release_Worker(pwrk);
 	} else {
-		pwrk->pcln = pcln;
+		if(pwrk->type == WORKER) 
+			pwrk->pcln = pcln;
 		pcln->overlapped_inf.type = WAIT;
 	}
 
@@ -488,8 +510,7 @@ struct Worker * init_Worker(const char *name, size_t len, struct Client * pcln, 
 	return pwrk;
 }
 struct Worker * release_Worker(struct Worker *pwrk) {
-	if(pwrk != NULL 
-	   /*&& (pwrk->pcln == NULL || TryEnterCriticalSection(pwrk->pcln->overlapped_inf.pcs))*/) {
+	if(pwrk != NULL) {
 
 		DWORD rc = 0;
 		/*убиваем процесс и закрываем его дескрипторы*/
@@ -499,8 +520,8 @@ struct Worker * release_Worker(struct Worker *pwrk) {
 			if(rc == STILL_ACTIVE) /*процесс отламался*/;
 				
 			TerminateProcess(pwrk->procInf.hProcess, NO_ERROR);
-			CloseHandle(pwrk->procInf.hProcess);
-			CloseHandle(pwrk->procInf.hThread);
+			/*CloseHandle(pwrk->procInf.hProcess);
+			CloseHandle(pwrk->procInf.hThread);*/
 		}
 
 		if(pwrk->pcln != NULL) {
@@ -548,8 +569,7 @@ struct Worker * release_Worker(struct Worker *pwrk) {
 			
 			/*запускаем асинхронные операции*/
 			pwrk->pcln->overlapped_inf.type = WRITE;
-			start_async(pwrk->pcln, 0, pwrk->pcln->psrv->iocp, &pwrk->pcln->overlapped_inf);
-			//LeaveCriticalSection(pwrk->pcln->overlapped_inf.pcs);
+			start_async(pwrk->pcln, 0, pwrk->pcln->psrv->iocp, &pwrk->pcln->overlapped_inf);		
 		} 
 
 		/*закрываем дескрипторы*/
@@ -557,59 +577,180 @@ struct Worker * release_Worker(struct Worker *pwrk) {
 			if(pwrk->fd[i].fd_r!=INVALID_HANDLE_VALUE) CloseHandle(pwrk->fd[i].fd_r);
 			if(pwrk->fd[i].fd_w!=INVALID_HANDLE_VALUE) CloseHandle(pwrk->fd[i].fd_w);
 			free(pwrk->fd[i].data);
-			WSACloseEvent(pwrk->fd[i].overlapped_inf.overlapped.hEvent);			
-			//free(pwrk->fd[i].data);			
+			WSACloseEvent(pwrk->fd[i].overlapped_inf.overlapped.hEvent);								
 		}
-		//pwrk->fd[1].overlapped_inf.pcs = NULL; //это секция клиента, её не нужно удалять
-		//if(pwrk->fd[1].overlapped_inf.pcs != NULL) {
-		//	DeleteCriticalSection(pwrk->fd[1].overlapped_inf.pcs);
-		//	free(pwrk->fd[1].overlapped_inf.pcs);
-		//}
-		//if(pwrk->fd[2].overlapped_inf.pcs != NULL) {
-		//	DeleteCriticalSection(pwrk->fd[2].overlapped_inf.pcs);
-		//	free(pwrk->fd[2].overlapped_inf.pcs);
-		//}		
+		
 		free(pwrk);
 	}
 
 	return NULL;
 }
 
+DWORD WINAPI send_isapi(LPVOID lpParameter) {
+	struct Client * pcln = (struct Client *)lpParameter;
+
+	BOOL isOk=TRUE;
+	do{
+		if(pcln->psrv->pWIsapi == NULL) {
+			/*требуется запустить один процесс, обслуживающий загружаемые библиотеки*/
+			EnterCriticalSection(&pcln->psrv->cs);
+			/*еще раз проверим*/
+			if(pcln->psrv->pWIsapi == NULL) {
+				pcln->psrv->pWIsapi = init_Worker("isapi", 5, pcln, pcln->psrv->iocp);
+				Sleep(2000); //дадим возможность процессу запуститься
+			}
+			LeaveCriticalSection(&pcln->psrv->cs);
+			if(pcln->psrv->pWIsapi == NULL) {
+				isOk = FALSE;
+				break;
+			}
+		}		
+		/*подключаемся к процессу*/
+		pcln->wsfd = WSASocketW(AF_INET, SOCK_STREAM, IPPROTO_TCP, NULL, 0, 0/*WSA_FLAG_OVERLAPPED*/); //флаг WSA_FLAG_OVERLAPPED нужен для быстрого запуска асинхронных операций (чтоб сразу возвращали "сведения" о старте - будут кидать SOCKET_ERROR и WSAGetLastError() сообщит о статусе продолжающейся операции - WSA_IO_PENDING)
+		if(pcln->wsfd == -1) {
+			show_err_wsa("Не получен дескриптор сокета для worker isapi");
+			isOk = FALSE;
+			break;		
+		}	
+		/*структура адреса изменит значение после соединения*/
+		struct sockaddr_in addr;
+		memcpy(&addr, &pcln->psrv->pWIsapi->addr, sizeof(struct sockaddr_in));
+		if(0 != WSAConnect(pcln->wsfd, (const struct sockaddr*)&addr, sizeof(struct sockaddr_in), NULL, NULL, NULL, NULL)) {
+			show_err_wsa("Не удалось подключиться к worker isapi");			
+			/*worker isapi лежит*/
+			EnterCriticalSection(&pcln->psrv->cs);
+			if(0 != WSAConnect(pcln->wsfd, (const struct sockaddr*)&pcln->psrv->pWIsapi->addr, sizeof(pcln->psrv->pWIsapi->addr), NULL, NULL, NULL, NULL)) {
+				pcln->psrv->pWIsapi = release_Worker(pcln->psrv->pWIsapi);
+			}
+			LeaveCriticalSection(&pcln->psrv->cs);
+			isOk = FALSE;
+			break;
+		}
+
+		/*отправляем размер*/
+		WSABUF buf;
+		buf.buf = (char*)&pcln->len;
+		buf.len = sizeof(pcln->len);
+		DWORD len = 0;
+		if(0 != WSASend(pcln->wsfd, &buf, 1, &len, 0, NULL, NULL) || buf.len != len) {
+			show_err_wsa("Не удалось отправить worker isapi размер сообщения");
+			/*не удалось отправит или отправлено не всё*/
+			isOk = FALSE;
+			break;
+		}
+
+		/*отправляем данные*/		
+		buf.buf = pcln->data;
+		buf.len = pcln->len;
+		len = 0;
+		if(0 != WSASend(pcln->wsfd, &buf, 1, &len, 0, NULL, NULL) || buf.len != len) {
+			show_err_wsa("Не удалось отправить worker isapi сообщение");
+			/*не удалось отправит или отправлено не всё*/
+			isOk = FALSE;
+			break;
+		}
+
+		/*отправляем сокет*/
+		WSAPROTOCOL_INFOW inf;
+		memset(&inf, 0, sizeof(WSAPROTOCOL_INFOW));
+		if(0 != WSADuplicateSocketW(pcln->sfd, pcln->psrv->pWIsapi->procInf.dwProcessId, &inf)) {
+			show_err_wsa("Не удалось получить структуру, для передачи сокета worker isapi");
+			isOk = FALSE;
+			break;
+		}
+		buf.buf = (char*)&inf;
+		buf.len = sizeof(WSAPROTOCOL_INFOW);
+		len = 0;		
+		if(0 != WSASend(pcln->wsfd, &buf, 1, &len, 0, NULL, NULL) || buf.len != len) {
+			show_err_wsa("Не удалось отправить worker isapi дескриптор сокета клиента");
+			/*не удалось отправит или отправлено не всё*/
+			isOk = FALSE;
+			break;
+		}
+
+		/*ждем окончания обработки (worker isapi разорвет соединение)*/		
+		buf.buf = pcln->data;
+		buf.len = pcln->len;
+		len = 0;
+		WSARecv(pcln->wsfd, &buf, 1, &len, &flag, NULL, NULL);
+	} while(FALSE);
+	
+	pcln->wsfd = close_socket(pcln->wsfd);
+
+	if(!isOk) {	
+		if(pcln->psrv->pWIsapi!=NULL)
+			show_err(pcln->psrv->pWIsapi->fd[1].data,FALSE); 
+		make500(pcln);
+		/*запускаем асинхронную операцию записи в сокет клиента*/
+		pcln->overlapped_inf.type = WRITE;
+		start_async((void*)pcln, 0, pcln->psrv->iocp, &pcln->overlapped_inf);
+	} else {
+		/*запускаем асинхронную операцию чтения*/
+		pcln->overlapped_inf.type = READ;
+		start_async((void*)pcln, 0, pcln->psrv->iocp, &pcln->overlapped_inf);
+	}
+
+	return 0;
+}
+
 BOOL work(struct Client * pcln, LPVOID iocp) {
 	BOOL isOk = TRUE;
 
-	/*парсим запрос*/
-	pcln->preq = pars_http(pcln->data, &pcln->len);
-
-	if(pcln->preq == NULL) {
-		/*запрос не удалось распарсить 404*/
-		make404(pcln);
+	char * begin = strstr(pcln->data, "/isapi");
+	char * end = strstr(pcln->data, "\r\n");
+	if(begin!=NULL && begin < end) {
+		pcln->overlapped_inf.type = WAIT;
+		/*запускаем отдельный поток передачи данных Worker isapi*/
+		HANDLE hThread = CreateThread(NULL,                    /*дескриптор защиты (NULL - не может быть унаследован)*/
+									  0,                       /*начальный размер стека (0-взять значение поумолчанию)*/
+									  send_isapi,              /*функция потока*/
+									  pcln,                    /*параметр потока*/
+									  DETACHED_PROCESS,        /*опции создания (в данном случае создается поток, который не будет присоединен в дальнейшем)*/
+									  NULL                     /*идентификатор потока (NULL - идентификатор возвращаться не будет)*/);
+		if(hThread == NULL) {
+			show_err("Не удалось запустить отдельный поток передачи isapi", TRUE);
+			make500(pcln);
+			/*запускаем асинхронную операцию записи в сокет клиента*/
+			pcln->overlapped_inf.type = WRITE;
+			start_async((void*)pcln, 0, pcln->psrv->iocp, &pcln->overlapped_inf);
+		}
 	} else {
-		char *begin = strchr(pcln->preq->url, '/') + 1;
-		char *end = strchr(begin, '/');
-		if(end == NULL)
-			end = strchr(begin, '?');
-		if(end == NULL)
-			end = begin + strlen(begin);
-		struct Worker * pwrk = init_Worker(begin, end - begin, pcln, iocp);		
+		/*парсим запрос*/
+		pcln->preq = pars_http(pcln->data, &pcln->len);
 
-		if(pwrk == NULL) {
-			/*worker не запущен*/
+		if(pcln->preq == NULL || pcln->preq->url==NULL) {
+			/*запрос не удалось распарсить 404*/
 			make404(pcln);
 			/*запускаем асинхронную операцию записи в сокет клиента*/
 			pcln->overlapped_inf.type = WRITE;
 			start_async((void*)pcln, 0, pcln->psrv->iocp, &pcln->overlapped_inf);
 		} else {
-			if(pcln->preq == NULL || pcln->preq->body_length==0) {
-				/*признак конца данных, для worker*/
-				pwrk->fd[0].data[pwrk->fd[0].len] = '\0';
-				++pwrk->fd[0].len;
+			char *begin = strchr(pcln->preq->url, '/') + 1;
+			char *end = strchr(begin, '/');
+			if(end == NULL)
+				end = strchr(begin, '?');
+			if(end == NULL)
+				end = begin + strlen(begin);
+			struct Worker * pwrk = init_Worker(begin, end - begin, pcln, iocp);
+
+			if(pwrk == NULL) {
+				/*worker не запущен*/
+				make404(pcln);
+				/*запускаем асинхронную операцию записи в сокет клиента*/
+				pcln->overlapped_inf.type = WRITE;
+				start_async((void*)pcln, 0, pcln->psrv->iocp, &pcln->overlapped_inf);
+			} else {
+				if(pcln->preq == NULL || pcln->preq->body_length == 0) {
+					/*признак конца данных, для worker*/
+					pwrk->fd[0].data[pwrk->fd[0].len] = '\0';
+					++pwrk->fd[0].len;
+				}
+				/*запускаем асинхронную операцию записи в канал STDIN worker*/
+				start_async((void*)pwrk, 0, pwrk->pcln->psrv->iocp, &pwrk->fd[0].overlapped_inf);
 			}
-			/*запускаем асинхронную операцию записи в канал STDIN worker*/
-			start_async((void*)pwrk, 0, pwrk->pcln->psrv->iocp, (struct overlapped_inf*)&pwrk->fd[0].overlapped_inf);
 		}
 	}
-	
+
 	return isOk;
 }
 

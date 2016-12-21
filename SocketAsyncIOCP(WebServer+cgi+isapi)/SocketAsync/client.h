@@ -9,14 +9,19 @@ struct Req;
 struct Worker;
 struct Server;
 
+/*структура определяющая тип асинхронной операции*/
+struct Overlapped_inf {
+	WSAOVERLAPPED overlapped;
+	char type;
+};
 
 /*сокеты клиентов и их контекст*/
 struct Client {
 	/*Признак типа*/
 	char type;
 
-	/*дескриптор сокета*/
-	int sfd;
+	/*дескрипторы сокетов*/
+	int sfd, wsfd;
 	
 	DWORD size; /*max объем данных    */
 	DWORD len;  /*общий объем данных  */
@@ -30,11 +35,7 @@ struct Client {
 	struct Req * preq;
 	
 	/*структура, для выполнения асинхронных вызовов*/
-	struct overlapped_inf {
-		WSAOVERLAPPED overlapped;
-		char type;		
-		CRITICAL_SECTION * pcs; /*критическая секция этого клиента (для управления потоками)*/
-	} overlapped_inf;	
+	struct Overlapped_inf overlapped_inf;	
 
 	/*порт клиента*/
 	HANDLE iocp;

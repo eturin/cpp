@@ -163,7 +163,7 @@ struct Req * pars_http(const char* data, size_t *len) {
 		else
 			preq->cmd[4] = '\0';
 		
-		struct Header *s = htab_find(preq->pHeader, "CONTENT-LENGTH",0);
+		struct hTab *s = htab_find(preq->pHeader, "CONTENT-LENGTH", 0);
 		preq->body_length = 0;
 		if(s != NULL) 
 			sscanf(s->val,"%d", &preq->body_length);			
@@ -172,14 +172,15 @@ struct Req * pars_http(const char* data, size_t *len) {
 	return preq;
 }
 
-void htab_add(struct Header **ppEnv, const char * _key, size_t key_len, const char * _val, size_t val_len) {
-	struct Header *s;
+void htab_add(struct hTab **ppEnv, const char * _key, size_t key_len, const char * _val, size_t val_len) {
+	struct hTab *s;
 
 	if(_key != NULL) {//добавляется ключ и возможно значение
+		if(0 == key_len) key_len = strlen(_key);
 		s = htab_find(*ppEnv, _key, key_len);
 		if(s == NULL) {
-			s = (struct Header*)malloc(sizeof(struct Header));
-			memset(s, 0, sizeof(struct Header));
+			s = (struct hTab*)malloc(sizeof(struct hTab));
+			memset(s, 0, sizeof(struct hTab));
 			/*переносим значение ключа*/
 			s->key = (char *)malloc(key_len + 1);
 			strncpy(s->key, _key, key_len);
@@ -194,35 +195,40 @@ void htab_add(struct Header **ppEnv, const char * _key, size_t key_len, const ch
 		s = *ppEnv;
 		/*ключи хранятся в хеш-таблице с указателями на элементы списка*/
 		while(s->hh.next != NULL)
-			s = (struct Header *)s->hh.next;
+			s = (struct hTab *)s->hh.next;
 	}
 
 	/*переносим значение*/
 	free(s->val);
 	if(_val != NULL) {		
+		if(0 == val_len) val_len = strlen(_val);
 		s->val = (char *)malloc(val_len + 1);
 		strncpy(s->val, _val, val_len);
 		s->val[val_len] = '\0';
 	} else		
 		s->val = NULL;	
 }
-struct Header * htab_find(struct Header const *ppEnv, const char * _key, size_t len) {
+struct hTab * htab_find(struct hTab const *ppEnv, const char * _key, size_t len) {
 	if(len == 0)
 		len = strlen(_key);
 
-	struct Header *s=NULL;
+	struct hTab *s = NULL;
 	HASH_FIND_STR_LEN(ppEnv, _key, len, s);
 
 	return s;
 }
-void htab_delete_all(struct Header **ppEnv) {
-	struct Header *s, *tmp;
+struct hTab * htab_delete_all(struct hTab **ppEnv) {
+	if(ppEnv != NULL) {
+		struct hTab *s, *tmp;
 
-	HASH_ITER(hh, *ppEnv, s, tmp) {
-		htab_delete(ppEnv, s);
+		HASH_ITER(hh, *ppEnv, s, tmp) {
+			htab_delete(ppEnv, s);
+		}
 	}
+
+	return NULL;
 }
-void htab_delete(struct Header **ppEnv, struct Header *s) {
+void htab_delete(struct hTab **ppEnv, struct hTab *s) {
 	HASH_DEL(*ppEnv, s);
 	free(s->key);
 	free(s->val);
@@ -230,16 +236,16 @@ void htab_delete(struct Header **ppEnv, struct Header *s) {
 }
 
 /*не задействованы (оставил доя примера)*/
-void htab_show(struct Header const **ppEnv) {
-	for(struct Header const * s = *ppEnv; s != NULL; s = (struct Header const*)(s->hh.next))
+void htab_show(struct hTab const **ppEnv) {
+	for(struct hTab const * s = *ppEnv; s != NULL; s = (struct hTab const*)(s->hh.next))
 		printf("key=%s val=%s\n", s->key, s->val);
 }
-int fsort_by_val(struct Header *a, struct Header *b) {
+int fsort_by_val(struct hTab *a, struct hTab *b) {
 	return strcmp(a->val, b->val);
 }
-int fsort_by_key(struct Header *a, struct Header *b) {
+int fsort_by_key(struct hTab *a, struct hTab *b) {
 	return strcmp(a->key, b->key);
 }
-void htab_sort(struct Header **ppEnv, int(*func)(struct Header*, struct Header*)) {
+void htab_sort(struct hTab **ppEnv, int(*func)(struct hTab*, struct hTab*)) {
 	HASH_SORT(*ppEnv, func);
 }

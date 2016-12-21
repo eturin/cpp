@@ -10,9 +10,10 @@ struct Req {
 	/*запрошенный URL*/
 	char  *url;
 	/*это хеш-таблица заголовков*/
-	struct Header {
+	struct hTab {
 		char *key;                 /* ключ           */
 		char *val;                 /* значение       */
+		void* pIsapi;              /* (понадобится только в проекте isapi)*/
 		UT_hash_handle hh;         /* служебное поле */
 	} *pHeader;
 	/*статус ответа*/
@@ -29,12 +30,12 @@ struct Req * init_Req();
 struct Req * release_Req(struct Req *);
 struct Req * pars_http(const char*, size_t*);
 
-void htab_add(struct Header**, const char*, size_t, const char*, size_t);
-struct Header * htab_find(struct Header const *, const char*, size_t);
-void htab_delete(struct Header**, struct Header*);
-void htab_delete_all(struct Header**);
-void htab_show(struct Header const**);
-int fsort_by_val(struct Header*, struct Header*);
-int fsort_by_key(struct Header*, struct Header*);
-void htab_sort(struct Header**, int(*)(struct Header*, struct Header*));
+void htab_add(struct hTab**, const char*, size_t, const char*, size_t);
+struct hTab * htab_find(struct hTab const *, const char*, size_t);
+void htab_delete(struct hTab**, struct hTab*);
+struct hTab * htab_delete_all(struct hTab**);
+void htab_show(struct hTab const**);
+int fsort_by_val(struct hTab*, struct hTab*);
+int fsort_by_key(struct hTab*, struct hTab*);
+void htab_sort(struct hTab**, int(*)(struct hTab*, struct hTab*));
 #endif

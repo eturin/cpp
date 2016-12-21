@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<point xmlns="http://v8.1c.ru/8.2/virtual-resource-system"
+		xmlns:xs="http://www.w3.org/2001/XMLSchema"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		base="/isapi/EDO"
+		ib="Srvr='as-msk-n7110';Ref='EDO';usr='Admin';pwd='1432'">
+	<ws>
+		<point name="DMMessageService"
+				alias="dmmessage.1cws"/>
+		<point name="DMService"
+				alias="dm.1cws"/>
+		<point name="Files"
+				alias="files.1cws"/>
+		<point name="MEDO"
+				alias="medo.1cws"/>
+		<point name="Customers"
+				alias="Customers.1cws"/>
+		<point name="PayrollCardProject"
+				alias="EDOPayrollCardProject.1cws"/>
+		<point name="DataInterchange"
+				alias="edi.1cws"/>
+		<point name="GetFile"
+				alias="EDOGetFile.1cws"/>
+		<point name="CheckCertificateOfAuthority"
+				alias="EDOCheckCertificateOfAuthority.1cws"/>
+	</ws>
+</point>

@@ -1,6 +1,7 @@
 #include "client.h"
 #include "worker.h"
 #include "socket.h"
+#include "req.h"
 
 int cnt = 0;
 char * format200 =	"HTTP/1.1 200 OK\r\n"
@@ -42,30 +43,27 @@ struct Client * init_Client(struct Server * psrv) {
 														 TRUE, /*начальное состо€ние TRUE - сигнальное*/
 														 NULL  /*им€ обьекта*/);
 	pcln->overlapped_inf.type = READ; /*перва€ асинхронна€ операци€ на клиенте - чтение из сокета*/
-		
-	/*инициализаци€ критической секции*/
-	//pcln->overlapped_inf.pcs = malloc(sizeof(CRITICAL_SECTION));
-	//InitializeCriticalSection(pcln->overlapped_inf.pcs);
-
+	
 	return pcln;
 }
 struct Client * release_Client(struct Client * pcln) {
-	/*эту операцию следует выполн€ть не одновременно*/
-	if(pcln != NULL /*&& TryEnterCriticalSection(pcln->overlapped_inf.pcs)*/) {
+	if(pcln != NULL) {
 		/*закрываем хендл событи€ в €дре*/
 		WSACloseEvent(pcln->overlapped_inf.overlapped.hEvent);
-		/*закрываем порт клиента*/
-		//if(pcln->iocp) CloseHandle(pcln->iocp); //валитс€ ошибка
+		
+		/*закрываем сокет*/
+		close_socket(pcln->sfd);
+		close_socket(pcln->wsfd);
+		
+		/*закрываем порт клиента (!!!!Ё“ќ ƒ≈Ћј“№ Ќ≈Ћ№«я!!!! т.к. отваливаетс€ порт завершени€ сервера)*/
+		/////////////CloseHandle(pcln->iocp);
 
 		/*освобождаем данные*/
 		free(pcln->data);
-		/*закрываем сокет*/
-		close_socket(pcln->sfd);
-		//LeaveCriticalSection(pcln->overlapped_inf.pcs);
-		//DeleteCriticalSection(pcln->overlapped_inf.pcs);
-		//free(pcln->overlapped_inf.pcs);
-		if(pcln->pwrk != NULL)
-			pcln->pwrk=release_Worker(pcln->pwrk);
+
+		if(pcln->pwrk != NULL && pcln->pwrk->type==WORKER)
+			release_Worker(pcln->pwrk);
+		release_Req(pcln->preq);
 
 		free(pcln);
 	}
@@ -74,20 +72,17 @@ struct Client * release_Client(struct Client * pcln) {
 }
 struct Client * clear_Client(struct Client * pcln) {
 	/*эту операцию следует выполн€ть не одновременно*/
-	//if(TryEnterCriticalSection(pcln->overlapped_inf.pcs)) {
-		if(pcln != NULL) {
-			pcln->overlapped_inf.type = READ;
-			/*реинициализируем данные передачи*/
-			free(pcln->data);
-			pcln->len = pcln->cur = 0;
-			pcln->size = MAX_HEAD_HTTP;
-			pcln->data = malloc(pcln->size);			
-			memset(pcln->data, 0, pcln->size);
-			pcln->DataBuf.len = LEN;
-			pcln->DataBuf.buf = pcln->data;
-		}
-		//LeaveCriticalSection(pcln->overlapped_inf.pcs);
-	//}
+	if(pcln != NULL) {
+		pcln->overlapped_inf.type = READ;
+		/*реинициализируем данные передачи*/
+		free(pcln->data);
+		pcln->len = pcln->cur = 0;
+		pcln->size = MAX_HEAD_HTTP;
+		pcln->data = malloc(pcln->size);			
+		memset(pcln->data, 0, pcln->size);
+		pcln->DataBuf.len = LEN;
+		pcln->DataBuf.buf = pcln->data;
+	}	
 
 	return pcln;
 }
