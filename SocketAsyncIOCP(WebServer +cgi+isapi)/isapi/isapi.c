@@ -266,47 +266,65 @@ BOOL WINAPI WriteClient(HCONN hConn, LPVOID lpvBuffer, LPDWORD lpdwBytes, DWORD 
 BOOL Send(struct Client_isapi * pcln, const char * msg) {
 	BOOL ret = TRUE;
 
-	pcln->preq = release_Req(pcln->preq);
-	/*разбор данных ответа клиенту*/
-	pcln->preq = pars_http(pcln->data, &pcln->len);
-	if(pcln->preq != NULL && pcln->preq->body_length == 0 && pcln->preq->cur > 0) {
-		struct hTab * s=htab_find(pcln->preq->pHeader, "CONTENT-LENGTH",0);
-		if(s == NULL) {
-			/*загружаемая библиотека не вернула размер тела сообщения*/
-			char * tmp = pcln->data;
-			pcln->size = pcln->len + 50;
-			pcln->data = malloc(pcln->size); //добавляем запаса из 50байт на заголовок с длинной тела
-			memset(pcln->data, 0, pcln->size);
+	if(pcln->data != NULL) {
+		pcln->preq = release_Req(pcln->preq);
+		/*разбор данных ответа клиенту*/
+		pcln->preq = pars_http(pcln->data, &pcln->len);
+		if(pcln->preq != NULL) {
+			if(pcln->preq->body_length == 0 && pcln->preq->cur > 0) {
+				/*загружаемая библиотека не вернула размер тела сообщения*/
+				char * tmp = pcln->data;
+				size_t len_ = pcln->len;
 
-			char *e = strstr(tmp, "\r\n\r\n");
-			memcpy(pcln->data, tmp, e - tmp);
-			size_t len_ = pcln->len;
-			pcln->len = e - tmp;
-			len_ -= pcln->len;
+				//добавляем запаса из 50байт на заголовок с длинной тела сообщения
+				pcln->size = pcln->len + 50;
+				pcln->data = malloc(pcln->size);
+				memset(pcln->data, 0, pcln->size);
 
-			char str[50] = {0};
-			pcln->preq->body_length = pcln->preq->cur;
-			sprintf(str, "Content-Length: %u", pcln->preq->body_length);
-			size_t len = strlen(str);
-			memcpy(pcln->data, str, len);
-			pcln->len += len;
+				//возбмем весь заголовок и один перевод строки
+				char *e = strstr(tmp, "\r\n\r\n") + 2;
+				pcln->len = e - tmp;
+				memcpy(pcln->data, tmp, pcln->len);
+				len_ -= pcln->len;
 
-			memcpy(pcln->data, e, len_);
-			pcln->len += len_;
+				//добавим заголовок с длинной тела сообщения
+				char str[50] = {0};
+				pcln->preq->body_length = pcln->preq->cur;
+				sprintf(str, "Content-Length: %u\r\n", pcln->preq->body_length);
+				size_t len = strlen(str);
+				memcpy(pcln->data + pcln->len, str, len);
+				pcln->len += len;
 
-			free(tmp);
+				memcpy(pcln->data + pcln->len, e, len_);
+				pcln->len += len_;
+
+				free(tmp);
+			}
+
+			WSABUF buf;
+			buf.buf = pcln->data;
+			buf.len = pcln->len;
+			DWORD len = 0;
+			if(0 != WSASend(pcln->sfd, &buf, 1, &len, 0, NULL, 0))
+				show_err_wsa(msg);
+		} else {
+			char * format500 = "HTTP/1.1 500 ERROR\r\n"
+				"Version: HTTP/1.1\r\n"
+				"Cache-Control: no-cache\r\n"
+				"Content-Type: text/html\r\n"
+				"Connection: close\r\n"
+				"Content-Length: 0 \r\n\r\n";
+			WSABUF buf;
+			buf.buf = format500;
+			buf.len = strlen(format500);
+			DWORD len = 0;
+			if(0 != WSASend(pcln->sfd, &buf, 1, &len, 0, NULL, 0))
+				show_err_wsa(msg);
 		}
 
-		WSABUF buf;
-		buf.buf = pcln->data;
-		buf.len = pcln->len;
-		DWORD len = 0;
-		if(0 != WSASend(pcln->sfd, &buf, 1, &len, 0, NULL, 0))
-			show_err_wsa(msg);
+		free(pcln->data);
+		pcln->data = NULL;
 	}
-
-	free(pcln->data);
-	pcln->data = NULL;
 
 	return ret;
 }
