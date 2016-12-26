@@ -40,7 +40,7 @@ int main(int argc, char **argv) {
 		psrv->work_path[strlen(psrv->work_path) - 1] = '\\';
 
 	if(!SetCurrentDirectory(psrv->work_path)) {
-		show_err("Не удалось зайти в каталог с обработчиками", TRUE);
+		show_err("(master)Не удалось зайти в каталог с обработчиками", TRUE);
 		return 1;
 	}
 
@@ -50,7 +50,7 @@ int main(int argc, char **argv) {
 	/*инициализация среды*/
 	WSADATA ws;
 	if(WSAStartup(MAKEWORD(2, 2), &ws) != NO_ERROR) 
-		show_err_wsa("Ошибка инициализация среды");		
+		show_err_wsa("(master)Ошибка инициализация среды");		
 	else {
 		/*запуск сервера*/
 		start_server(psrv);

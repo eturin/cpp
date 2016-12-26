@@ -30,6 +30,8 @@
 #define WRITE_WORKER        4
 #define READ_WORKER_ERR     5
 #define READ_TO_SEND_WORKER 6
+#define READ_ISAPI          7
+#define WRITE_ISAPI         8
 
 /*максимальный размер входящего сообщения (64k)*/
 #define MAX_HEAD_HTTP 65536

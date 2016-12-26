@@ -6,185 +6,144 @@
 #include "isapi.h"
 
 
-DWORD WINAPI work_isapi(LPVOID lpParameter) {
-	struct Client_isapi * pcln = (struct Client_isapi *)lpParameter; 	
-	
-	/*этапы сменяются последовательно*/
-	BOOL isSIZE   = TRUE, 
-		 isDATA   = FALSE, 
-		 isSOCKET = FALSE, 
-		 isWORK   = FALSE, 
-		 isFINAL  = FALSE;
-	
-	/*лог ошибок*/
-	char *msg = NULL;
+BOOL SendAndRecv(BOOL isSEND, SOCKET fd, struct Client_isapi * pcln, char * buf, DWORD bufLen, BOOL checkOff) {
+	BOOL isOK = TRUE;                   /*признак успеха пересылки данных*/
+		
+	char *msg = NULL;                   /*лог ошибок*/
+	WSAEVENT hEvent = WSACreateEvent(); /*создаем в ядре событие, для отслеживания асинхронных операций на сокете*/
+	WSABUF wsaBuf;                     	/*буфер обмена*/
+	DWORD ready = 0;                    /*размер обработанного фрагмента*/
 
-	/*буфер обмена*/
-	WSABUF buf;
-	DWORD len = 0;
-	pcln->cur = 0;
+	do {
+		int rc = 0;		
+		/*привязываем тип события на сокете с нашим событием*/
+		if(isSEND)
+			rc = WSAEventSelect(fd, hEvent, FD_WRITE | FD_CLOSE);
+		else
+			rc = WSAEventSelect(fd, hEvent, FD_READ | FD_CLOSE);
 
-	/*создаем в ядре событие, для отслеживания асинхронных операций на сокете*/
-	WSAEVENT hEvent = WSACreateEvent();
-	
-	do{	
-		int rc = 0;
-		if(isSIZE || isDATA || isSOCKET) {
-			/*ждем готовности socket*/
-			rc = WSAEventSelect(pcln->msfd, hEvent, FD_READ | FD_CLOSE);			
-		} else if(isFINAL) {
-			/*ждем готовности socket*/
-			rc = WSAEventSelect(pcln->msfd, hEvent, FD_WRITE | FD_CLOSE);			
-		}
+		WSANETWORKEVENTS hWSAevent;
 		if(rc == SOCKET_ERROR) {
-			msg="Ошибка select на socket мастер-процесса";
-			isFINAL = TRUE;
-			continue;
-		}
-				
-		if(!isWORK) { 
-			/*ждем событие*/
-			rc = WSAWaitForMultipleEvents(1, &hEvent, FALSE, INFINITE, FALSE);
-			if(rc == -1) {
-				msg ="Ошибка WSAWaitForMultipleEvents";
-				isSIZE = isDATA = isSOCKET = isWORK = FALSE;
-				isFINAL = TRUE;	
-				continue;
-			} else {
-				WSANETWORKEVENTS hWSAevent;
-				WSAEnumNetworkEvents(pcln->msfd, hEvent, &hWSAevent);
-				if(rc == SOCKET_ERROR) {
-					msg = "Ошибка получения сведений о наступившем событие";
-					isSIZE = isDATA = isSOCKET = isWORK = FALSE;
-					isFINAL = TRUE;					
-					continue;
-				}else if(!isFINAL && hWSAevent.lNetworkEvents & FD_READ && hWSAevent.iErrorCode[FD_READ_BIT] == 0)
-					/*готов к чтению*/;
-				else if(isFINAL && hWSAevent.lNetworkEvents & FD_WRITE && hWSAevent.iErrorCode[FD_WRITE_BIT] == 0)
-					/*готов к записи*/;
-				else if(hWSAevent.lNetworkEvents & FD_CLOSE && hWSAevent.iErrorCode[FD_CLOSE_BIT] == 0) {
-					msg = "Потеряно соединение с мастер-процессом";
-					isSIZE = isDATA = isSOCKET = isWORK = FALSE;
-					isFINAL = TRUE;					
-					continue;
-				} else 
-					continue; /*случилось что-то непонятное*/
+			msg = "(isapi)Ошибка select на socket мастер-процесса";
+			isOK = FALSE;
+		} else if(-1 == WSAWaitForMultipleEvents(1, &hEvent, FALSE, INFINITE, FALSE)) {                       /*ждём готовности socket*/
+			msg = "Ошибка WSAWaitForMultipleEvents";			
+			isOK = FALSE;
+		} else if(SOCKET_ERROR == WSAEnumNetworkEvents(fd, hEvent, &hWSAevent)) {                             /*определяем тип наступившего события*/
+			msg = "(isapi)Ошибка получения сведений о наступившем событие";
+			isOK = FALSE;
+		} else if(isSEND && hWSAevent.lNetworkEvents & FD_WRITE && hWSAevent.iErrorCode[FD_WRITE_BIT] == 0) {  /*готов к записи*/;
+			wsaBuf.buf = buf + ready;
+			wsaBuf.len = bufLen - ready;
+			DWORD len = 0;
+			if(SOCKET_ERROR == WSASend(fd, &wsaBuf, 1, &len, 0, NULL, NULL) && WSAGetLastError() != WSA_IO_PENDING) {
+				msg = "(isapi)Ошибка WSASend (отправка)";
+				isOK = FALSE;
+			}else if((ready+=len) == bufLen) {
+				/*всё отправлено*/
+				break;
 			}
-		}
-
-		/*обработка этапов*/
-		if(isSIZE) {
-			isSIZE = FALSE;
-			/*получаем размер передаваемых данных*/
-			buf.buf = (char*)&pcln->size + pcln->cur;
-			buf.len = sizeof(DWORD) - pcln->cur;
-			len = 0;
-			if(SOCKET_ERROR == WSARecv(pcln->msfd, &buf, 1, &len, &flag, NULL, NULL) || pcln->size == 0) {
-				msg = "Ошибка WSARecv (получение первоначального размера)";				
-				isFINAL = TRUE;				
-			} else if(len == 3 && !strncmp(buf.buf, "OFF", 3)) {
+			/*повторяем отправку в следующей итерации цикла*/
+		} else if(!isSEND && hWSAevent.lNetworkEvents & FD_READ && hWSAevent.iErrorCode[FD_READ_BIT] == 0) {    /*готов к чтению*/
+			wsaBuf.buf = buf    + ready;
+			wsaBuf.len = bufLen - ready;
+			DWORD len = 0;
+			if(SOCKET_ERROR == WSARecv(fd, &wsaBuf, 1, &len, &flag, NULL, NULL) && WSAGetLastError() != WSA_IO_PENDING) {
+				msg = "(isapi)Ошибка WSARecv (получение)";
+				isOK = FALSE;
+			} else if(3 == (ready += len) && checkOff && !strncmp(wsaBuf.buf, "OFF", 3)) {
 				/*принудительное выключение (отмечаем событие остановки, как наступившее, чтоб остановить главный цикл ожидания подключений)*/
 				WSASetEvent(*pcln->psrv->phEvent_STOP);
-				isFINAL = TRUE;
-			} else if((pcln->cur += len) != sizeof(DWORD)) {
-				/*получено не всё*/
-				isSIZE = TRUE;				
-			} else {
-				/*выделим место для данных*/
-				pcln->len  = pcln->size++;
-				pcln->data = malloc(pcln->size);
-				pcln->cur = 0;
-				isDATA = TRUE;
+				isOK = FALSE;
+			} else if(ready == bufLen) {
+				/*всё получено*/
+				break;
 			}
-		} else if(isDATA) {			
-			isDATA = FALSE;
-			/*получаем сами данные*/			
-			buf.buf = pcln->data + pcln->cur;						
-			buf.len = pcln->len - pcln->cur;
-			len = 0;
-			if(SOCKET_ERROR == WSARecv(pcln->msfd, &buf, 1, &len, &flag, NULL, NULL)) {
-				msg = "Ошибка WSARecv (получение исходных данных)";
-				isFINAL = TRUE;				
-			} else if((pcln->cur += len) != pcln->len) {
-				/*получено не всё*/				
-				isDATA = TRUE;				
-			} else {				
-				pcln->data[pcln->len] = '\0';				
-				pcln->cur = 0;
-				isSOCKET = TRUE;				
-			}
-		} else if(isSOCKET) {			
-			isSOCKET = FALSE;
-			/*получаем дубликат дескриптора сокета клиента*/
-			buf.buf = (char*)&pcln->inf + pcln->cur;
-			buf.len = sizeof(WSAPROTOCOL_INFOW) - pcln->cur;
-			len = 0;
-			if(SOCKET_ERROR == WSARecv(pcln->msfd, &buf, 1, &len, &flag, NULL, NULL)) {
-				msg = "Ошибка WSARecv (получение сокета от мастер-сервера)";
-				isSOCKET = FALSE;
-				isFINAL  = TRUE;				
-			} else if((pcln->cur += len) != sizeof(WSAPROTOCOL_INFOW)) {
-				/*получено не всё*/				
-				isSOCKET = TRUE;				
-			} else {				
-				/*устанавливаем сокет клиента*/
-				pcln->sfd = WSASocketW(FROM_PROTOCOL_INFO, FROM_PROTOCOL_INFO, FROM_PROTOCOL_INFO, &pcln->inf, 0, WSA_FLAG_OVERLAPPED);
-				if(pcln->sfd == -1) {
-					msg = "Не получен дескриптор сокета на основе сведений master-сервера";
-					isFINAL = TRUE;
-					continue;
-				} else {
-					pcln->cur = 0;
-					isWORK = TRUE;
-				}
-			}
-		} else if(isWORK) {
-			isWORK  = FALSE;
-			isFINAL = TRUE;
-			/*разбор исходных данных*/
-			pcln->preq = pars_http(pcln->data, &pcln->len);
-			if(pcln->preq == NULL) {
-				msg = "Не удалось разобрать данные";				
-				continue;
-			}
-			/*определение динамической библиотеки*/
-			pcln->pIsapi = get_isapi(pcln);
-			if(pcln->pIsapi == NULL) {
-				msg = "Нет сведений о динамической библиотеке";								
-			} else {
-				/*вызываем функцию из библиотеки*/
-				call_HttpExtensionProc(pcln);
-				show_err("обработано\n", FALSE);							
-			}			
-			pcln->cur = 0;
-		} else if(isFINAL) {
-			isFINAL = FALSE;
-			/*сообщим мастер-процессу о результате обработки соединения*/
-			if(msg != NULL) {
-				buf.buf = msg;
-				buf.len = strlen(msg);
-				show_err_wsa(msg);
-			} else {
-				buf.buf = "OK";
-				buf.len = 2;
-			}
-			len = 0;
-			if(0 != WSASend(pcln->msfd, &buf, 1, &len, 0, NULL, NULL) || buf.len != len) {
-				msg = "Не удалось отправить мастер-процессу сообщение об успешной обработке";
-				show_err_wsa(msg);
-			}
-		}
-	} while(isSIZE || isDATA || isSOCKET || isWORK || isFINAL);	
+			/*повторяем получение в следующей итерации цикла*/
+		} else if(hWSAevent.lNetworkEvents & FD_CLOSE && hWSAevent.iErrorCode[FD_CLOSE_BIT] == 0) {
+			msg = "(isapi)Потеряно соединение с мастер-процессом";
+			isOK = FALSE;
+		} else
+			continue; /*случилось что-то непонятное*/		
 	
+	} while(isOK);
+
+	if(msg != NULL) 
+		show_err_wsa(msg);
+
 	/*закрываем событие в ядре*/
 	WSACloseEvent(hEvent);
 
+	return isOK;
+}
+
+DWORD WINAPI work_isapi(LPVOID lpParameter) {
+	struct Client_isapi * pcln = (struct Client_isapi *)lpParameter;
+
+	/*лог ошибок*/
+	char *msg = NULL;
+
+	do {
+		/*получаем размер передаваемых данных*/
+		if(!SendAndRecv(FALSE, pcln->msfd, pcln, (char*)&pcln->size, sizeof(DWORD), TRUE)) {
+			msg = "(isapi)Ошибка получения первоначального размера";
+			break;
+		}
+
+		/*выделим место для данных*/
+		pcln->len = pcln->size++;
+		pcln->data = malloc(pcln->size);
+
+		/*получаем сами данные*/
+		if(!SendAndRecv(FALSE, pcln->msfd, pcln, pcln->data, pcln->len, FALSE)) {
+			msg = "(isapi)Ошибка получения исходных данных";
+			break;
+		}
+		pcln->data[pcln->len] = '\0';
+
+		/*получаем дубликат дескриптора сокета клиента*/
+		if(!SendAndRecv(FALSE, pcln->msfd, pcln, (char*)&pcln->inf, sizeof(WSAPROTOCOL_INFOW), FALSE)) {
+			msg = "(isapi)Ошибка получения сокета от мастер-процесса";
+			break;
+		}
+
+		/*устанавливаем сокет клиента*/
+		pcln->sfd = WSASocketW(FROM_PROTOCOL_INFO, FROM_PROTOCOL_INFO, FROM_PROTOCOL_INFO, &pcln->inf, 0, WSA_FLAG_OVERLAPPED);
+		if(pcln->sfd == -1) {
+			msg = "(isapi)Не получен дескриптор сокета на основе сведений master-сервера";
+			break;
+		}
+
+		/*разбор исходных данных*/
+		pcln->preq = pars_http(pcln->data, &pcln->len);
+		if(pcln->preq == NULL) {
+			msg = "(isapi)Не удалось разобрать данные, полученные от мастер-процесса";
+			break;
+		}
+
+		/*определение динамической библиотеки*/
+		pcln->pIsapi = get_isapi(pcln);
+		if(pcln->pIsapi == NULL) {
+			msg = "(isapi)Нет сведений о динамической библиотеке затребованной в URL";
+			break;
+		} else {
+			/*вызываем функцию из библиотеки*/
+			call_HttpExtensionProc(pcln);			
+		}
+	} while(FALSE);
+
+	/*сообщим мастер-процессу о результате обработки соединения*/
+	if(msg != NULL) {		
+		show_err(msg,FALSE);
+		SendAndRecv(TRUE, pcln->msfd, pcln, msg, strlen(msg), FALSE);
+	} else 
+		SendAndRecv(TRUE, pcln->msfd, pcln, "OK", 2, FALSE);
+	
 	/*закрываем соединение с мастер процессом, чтоб он дальше слушал сокет*/
 	release_client_isapi(pcln);		
 
 	return 0;
 }
-
 
 int loop(struct Server_isapi * psrv) {
 	BOOL is_repeat = TRUE;
@@ -199,17 +158,18 @@ int loop(struct Server_isapi * psrv) {
 		/*взводим события для master socket*/
 		int rc = WSAEventSelect(psrv->msfd, psrv->hEvents[0], FD_ACCEPT | FD_CLOSE);
 		if(rc == SOCKET_ERROR) {
-			show_err_wsa("Не удалось зарегистрировать событие select на мастер-сокете");
+			show_err_wsa("(isapi)Не удалось зарегистрировать событие select на мастер-сокете");
 			break;
 		}
 
 		/*ждём наступления события (!!!не более 64 разных WSAEVENT событий!!!)*/
 		rc = WSAWaitForMultipleEvents(MAX_EVENTS, psrv->hEvents, FALSE, INFINITE, FALSE);
 		if(rc == -1) {
-			show_err_wsa("Ошибка ожидания асинхронных событий WSAWaitForMultipleEvents");
+			show_err_wsa("(isapi)Ошибка ожидания асинхронных событий WSAWaitForMultipleEvents");
 			break;
 		} else if(rc == 1) {
 			/*наступило событие принудительной остановки*/
+			show_err("(isapi)Наступило событие принудительной остановки", FALSE);
 			break;
 		}
 
@@ -233,7 +193,7 @@ int loop(struct Server_isapi * psrv) {
 											  DETACHED_PROCESS,        /*опции создания (в данном случае создается поток, который не будет присоединен в дальнейшем)*/
 											  NULL                     /*идентификатор потока (NULL - идентификатор возвращаться не будет)*/);
 				if(hThread == NULL) {
-					show_err("Не удалось запустить отдельный поток обработки isapi", TRUE);
+					show_err("(isapi)Не удалось запустить отдельный поток обработки isapi", TRUE);
 					release_client_isapi(pcln);
 				}
 			} else
@@ -259,7 +219,7 @@ BOOL start_server_isapi(struct Server_isapi * psrv) {
 	/*получаем дескриптор мастер сокета*/
 	psrv->msfd = WSASocketW(AF_INET, SOCK_STREAM, IPPROTO_TCP, NULL, 0, WSA_FLAG_OVERLAPPED); //флаг WSA_FLAG_OVERLAPPED нужен для быстрого запуска асинхронных операций (чтоб сразу возвращали "сведения" о старте - будут кидать SOCKET_ERROR и WSAGetLastError() сообщит о статусе продолжающейся операции - WSA_IO_PENDING)
 	if(psrv->msfd == -1) {
-		show_err_wsa("Не получен дескриптор сокета");
+		show_err_wsa("(isapi)Не получен дескриптор сокета");
 		return 1;
 	}
 
@@ -270,7 +230,7 @@ BOOL start_server_isapi(struct Server_isapi * psrv) {
 	inet_ntop(psrv->addr.sin_family, &psrv->addr, ip_str, strlen(ip_str) + 1);
 	int res = bind(psrv->msfd, (struct sockaddr*)&psrv->addr, sizeof(psrv->addr));
 	if(res == -1) {
-		show_err_wsa("Ошибка связывания мастер сокета с сетевым адресом");
+		show_err_wsa("(isapi)Ошибка связывания мастер сокета с сетевым адресом");
 		closesocket(psrv->msfd);
 		return 2;
 	}
@@ -278,7 +238,7 @@ BOOL start_server_isapi(struct Server_isapi * psrv) {
 	/*включаем повторное использование*/
 	res = set_repitable(psrv->msfd);
 	if(res != 0) {
-		show_err_wsa("Не удалось установить опцию повторного использования мастер сокета");
+		show_err_wsa("(isapi)Не удалось установить опцию повторного использования мастер сокета");
 		closesocket(psrv->msfd);
 		return 2;
 	}
@@ -286,7 +246,7 @@ BOOL start_server_isapi(struct Server_isapi * psrv) {
 	/*начинаем слушать сетевой адрес*/
 	res = listen(psrv->msfd, SOMAXCONN);
 	if(res == -1) {
-		show_err_wsa("Не удалось начать прослущивание сетевого адреса");
+		show_err_wsa("(isapi)Не удалось начать прослущивание сетевого адреса");
 		closesocket(psrv->msfd);
 		return 2;
 	}
@@ -309,7 +269,7 @@ struct Server_isapi * init_server_isapi() {
 
 	psrv->work_path = getenv("ISAPI_PATH");
 	if(!SetCurrentDirectory(psrv->work_path)) {
-		show_err("Не удалось зайти в каталог worker isapi", TRUE);
+		show_err("(isapi)Не удалось зайти в каталог worker isapi", TRUE);
 		free(psrv);
 		psrv = NULL;
 	} else {
@@ -317,10 +277,7 @@ struct Server_isapi * init_server_isapi() {
 		if(pPort != NULL)
 			psrv->port = atoi(pPort);
 		else
-			psrv->port = 12002;
-
-		/*регистрируем известные модули isapi и их относительный url (здесь такой: /.../isapi/edo[/? ]...)*/
-		//htab_add(&psrv->hISAPI, "edo", 0, "C:\\Program Files (x86)\\1cv82\\8.2.17.143\\bin\\wsisapi.dll", 0);
+			psrv->port = 12002;		
 	}
 	return psrv;
 }

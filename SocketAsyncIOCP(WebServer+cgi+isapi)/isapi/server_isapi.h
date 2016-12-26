@@ -34,5 +34,6 @@ struct Server_isapi {
 struct Server_isapi * init_server_isapi();
 struct Server_isapi * release_server_isapi(struct Server_isapi *);
 BOOL start_server_isapi(struct Server_isapi * psrv);
+BOOL SendAndRecv(BOOL, SOCKET, struct Client_isapi*, char*, DWORD, BOOL);
 
 #endif

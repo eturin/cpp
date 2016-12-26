@@ -11,7 +11,7 @@ int main() {
 	/*инициализация среды*/
 	WSADATA ws;
 	if(WSAStartup(MAKEWORD(2, 2), &ws) != NO_ERROR)
-		show_err_wsa("Ошибка инициализация среды");
+		show_err_wsa("(isapi)Ошибка инициализация среды");
 	else {
 		/*создаем сервер*/
 		struct Server_isapi *psrv = init_server_isapi();

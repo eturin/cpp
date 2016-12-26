@@ -38,7 +38,7 @@ BOOL start_async(void *pp, DWORD len, LPVOID iocp, struct Overlapped_inf *pOverl
 			}
 			/*запуск асинхронной операции (в случае успеха, недьзя обращаться п памяти по адресу указателя pwrk)*/
 			if(!ReadFile(pwrk->fd[2].fd_r, pwrk->fd[2].data + pwrk->fd[2].len, LEN, &len, (OVERLAPPED*)pOverlapped_inf) && ERROR_IO_PENDING != GetLastError()) {
-				show_err("Ошибка ReadFile [STDERR]", TRUE);				
+				show_err("(master)Ошибка ReadFile [STDERR]", TRUE);				
 			} 
 			/*асинхронную операцию поставили в очередь, выходи*/
 			break;
@@ -53,7 +53,7 @@ BOOL start_async(void *pp, DWORD len, LPVOID iocp, struct Overlapped_inf *pOverl
 				/*запуск асинхронной операции (в случае успеха, недьзя обращаться п памяти по адресу указателя pwrk)*/
 				if(!WriteFile(pwrk->fd[0].fd_w, pwrk->fd[0].data + pwrk->fd[0].cur, len_, &len, (OVERLAPPED*)pOverlapped_inf) && ERROR_IO_PENDING != GetLastError()) {
 					/*worker не стал вычитывать все данные*/
-					show_err("Ошибка WriteFile [STDIN]", TRUE);
+					show_err("(master)Ошибка WriteFile [STDIN]", TRUE);
 				}
 			} else if(pwrk->pcln->preq != NULL && pwrk->pcln->preq->body_length > pwrk->pcln->preq->cur) {
 				/*приостановим отправку worker*/
@@ -125,7 +125,7 @@ BOOL start_async(void *pp, DWORD len, LPVOID iocp, struct Overlapped_inf *pOverl
 			pcln->len = pcln->cur += len;			
 			/*проверим конец сообщения*/
 			if(pcln->len == 3 && !strncmp(pcln->data, "OFF", 3)) {
-				printf("Получена команда принудительного выхода\n");
+				show_err("(master)Получена команда принудительного выхода\n",FALSE);
 				return FALSE;
 			} 
 			char * begin = strstr(pcln->data + pcln->cur - len - (pcln->cur - len >3 ? 3 : pcln->cur - len), "\r\n\r\n");
@@ -138,8 +138,7 @@ BOOL start_async(void *pp, DWORD len, LPVOID iocp, struct Overlapped_inf *pOverl
 				/*запуск асинхронной операции (в случае успеха, недьзя обращаться п памяти по адресу указателя pcln)*/
 				int rc = WSARecv(pcln->sfd, &pcln->DataBuf, 1, &len, &flag, (WSAOVERLAPPED*)pOverlapped_inf, NULL);
 				if(SOCKET_ERROR == rc && WSA_IO_PENDING != WSAGetLastError()) {
-					/*сервер сам не закрывает соединений и не анализирует команды удержания соединения*/
-					//show_err_wsa("Ошибка WSARecv");
+					/*сервер сам не закрывает соединений и не анализирует команды удержания соединения*/					
 					release_Client(pcln);
 				}				
 			}
@@ -156,7 +155,7 @@ BOOL start_async(void *pp, DWORD len, LPVOID iocp, struct Overlapped_inf *pOverl
 				/*запуск асинхронной операции (в случае успеха, недьзя обращаться п памяти по адресу указателя pcln)*/
 				int rc = WSASend(pcln->sfd, &pcln->DataBuf, 1, &len, 0, (WSAOVERLAPPED*)pOverlapped_inf, NULL);
 				if(SOCKET_ERROR == rc  &&  WSA_IO_PENDING != WSAGetLastError()) {
-					show_err_wsa("Ошибка WSASend");
+					show_err_wsa("(master)Ошибка WSASend");
 					release_Client(pcln);
 				}
 				/*асинхронную операцию поставили в очередь, выходи*/
@@ -166,6 +165,59 @@ BOOL start_async(void *pp, DWORD len, LPVOID iocp, struct Overlapped_inf *pOverl
 				clear_Client(pcln);
 				len = 0; //для последующей операции чтения
 			}
+		} else if(pOverlapped_inf->type == WRITE_ISAPI) {
+			/*событие записи в сокет клиента*/
+			struct Client * pcln = pp;
+			/*сдвигаем буфер по cln->data на количество переданных байт*/
+			pcln->DataBuf.buf += len;
+			pcln->cur += len;
+			if(pcln->cur < pcln->len) {
+				pcln->DataBuf.len = LEN <= pcln->len - pcln->cur ? LEN : pcln->len - pcln->cur;
+				/*запуск асинхронной операции (в случае успеха, недьзя обращаться п памяти по адресу указателя pcln)*/
+				int rc = WSASend(pcln->wsfd, &pcln->DataBuf, 1, &len, 0, (WSAOVERLAPPED*)pOverlapped_inf, NULL);
+				if(SOCKET_ERROR == rc  &&  WSA_IO_PENDING != WSAGetLastError()) {
+					show_err_wsa("(master)Ошибка WSASend (отправка данных isapi)");
+					release_Client(pcln);
+				}
+				/*асинхронную операцию поставили в очередь, выходи*/
+				break;
+			} else {
+				//все отправлено				
+				clear_Client(pcln);
+				pOverlapped_inf->type = READ_ISAPI;
+				len = 0; //для последующей операции чтения
+			}
+		} else if(pOverlapped_inf->type == READ_ISAPI) {
+			/*событие чтения сокета клиента*/
+			struct Client * pcln = pp;
+			/*сдвигаем буфер по cln->data на количество переданных байт*/
+			pcln->DataBuf.buf += len;
+			pcln->len = pcln->cur += len;
+			/*проверим результат обработки isapi*/
+			if(pcln->len == 2 && !strncmp(pcln->data, "OK", 2)) {
+				/*успешно обработано*/
+				pOverlapped_inf->type = READ;
+				pcln->wsfd = close_socket(pcln->wsfd);
+			} else if(pcln->len >= 2) {
+				/*неудача*/
+				make500(pcln);
+				pOverlapped_inf->type = WRITE;
+				pcln->wsfd = close_socket(pcln->wsfd);
+			} else {
+				pcln->DataBuf.len = pcln->size - pcln->len;
+				pcln->DataBuf.len = LEN < pcln->DataBuf.len ? LEN : pcln->DataBuf.len;
+				/*запуск асинхронной операции (в случае успеха, недьзя обращаться п памяти по адресу указателя pcln)*/
+				int rc = WSARecv(pcln->wsfd, &pcln->DataBuf, 1, &len, &flag, (WSAOVERLAPPED*)pOverlapped_inf, NULL);
+				if(SOCKET_ERROR == rc && WSA_IO_PENDING != WSAGetLastError()) {
+					/*worker isapi свалился*/
+					make500(pcln);
+					pOverlapped_inf->type = WRITE;
+					pcln->wsfd = close_socket(pcln->wsfd);
+				} else {
+					/*асинхронную операцию поставили в очередь, выходи*/
+					break;
+				}
+			}			
 		}
 	}	
 
@@ -189,7 +241,7 @@ void WorkingThread(LPVOID iocp) {
 				/*разрыв на worker*/
 				release_Worker((struct Worker*)type);
 			} else if(type == NULL){
-				show_err_wsa("Ошибка ожидания завершения асинхронной операции");
+				show_err_wsa("(master)Ошибка ожидания завершения асинхронной операции");
 				break;
 			}			
 		} else if(type == NULL)
@@ -223,11 +275,11 @@ int loop(struct Server * psrv) {
 
 	/*создаем порт (очередь) в ядре, для отслеживания асинхронных операций*/
 	psrv->iocp = CreateIoCompletionPort(INVALID_HANDLE_VALUE,              /*дескриптор файла*/
-										 NULL,                              /*дескриптор существующего порта завершения I/O (для связи с имеющейся очередью)*/
-										 (ULONG_PTR)0,                      /*ключ завершения (параметр будет доступен при наступление события)*/
-										 0                                  /*число одновременно  исполняемых потоков (0-по количеству ядер процессора)*/);
+										NULL,                              /*дескриптор существующего порта завершения I/O (для связи с имеющейся очередью)*/
+										(ULONG_PTR)0,                      /*ключ завершения (параметр будет доступен при наступление события)*/
+										0                                  /*число одновременно  исполняемых потоков (0-по количеству ядер процессора)*/);
 	if(psrv->iocp == NULL) {
-		show_err("Не удалось создать порт завершения в ядре OS",TRUE);
+		show_err("(master)Не удалось создать порт завершения в ядре OS",TRUE);
 		is_repeat = FALSE;
 	}
 
@@ -249,14 +301,14 @@ int loop(struct Server * psrv) {
 		/*взводим события для master socket*/
 		int rc = WSAEventSelect(psrv->msfd, psrv->hEvents[0], FD_ACCEPT | FD_CLOSE);
 		if(rc == SOCKET_ERROR) {
-			show_err_wsa("Не удалось зарегистрировать событие select на мастер-сокете");
+			show_err_wsa("(master)Не удалось зарегистрировать событие select на мастер-сокете");
 			break;
 		}	
 
 		/*ждём наступления события (!!!не более 64 разных WSAEVENT событий!!!)*/
 		rc = WSAWaitForMultipleEvents(MAX_EVENTS, psrv->hEvents, FALSE, INFINITE, FALSE);
 		if(rc == -1) {
-			show_err_wsa("Ошибка ожидания асинхронных событий WSAWaitForMultipleEvents");
+			show_err_wsa("(master)Ошибка ожидания асинхронных событий WSAWaitForMultipleEvents");
 			break;
 		} else if(rc == 1) {
 			/*наступило событие принудительной остановки*/
@@ -281,7 +333,7 @@ int loop(struct Server * psrv) {
 													(ULONG_PTR)pcln,                   /*ключ завершения (параметр будет доступен при наступление события)*/
 													1                                  /*число одновременно  исполняемых потоков (0-по количеству ядер процессора)*/);
 				if(pcln->iocp == NULL) {
-					show_err("Не удалось привязать slave socket к порту завершения в ядре OS", TRUE);
+					show_err("(master)Не удалось привязать slave socket к порту завершения в ядре OS", TRUE);
 					release_Client(pcln);
 				} else {
 					/*запускаем асинхронные операции*/
@@ -289,7 +341,7 @@ int loop(struct Server * psrv) {
 					start_async(pcln, len, psrv->iocp, &pcln->overlapped_inf);
 				}
 			} else if(WSAEWOULDBLOCK != WSAGetLastError()) {
-				show_err_wsa("Не удалось принять соединение");
+				show_err_wsa("(master)Не удалось принять соединение");
 				release_Client(pcln);
 			}
 		} else if(hEvent.lNetworkEvents & FD_CLOSE &&	hEvent.iErrorCode[FD_CLOSE_BIT] == 0) {
@@ -309,7 +361,7 @@ int loop(struct Server * psrv) {
 			if(TerminateThread(phWorking[i], NO_ERROR))
 				printf("ok\n");
 			else
-				show_err("Ошибка остановки потока", TRUE);
+				show_err("(master)Ошибка остановки потока", TRUE);
 			CloseHandle(phWorking[i]);
 		}
 	free(phWorking);
@@ -331,7 +383,7 @@ int start_server(struct Server* psrv) {
 	/*получаем дескриптор мастер сокета*/
 	psrv->msfd = WSASocketW(AF_INET, SOCK_STREAM, IPPROTO_TCP, NULL, 0, WSA_FLAG_OVERLAPPED); //флаг WSA_FLAG_OVERLAPPED нужен для быстрого запуска асинхронных операций (чтоб сразу возвращали "сведения" о старте - будут кидать SOCKET_ERROR и WSAGetLastError() сообщит о статусе продолжающейся операции - WSA_IO_PENDING)
 	if(psrv->msfd == -1) {
-		show_err_wsa("Не получен дескриптор сокета");
+		show_err_wsa("(master)Не получен дескриптор сокета");
 		return 1;
 	}
 
@@ -343,7 +395,7 @@ int start_server(struct Server* psrv) {
 	inet_ntop(psrv->addr.sin_family, &psrv->addr, ip_str, strlen(ip_str) + 1);*/
 	int res = bind(psrv->msfd, (struct sockaddr*)&psrv->addr, sizeof(psrv->addr));
 	if(res == -1) {
-		show_err_wsa("Ошибка связывания мастер сокета с сетевым адресом");
+		show_err_wsa("(master)Ошибка связывания мастер сокета с сетевым адресом");
 		closesocket(psrv->msfd);
 		return 2;
 	}
@@ -351,7 +403,7 @@ int start_server(struct Server* psrv) {
 	/*включаем повторное использование*/
 	res = set_repitable(psrv->msfd);
 	if(res != 0) {
-		show_err_wsa("Не удалось установить опцию повторного использования мастер сокета");
+		show_err_wsa("(master)Не удалось установить опцию повторного использования мастер сокета");
 		closesocket(psrv->msfd);
 		return 2;
 	}
@@ -359,7 +411,7 @@ int start_server(struct Server* psrv) {
 	/*начинаем слушать сетевой адрес*/
 	res = listen(psrv->msfd, SOMAXCONN);
 	if(res == -1) {
-		show_err_wsa("Не удалось начать прослущивание сетевого адреса");
+		show_err_wsa("(master)Не удалось начать прослущивание сетевого адреса");
 		closesocket(psrv->msfd);
 		return 2;
 	}

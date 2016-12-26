@@ -26,12 +26,12 @@ BOOL create_pipe(LPVOID iocp, struct Worker *pwrk, int i, BOOL isIn,const char *
 										   NULL                         /*адрес структуры с особыми атрибутами*/);
 		if(pwrk->fd[i].fd_w == INVALID_HANDLE_VALUE) {
 			char msg_str[MAXLEN];
-			sprintf(msg_str, "%s не удалось создать именованный канала [out]", msg);
+			sprintf(msg_str, "(master)%s не удалось создать именованный канала [out]", msg);
 			show_err(msg_str, TRUE);			
 			return FALSE;
 		} else if(!ConnectNamedPipe(pwrk->fd[i].fd_w, (OVERLAPPED*)&pwrk->fd[i].overlapped_inf) && ERROR_IO_PENDING != GetLastError()) {			/*подключаемся к именованному каналу (заблокируется в блокирующим режиме)*/
 			char msg_str[MAXLEN];
-			sprintf(msg_str, "%s серверу не удалось подключиться к именованному каналу [out]", msg);
+			sprintf(msg_str, "(master)%s серверу не удалось подключиться к именованному каналу [out]", msg);
 			show_err(msg_str, TRUE);
 			return FALSE;
 		}
@@ -45,7 +45,7 @@ BOOL create_pipe(LPVOID iocp, struct Worker *pwrk, int i, BOOL isIn,const char *
 							          NULL                               /*особые атрибуты*/);
 		if(pwrk->fd[i].fd_r == INVALID_HANDLE_VALUE) {
 			char msg_str[MAXLEN];
-			sprintf(msg_str, "%s клиенту не удалось подключиться к именованному каналу [out]", msg);
+			sprintf(msg_str, "(master)%s клиенту не удалось подключиться к именованному каналу [out]", msg);
 			show_err(msg_str, TRUE);
 			return FALSE;			
 		}
@@ -56,7 +56,7 @@ BOOL create_pipe(LPVOID iocp, struct Worker *pwrk, int i, BOOL isIn,const char *
 		//	                        NULL,                   /* адрес переменной, в которой указывается максимальный размер пакета, передаваемого в канал*/
 		//	                        NULL                    /* адрес максимальной задержки перед передачей данных*/)) {
 		//	char msg_str[MAXLEN];
-		//	sprintf(msg_str, "%s не удалось включить не блокирующий режим работы канала [out]", msg);
+		//	sprintf(msg_str, "(master)%s не удалось включить не блокирующий режим работы канала [out]", msg);
 		//	show_err(msg_str, TRUE);
 		//	return FALSE;
 		//}
@@ -66,7 +66,7 @@ BOOL create_pipe(LPVOID iocp, struct Worker *pwrk, int i, BOOL isIn,const char *
 			                     HANDLE_FLAG_INHERIT,    /* заменяемые флажки (здесь наследование и закрытие дескриптора)*/
 			                     1                       /* новые значения флажков*/)) {
 			char msg_str[MAXLEN];
-			sprintf(msg_str, "%s не удалось включить наследование дескриптору канала [out]", msg);
+			sprintf(msg_str, "(master)%s не удалось включить наследование дескриптору канала [out]", msg);
 			show_err(msg_str, TRUE);
 			return FALSE;
 		}		
@@ -78,7 +78,7 @@ BOOL create_pipe(LPVOID iocp, struct Worker *pwrk, int i, BOOL isIn,const char *
 												  1                                  /*число одновременно  исполняемых потоков (0-по количеству ядер процессора)*/);
 		if(pwrk->fd[i].iocp == NULL) {
 			char msg_str[MAXLEN];
-			sprintf(msg_str, "%s не удалось связать с портом OS дескриптор канала [out]", msg);
+			sprintf(msg_str, "(master)%s не удалось связать с портом OS дескриптор канала [out]", msg);
 			show_err(msg_str, TRUE);
 			return FALSE;
 		}
@@ -94,12 +94,12 @@ BOOL create_pipe(LPVOID iocp, struct Worker *pwrk, int i, BOOL isIn,const char *
 										   NULL                         /*адрес структуры с особыми атрибутами*/);
 		if(pwrk->fd[i].fd_r == INVALID_HANDLE_VALUE) {
 			char msg_str[MAXLEN];
-			sprintf(msg_str, "%s не удалось создать именованный канала [out]", msg);
+			sprintf(msg_str, "(master)%s не удалось создать именованный канала [out]", msg);
 			show_err(msg_str, TRUE);
 			return FALSE;
 		} else if(!ConnectNamedPipe(pwrk->fd[i].fd_r, (OVERLAPPED*)&pwrk->fd[i].overlapped_inf) && ERROR_IO_PENDING != GetLastError()) {			/*подключаемся к именованному каналу (заблокируется в блокирующим режиме)*/
 			char msg_str[MAXLEN];
-			sprintf(msg_str, "%s серверу не удалось подключиться к именованному каналу [out]", msg);
+			sprintf(msg_str, "(master)%s серверу не удалось подключиться к именованному каналу [out]", msg);
 			show_err(msg_str, TRUE);
 			return FALSE;
 		}
@@ -113,7 +113,7 @@ BOOL create_pipe(LPVOID iocp, struct Worker *pwrk, int i, BOOL isIn,const char *
 									  NULL                               /*особые атрибуты*/);
 		if(pwrk->fd[i].fd_w == INVALID_HANDLE_VALUE) {
 			char msg_str[MAXLEN];
-			sprintf(msg_str, "%s клиенту не удалось подключиться к именованному каналу [out]", msg);
+			sprintf(msg_str, "(master)%s клиенту не удалось подключиться к именованному каналу [out]", msg);
 			show_err(msg_str, TRUE);
 			return FALSE;
 		}
@@ -124,7 +124,7 @@ BOOL create_pipe(LPVOID iocp, struct Worker *pwrk, int i, BOOL isIn,const char *
 		//	                        NULL,                   /* адрес переменной, в которой указывается максимальный размер пакета, передаваемого в канал*/
 		//	                        NULL                    /* адрес максимальной задержки перед передачей данных*/)) {
 		//	char msg_str[MAXLEN];
-		//	sprintf(msg_str, "%s не удалось включить не блокирующий режим работы канала [out]", msg);
+		//	sprintf(msg_str, "(master)%s не удалось включить не блокирующий режим работы канала [out]", msg);
 		//	show_err(msg_str, TRUE);
 		//	return FALSE;
 		//}
@@ -134,7 +134,7 @@ BOOL create_pipe(LPVOID iocp, struct Worker *pwrk, int i, BOOL isIn,const char *
 			                     HANDLE_FLAG_INHERIT,    /* заменяемые флажки (здесь наследование и закрытие дескриптора)*/
 			                     1                       /* новые значения флажков*/)) {
 			char msg_str[MAXLEN];
-			sprintf(msg_str, "%s не удалось включить наследование дескриптору канала [in]", msg);
+			sprintf(msg_str, "(master)%s не удалось включить наследование дескриптору канала [in]", msg);
 			show_err(msg_str, TRUE);
 			return FALSE;
 		}
@@ -146,7 +146,7 @@ BOOL create_pipe(LPVOID iocp, struct Worker *pwrk, int i, BOOL isIn,const char *
 												  1                                  /*число одновременно  исполняемых потоков (0-по количеству ядер процессора)*/);
 		if(pwrk->fd[i].iocp == NULL) {
 			char msg_str[MAXLEN];
-			sprintf(msg_str, "%s не удалось связать с портом OS дескриптор канала [in]", msg);
+			sprintf(msg_str, "(master)%s не удалось связать с портом OS дескриптор канала [in]", msg);
 			show_err(msg_str, TRUE);
 			return FALSE;
 		}
@@ -366,7 +366,7 @@ struct Worker * init_Worker(const char *name, size_t len, struct Client * pcln, 
 		/*сформируем путь к worker*/
 		if(len == 0 || len >= LEN_WORKER) {
 			isOk = FALSE;
-			show_err("Ошибка в имени worker", FALSE);
+			show_err("(master)Ошибка в имени worker", FALSE);
 			break;
 		}
 		memcpy(pwrk->path, name - 1, len + 1);
@@ -437,7 +437,7 @@ struct Worker * init_Worker(const char *name, size_t len, struct Client * pcln, 
 		free(pEnv);
 		if(!isOk) {
 			char msg_str[MAXLEN];
-			sprintf(msg_str, "Не удалось создать дочерний процесс: %s ", pwrk->abs_path);
+			sprintf(msg_str, "(master)Не удалось создать дочерний процесс: %s ", pwrk->abs_path);
 			show_err(msg_str, TRUE);						
 			break;
 		}		
@@ -468,7 +468,7 @@ struct Worker * init_Worker(const char *name, size_t len, struct Client * pcln, 
 		pwrk->fd[1].data = malloc(MAX_HEAD_HTTP);
 		memset(pwrk->fd[1].data, 0, MAX_HEAD_HTTP);
 		if(!ReadFile(pwrk->fd[1].fd_r, pwrk->fd[1].data + pwrk->fd[1].len, LEN, &len, (OVERLAPPED*)&pwrk->fd[1].overlapped_inf) && ERROR_IO_PENDING != GetLastError()) {
-			show_err("Ошибка запуска асинхронной операции ReadFile [STDOUT]", TRUE);
+			show_err("(master)Ошибка запуска асинхронной операции ReadFile [STDOUT]", TRUE);
 			isOk = FALSE;
 		}
 
@@ -513,12 +513,12 @@ struct Worker * release_Worker(struct Worker *pwrk) {
 	if(pwrk != NULL) {
 
 		if(pwrk->type == WORKER_ISAPI)
-			printf("Останавливаю worker isapi.\n");
+			show_err("(master)Останавливаю worker isapi",FALSE);
 			do {
 				/*подключаемся к процессу*/
 				SOCKET sfd = WSASocketW(AF_INET, SOCK_STREAM, IPPROTO_TCP, NULL, 0, WSA_FLAG_OVERLAPPED);
 				if(sfd == -1) {
-					show_err_wsa("Не получен дескриптор сокета для worker isapi, чтоб отправить команду завершения");
+					show_err_wsa("(master)Не получен дескриптор сокета для worker isapi, чтоб отправить команду завершения");
 					break;
 				}
 
@@ -536,7 +536,7 @@ struct Worker * release_Worker(struct Worker *pwrk) {
 				buf.len = 3;
 				DWORD len = 0;
 				if(0 != WSASend(sfd, &buf, 1, &len, 0, NULL, NULL) || buf.len != len) {
-					show_err_wsa("Не удалось отправить worker isapi команду OFF");
+					show_err_wsa("(master)Не удалось отправить worker isapi команду OFF");
 					/*не удалось отправит или отправлено не всё*/
 					break;
 				}
@@ -605,46 +605,39 @@ struct Worker * release_Worker(struct Worker *pwrk) {
 	return NULL;
 }
 
-DWORD WINAPI send_isapi(LPVOID lpParameter) {
+DWORD WINAPI prepare_isapi(LPVOID lpParameter) {
 	struct Client * pcln = (struct Client *)lpParameter;
 
 	BOOL isOk=TRUE;
 	do{
-		isOk = TRUE;
-
 		if(pcln->psrv->pWIsapi == NULL) {
 			/*требуется запустить один процесс, обслуживающий загружаемые библиотеки*/
 			EnterCriticalSection(&pcln->psrv->cs);
 			/*еще раз проверим*/
-			if(pcln->psrv->pWIsapi == NULL) {
-				pcln->psrv->pWIsapi = init_Worker("isapi", 5, pcln, pcln->psrv->iocp);				
-			}
-			LeaveCriticalSection(&pcln->psrv->cs);			
+			if(pcln->psrv->pWIsapi == NULL)
+				pcln->psrv->pWIsapi = init_Worker("isapi", 5, pcln, pcln->psrv->iocp);
+			LeaveCriticalSection(&pcln->psrv->cs);
+			/*проверяем инициализацию*/
 			if(pcln->psrv->pWIsapi == NULL) {
 				isOk = FALSE;
 				break;
-			} else {				
-				/*от этого потока больше нечего ждать (получит ошибку 10053)*/
-				//isOk = FALSE;
-				//break;
-			}				
-		}		
-		/*подключаемся к процессу*/ 
-		pcln->wsfd = close_socket(pcln->wsfd);
-		pcln->wsfd = WSASocketW(AF_INET, SOCK_STREAM, IPPROTO_TCP, NULL, 0, WSA_FLAG_OVERLAPPED); 
+			}
+		}
+
+		/*подключаемся к процессу*/		
+		pcln->wsfd = WSASocketW(AF_INET, SOCK_STREAM, IPPROTO_TCP, NULL, 0, WSA_FLAG_OVERLAPPED);
 		if(pcln->wsfd == -1) {
-			show_err_wsa("Не получен дескриптор сокета для worker isapi");
+			show_err_wsa("(master)Не получен дескриптор сокета для worker isapi");
 			isOk = FALSE;
-			break;		
+			break;
 		}
 
 		/*структура адреса изменит значение после соединения*/
 		struct sockaddr_in addr;
 		memcpy(&addr, &pcln->psrv->pWIsapi->addr, sizeof(struct sockaddr_in));
 		if(0 != WSAConnect(pcln->wsfd, (const struct sockaddr*)&addr, sizeof(struct sockaddr_in), NULL, NULL, NULL, NULL)) {
-			show_err_wsa("Не удалось подключиться к worker isapi");	
-			Sleep(5000); //дадим возможность процессу запуститься, если он еще стартует
-			/*worker isapi лежит*/
+			show_err_wsa("(master)Не удалось подключиться к worker isapi");
+			/*worker isapi лежит (это стремное место, т.к. другие потоки могут читать свойства pWIsapi)*/
 			EnterCriticalSection(&pcln->psrv->cs);
 			if(0 != WSAConnect(pcln->wsfd, (const struct sockaddr*)&pcln->psrv->pWIsapi->addr, sizeof(pcln->psrv->pWIsapi->addr), NULL, NULL, NULL, NULL)) {
 				pcln->psrv->pWIsapi = release_Worker(pcln->psrv->pWIsapi);
@@ -652,74 +645,52 @@ DWORD WINAPI send_isapi(LPVOID lpParameter) {
 				isOk = FALSE;
 				break;
 			} else /*подключились*/
-				LeaveCriticalSection(&pcln->psrv->cs);			
+				LeaveCriticalSection(&pcln->psrv->cs);
 		}
 
-		/*отправляем размер*/
-		WSABUF buf;
-		buf.buf = (char*)&pcln->len;
-		buf.len = sizeof(pcln->len);
-		DWORD len = 0; 
-		if(0 != WSASend(pcln->wsfd, &buf, 1, &len, 0, NULL, NULL) || buf.len != len) {
-			show_err_wsa("Не удалось отправить worker isapi размер сообщения");			
-			isOk = FALSE;			
-			break;
-		}
-
-		/*отправляем данные*/		
-		buf.buf = pcln->data;
-		buf.len = pcln->len;
-		len = 0;
-		if(0 != WSASend(pcln->wsfd, &buf, 1, &len, 0, NULL, NULL) || buf.len != len) {
-			show_err_wsa("Не удалось отправить worker isapi сообщение");			
-			isOk = FALSE;			
-			break;
-		}
-
-		/*отправляем сокет*/
+		/*сформируем данные, для отправки worker isapi*/
+		DWORD size = sizeof(pcln->len) + pcln->len + sizeof(WSAPROTOCOL_INFOW);
+		char * data = malloc(size);
+		/*добавим размер*/
+		memcpy(data, &pcln->len, sizeof(pcln->len));
+		/*добавим данные*/
+		memcpy(data + sizeof(pcln->len), pcln->data, pcln->len);
+		/*добавим сокет*/
 		WSAPROTOCOL_INFOW inf;
 		memset(&inf, 0, sizeof(WSAPROTOCOL_INFOW));
 		if(0 != WSADuplicateSocketW(pcln->sfd, pcln->psrv->pWIsapi->procInf.dwProcessId, &inf)) {
-			show_err_wsa("Не удалось получить структуру, для передачи сокета worker isapi");
+			show_err_wsa("(master)Не удалось получить структуру, для передачи сокета worker isapi");
 			isOk = FALSE;
 			break;
-		}
-		buf.buf = (char*)&inf;
-		buf.len = sizeof(WSAPROTOCOL_INFOW);
-		len = 0;		
-		if(0 != WSASend(pcln->wsfd, &buf, 1, &len, 0, NULL, NULL) || buf.len != len) {
-			show_err_wsa("Не удалось отправить worker isapi дескриптор сокета клиента");			
-			isOk = FALSE;			
-			break;
-		}
-		Sleep(15000);
-		/*ждем окончания обработки (worker isapi разорвет соединение)*/		
-		buf.buf = pcln->data;
-		buf.len = pcln->len;
-		len = 0;
-		if(0 != WSARecv(pcln->wsfd, &buf, 1, &len, &flag, NULL, NULL) || len < 2 || strncmp(buf.buf, "OK", 2)) {		
-			show_err_wsa("Не удалось получить результат обработки соединения от worker isapi");
-			isOk = FALSE;			
-			break;
-		}
+		} else
+			memcpy(data + sizeof(pcln->len) + pcln->len, &inf, sizeof(WSAPROTOCOL_INFOW));
 		
-		/*isapi отработал соединение*/
-		break;
+		free(pcln->data);
+		pcln->data = data;
+		pcln->len = pcln->size = size;
+		pcln->DataBuf.buf = pcln->data;
+		pcln->cur = 0;		
 	}while(FALSE);
 	
-	pcln->wsfd = close_socket(pcln->wsfd);
-
-	if(!isOk) {	
-		if(pcln->psrv->pWIsapi!=NULL)
-			show_err(pcln->psrv->pWIsapi->fd[1].data,FALSE); 
+	if(!isOk) {			
 		make500(pcln);
 		/*запускаем асинхронную операцию записи в сокет клиента*/
 		pcln->overlapped_inf.type = WRITE;
 		start_async((void*)pcln, 0, pcln->psrv->iocp, &pcln->overlapped_inf);
 	} else {
-		/*запускаем асинхронную операцию чтения*/
-		pcln->overlapped_inf.type = READ;
-		start_async((void*)pcln, 0, pcln->psrv->iocp, &pcln->overlapped_inf);
+		/*связываем socket с портом (любая асинхронная операция с этим сокетом будет использовать указанный порт)*/
+		pcln->iocp = CreateIoCompletionPort((HANDLE)pcln->wsfd,                /*дескриптор сокета*/
+											pcln->psrv->iocp,                  /*дескриптор существующего порта завершения I/O (для связи с имеющейся очередью)*/
+											(ULONG_PTR)pcln,                   /*ключ завершения (параметр будет доступен при наступление события)*/
+											1                                  /*число одновременно  исполняемых потоков (0-по количеству ядер процессора)*/);
+		if(pcln->iocp == NULL) {
+			show_err("(master)Не удалось привязать slave socket к порту завершения в ядре OS", TRUE);
+			release_Client(pcln);
+		} else {
+			/*запускаем асинхронную операцию чтения*/
+			pcln->overlapped_inf.type = WRITE_ISAPI;
+			start_async((void*)pcln, 0, pcln->psrv->iocp, &pcln->overlapped_inf);
+		}
 	}
 
 	return 0;
@@ -732,15 +703,15 @@ BOOL work(struct Client * pcln, LPVOID iocp) {
 	char * end = strstr(pcln->data, "\r\n");
 	if(begin!=NULL && begin < end) {
 		pcln->overlapped_inf.type = WAIT;
-		/*запускаем отдельный поток передачи данных Worker isapi*/
+		/*запускаем отдельный поток подготовки данных, для передачи Worker isapi*/
 		HANDLE hThread = CreateThread(NULL,                    /*дескриптор защиты (NULL - не может быть унаследован)*/
 									  0,                       /*начальный размер стека (0-взять значение поумолчанию)*/
-									  send_isapi,              /*функция потока*/
+									  prepare_isapi,           /*функция потока*/
 									  pcln,                    /*параметр потока*/
 									  DETACHED_PROCESS,        /*опции создания (в данном случае создается поток, который не будет присоединен в дальнейшем)*/
 									  NULL                     /*идентификатор потока (NULL - идентификатор возвращаться не будет)*/);
 		if(hThread == NULL) {
-			show_err("Не удалось запустить отдельный поток передачи isapi", TRUE);
+			show_err("(master)Не удалось запустить отдельный поток передачи isapi", TRUE);
 			make500(pcln);
 			/*запускаем асинхронную операцию записи в сокет клиента*/
 			pcln->overlapped_inf.type = WRITE;

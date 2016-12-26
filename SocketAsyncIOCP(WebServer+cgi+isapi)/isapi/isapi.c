@@ -18,9 +18,9 @@ struct Isapi * init_isapi(const char *name, const char *path) {
 	if(p==NULL)
 		show_err("Не удалось определить каталог с dll на основе пути", FALSE);
 	else if(*++p='\0',!SetCurrentDirectory(dir))
-		show_err("Не удалось зайти в каталог с dll", TRUE);
+		show_err("(isapi)Не удалось зайти в каталог с dll", TRUE);
 	else if(NULL == (pIsapi->hModule = LoadLibrary(pIsapi->path)))
-		show_err("Не удалось загрузить dll", TRUE);
+		show_err("(isapi)Не удалось загрузить dll", TRUE);
 	else {
 		/*получаем адреса символов загруженной библиотеки*/
 		pIsapi->fGetExtensionVersion = GetProcAddress((HMODULE)pIsapi->hModule, "GetExtensionVersion");
@@ -97,17 +97,17 @@ struct Isapi * get_isapi(struct Client_isapi* pcln) {
 				char *buf = malloc(len+1);
 				memset(buf, 0, len + 1);
 				if(!ReadFile(hFile, buf, len, &len, NULL))
-				   show_err("Не удалось прочитать файл web.config", TRUE);
+				   show_err("(isapi)Не удалось прочитать файл web.config", TRUE);
 				else {
 					CloseHandle(hFile);
 					char * pos_b = strstr(convert_to_lower(buf, buf + len), "scriptprocessor=\"");
 					if(pos_b==NULL)
-						show_err("Не удалось найти фрагмент <scriptprocessor=\"> в web.config", FALSE);
+						show_err("(isapi)Не удалось найти фрагмент <scriptprocessor=\"> в web.config", FALSE);
 					else {
 						pos_b += 17;
 						char *pos_e = strstr(pos_b, "\"");
 						if(pos_e == NULL)
-							show_err("Не удалось найти конец пути файла фрагмента <scriptprocessor=\"....\"> в web.config", FALSE);
+							show_err("(isapi)Не удалось найти конец пути файла фрагмента <scriptprocessor=\"....\"> в web.config", FALSE);
 						else {
 							htab_add(&psrv->hISAPI, "edo", 0, pos_b, pos_e-pos_b);
 						}
@@ -115,7 +115,7 @@ struct Isapi * get_isapi(struct Client_isapi* pcln) {
 				}
 				free(buf);
 			} else
-				show_err("Не удалось открыть файл web.config", TRUE);			
+				show_err("(isapi)Не удалось открыть файл web.config", TRUE);			
 		}
 
 		s = htab_find(psrv->hISAPI, convert_to_upper(b, e), e - b);
@@ -282,14 +282,11 @@ BOOL WINAPI GetServerVariable(HCONN hConn, LPSTR lpszVariableName, LPVOID lpvBuf
 	return s != NULL;
 }
 BOOL WINAPI ReadClient(HCONN hConn, LPVOID lpvBuffer, LPDWORD lpdwSize) {
-	WSABUF buf;
-	buf.buf = lpvBuffer;
-	buf.len = *lpdwSize;
-	int rc = WSARecv(((struct Client_isapi *)hConn)->sfd, &buf, 1, lpdwSize, &flag, NULL, NULL);
-	if(SOCKET_ERROR == rc) 
-		show_err_wsa("Ошибка WSARecv");		
-	
-	return SOCKET_ERROR != rc;
+	if(!SendAndRecv(FALSE, ((struct Client_isapi *)hConn)->sfd, (struct Client_isapi *)hConn, (char*)lpvBuffer, *lpdwSize, FALSE)) {
+		show_err("(isapi)Ошибка извлечения данных из сокета по требованию загружаемой библиотеки", FALSE);
+		return FALSE;
+	}else
+		return TRUE;
 }
 BOOL WINAPI WriteClient(HCONN hConn, LPVOID lpvBuffer, LPDWORD lpdwBytes, DWORD dwReserved) {
 	BOOL ret = TRUE;
@@ -348,25 +345,18 @@ BOOL Send(struct Client_isapi * pcln, const char * msg) {
 				free(tmp);
 			}
 
-			WSABUF buf;
-			buf.buf = pcln->data;
-			buf.len = pcln->len;
-			DWORD len = 0;
-			if(0 != WSASend(pcln->sfd, &buf, 1, &len, 0, NULL, 0))
-				show_err_wsa(msg);
+			if(!SendAndRecv(TRUE, pcln->sfd, pcln, pcln->data, pcln->len, FALSE))
+				show_err(msg,FALSE);
 		} else {
 			char * format500 = "HTTP/1.1 500 ERROR\r\n"
-				"Version: HTTP/1.1\r\n"
-				"Cache-Control: no-cache\r\n"
-				"Content-Type: text/html\r\n"
-				"Connection: close\r\n"
-				"Content-Length: 0 \r\n\r\n";
-			WSABUF buf;
-			buf.buf = format500;
-			buf.len = strlen(format500);
-			DWORD len = 0;
-			if(0 != WSASend(pcln->sfd, &buf, 1, &len, 0, NULL, 0))
-				show_err_wsa(msg);
+				               "Version: HTTP/1.1\r\n"
+				               "Cache-Control: no-cache\r\n"
+				               "Content-Type: text/html\r\n"
+				               "Connection: close\r\n"
+				               "Content-Length: 0 \r\n\r\n";
+			
+			if(!SendAndRecv(TRUE, pcln->sfd, pcln, format500, strlen(format500), FALSE))
+				show_err(msg, FALSE);
 		}
 
 		free(pcln->data);
@@ -384,7 +374,7 @@ BOOL WINAPI ServerSupportFunction(HCONN hConn, DWORD dwHSERRequest, LPVOID lpvBu
 		HSE_SEND_HEADER_EX_INFO * tmp = (HSE_SEND_HEADER_EX_INFO *)lpvBuffer;
 		
 		if(pcln->data != NULL) 
-			Send(pcln, "Ошибка отправки промежуточного сообщения из ISAPI клиенту");		
+			Send(pcln, "(isapi)Ошибка отправки промежуточного сообщения из ISAPI клиенту");		
 
 		pcln->size = tmp->cchStatus + tmp->cchHeader + 12;
 		pcln->data = malloc(pcln->size);
