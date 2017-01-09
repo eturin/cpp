@@ -44,7 +44,8 @@ static PSecurityFunctionTable g_pSSPI;
 static CHAR IoBuffer[IO_BUFFER_SIZE];
 static DWORD cbIoBuffer = 0;
 
-static HRESULT CreateCredentials(LPSTR pszUserName,PCredHandle phCreds);
+HRESULT CreateCredentials(LPSTR pszUserName,PCredHandle phCreds);
+HRESULT CreateCredentialsFromExportFile(char * path, PCredHandle phCreds);
 
 static void WebServer(CredHandle *phServerCreds);
 
@@ -87,35 +88,27 @@ static BOOL LoadSecurityLibrary(void) {
 } 
 
 int main(int argc, char *argv[]) {
-
-	WSADATA WsaData;
-
-	CredHandle hServerCreds;
-
-	INT i;
-	INT iOption;
-	PCHAR pszOption;
-	
 	if(!LoadSecurityLibrary()) {
 		printf("Error initializing the security library\n");
 		return 1;
 	}
-
-
-
+	
 	// Инициализация подсистемы WinSock.
+	WSADATA WsaData;
 	if(WSAStartup(0x0101, &WsaData) == SOCKET_ERROR) {
 		printf("Error %d returned by WSAStartup\n", GetLastError());
 		exit(1);
 	}
 
 	// Создание мандатов сервера.
-	if(CreateCredentials(pszUserName, &hServerCreds)) {
+	CredHandle hServerCreds;
+	//if(CreateCredentials(pszUserName, &hServerCreds)) {
+	if(CreateCredentialsFromExportFile("my.pfx", &hServerCreds)) {
 		printf("Error creating credentials\n");
 		exit(1);
 	}
 
-
+	
 	WebServer(&hServerCreds);
 
 	// Освобождение дескриптора SSPI мандатов.
@@ -199,9 +192,6 @@ static void WebServer(CredHandle *phServerCreds) {
 		printf("GetCurrentDirectory failed: %ld\n", GetLastError());
 		exit(1);
 	}
-
-
-
 	
 	// Настройка сокета, слушающего порт HTTPS.
 	ListenSocket = socket(AF_INET, SOCK_STREAM, 0);
@@ -238,8 +228,7 @@ static void WebServer(CredHandle *phServerCreds) {
 		fContextInitialized = FALSE;
 
 		objectHandle = INVALID_VALUE;
-
-		
+				
 		// В первую очередь получение соединения.
 		printf("\nWaiting for connection %d\n", ++cConnections);
 		remoteSockaddrLength = sizeof(remoteAddress);
@@ -248,12 +237,10 @@ static void WebServer(CredHandle *phServerCreds) {
 			printf("accept() failed: %ld\n", GetLastError());
 			goto cleanup;
 		}
-
 		printf("Socket connection established\n");
 				
 		// Установление связи
 		cbIoBuffer = 0;
-
 		if(!SSPINegotiateLoop(Socket, &hContext, phServerCreds,	TRUE,TRUE)) {
 			printf("Couldn't connect\n");
 			goto cleanup;
@@ -261,24 +248,14 @@ static void WebServer(CredHandle *phServerCreds) {
 
 		fContextInitialized = TRUE;
 
-
-		//
 		// Вычисление размера заголовка:
-		//
-
 		scRet = g_pSSPI->QueryContextAttributes(&hContext, SECPKG_ATTR_STREAM_SIZES, &Sizes);
-
-
 		if(scRet != SEC_E_OK) {
 			printf("Couldn't get Sizes\n");
 			goto cleanup;
 		}
-
-
-		//
+						
 		// Получение HTTP запроса от клиента.  
-		//
-
 		do {
 			Buffers[0].pvBuffer = IoBuffer;
 			Buffers[0].cbBuffer = cbIoBuffer;
@@ -547,10 +524,9 @@ cleanup:
 
 } // WebServer
 
-//-------------------------------------------------------------
-// Функция установления связи.
 
-static BOOL SSPINegotiateLoop(SOCKET          Socket,PCtxtHandle     phContext,PCredHandle     phCred,BOOL            fDoInitialRead,BOOL            NewContext) {
+// Функция установления связи.
+static BOOL SSPINegotiateLoop(SOCKET Socket, PCtxtHandle phContext, PCredHandle phCred, BOOL fDoInitialRead, BOOL NewContext) {
 	TimeStamp            tsExpiry;
 	SECURITY_STATUS      scRet;
 	SecBufferDesc        InBuffer;
@@ -729,18 +705,10 @@ static BOOL SSPINegotiateLoop(SOCKET          Socket,PCtxtHandle     phContext,P
 
 
 			if(InBuffers[1].BufferType == SECBUFFER_EXTRA) {
-
-
-
-				memcpy(IoBuffer,
-					   (LPBYTE)(IoBuffer + (cbIoBuffer - InBuffers[1].cbBuffer)),
-					   InBuffers[1].cbBuffer);
+				memcpy(IoBuffer, (LPBYTE)(IoBuffer + (cbIoBuffer - InBuffers[1].cbBuffer)), InBuffers[1].cbBuffer);
 				cbIoBuffer = InBuffers[1].cbBuffer;
 			} else {
-				//
 				// подготовка к следующему получению данных
-				//
-
 				cbIoBuffer = 0;
 			}
 		}
@@ -750,7 +718,6 @@ static BOOL SSPINegotiateLoop(SOCKET          Socket,PCtxtHandle     phContext,P
 } //SSPINegotiateLoop
 
 
-//-------------------------------------------------------------
 // Функция обработки запроса.
 static BOOL ParseRequest(IN PCHAR InputBuffer,IN INT InputBufferLength,OUT PCHAR ObjectName,OUT DWORD *pcbContentLength) {
 	PCHAR s = InputBuffer;
@@ -831,10 +798,9 @@ static BOOL ParseRequest(IN PCHAR InputBuffer,IN INT InputBufferLength,OUT PCHAR
 
 } // ParseRequest
 
-
-
-
-// Функция создания мандатов.
+/* Функция создания мандатов на основе сертификата выписанного на pszUserName и установленного в хранилище my.
+   makecert -n "CN=ture my" -pe -ss my
+*/
 static HRESULT CreateCredentials(LPSTR pszUserName,PCredHandle phCreds) {
 	SCHANNEL_CRED   SchannelCred;
 	TimeStamp       tsExpiry;
@@ -870,9 +836,7 @@ static HRESULT CreateCredentials(LPSTR pszUserName,PCredHandle phCreds) {
 
 	/*Построение структуры Schannel мандатов. 
       В данном примере определяются используемые протокол и сертификат.*/
-
 	ZeroMemory(&SchannelCred, sizeof(SchannelCred));
-
 	SchannelCred.dwVersion             = SCHANNEL_CRED_VERSION;
 	SchannelCred.cCreds                = 1;
 	SchannelCred.paCred                = &pCertContext;
@@ -898,6 +862,113 @@ static HRESULT CreateCredentials(LPSTR pszUserName,PCredHandle phCreds) {
 		CertFreeCertificateContext(pCertContext);
 	}
 
+
+	return SEC_E_OK;
+}
+
+
+
+/* Функция создания мандатов на основе сертификата из файла
+	1) созаем сертификат сразу в личном хранилище (сразу пару ключей) 
+		makecert - n "CN=ture my" - e 01 / 01 / 5555 - pe - ss my
+	2) экспортируем сертификат вместе с закрытым ключем в файл без цепочки родителей (который эта функция и использует)
+	3) удаляем сертификат из хранилища (не обязательно)
+*/
+HRESULT CreateCredentialsFromExportFile(char * path, PCredHandle phCreds) {
+	if(path == NULL || strlen(path) == 0) {
+		printf("**** не указан файл сертификата!\n");
+		return SEC_E_NO_CREDENTIALS;
+	}
+
+	/*открываем файл сертификата*/
+	HANDLE hFile = CreateFile(path,                   /*путь к файлу*/
+							  GENERIC_READ,           /*намериваемся читать*/
+							  FILE_SHARE_READ,        /*разрешаем остальным также читать этот файл*/
+							  NULL,                   /*права доступа не указываем*/
+							  OPEN_EXISTING,          /*требуем, чтоб файл существовал на диске*/
+							  FILE_ATTRIBUTE_NORMAL,
+							  NULL);
+	if(hFile == INVALID_HANDLE_VALUE) {
+		perror("Не удалось открыть файл");
+		return SEC_E_NO_CREDENTIALS;
+	}
+
+	/*считываем файл в память*/
+	DWORD size = 0, load = 0;
+	size = GetFileSize(hFile, NULL);
+	if(size == INVALID_FILE_SIZE || size == 0) {
+		perror("Не удалось определить размер файла сертификата");
+		CloseHandle(hFile);
+		return SEC_E_NO_CREDENTIALS;
+	}
+	CRYPT_DATA_BLOB data;
+	data.cbData = size;
+	data.pbData = malloc(size);	
+	if(!ReadFile(hFile, data.pbData, size, &load, NULL)) {
+		perror("Не удалось прочитать файла сертификата");
+		CloseHandle(hFile);
+		free(data.pbData);
+		return SEC_E_NO_CREDENTIALS;
+	}
+	CloseHandle(hFile);
+
+	/*импортируем из экспортного файла*/
+	HCERTSTORE hCertStore = PFXImportCertStore(&data, /*NULL*/ L"123", 0);
+	if(hCertStore == NULL) {
+		perror("Не удалось импортировать");
+		free(data.pbData);
+		return SEC_E_NO_CREDENTIALS;
+	}
+
+	/*получаем структуру сертификата на основе файла*/
+	PCCERT_CONTEXT pCertContext = CertFindCertificateInStore(hCertStore, X509_ASN_ENCODING | PKCS_7_ASN_ENCODING, 0, CERT_FIND_ANY, NULL, NULL);
+	if(pCertContext == NULL) {
+		perror("Не удалось получить структуру сертификата из экспортного файла");		
+		free(data.pbData);
+		return SEC_E_NO_CREDENTIALS;
+	}
+
+	/*инициализация структуры Schannel мандатов*/
+	SCHANNEL_CRED   SchannelCred;
+	memset(&SchannelCred, 0, sizeof(SCHANNEL_CRED));
+	SchannelCred.dwVersion = SCHANNEL_CRED_VERSION;
+	SchannelCred.cCreds = 1;
+	SchannelCred.paCred = &pCertContext;
+	SchannelCred.grbitEnabledProtocols = dwProtocol;
+
+	/*создание SSPI мандата*/
+	TimeStamp tsExpiry;
+	SECURITY_STATUS Status = g_pSSPI->AcquireCredentialsHandle(NULL,                   // Имя администратора
+															   UNISP_NAME_A,           // Имя пакета
+															   SECPKG_CRED_INBOUND,    // Флаг, определяющий использование
+															   NULL,                   // Указатель на идентификатор пароля
+															   &SchannelCred,          // Данные пакета
+															   NULL,                   // Указатель на функицю GetKey()
+															   NULL,                   // Значения, передаваемые функции GetKey()
+															   phCreds,                // (out) Даскриптор мандата
+															   &tsExpiry);             // (out) Период актуальности (необязательно)
+	if(Status == SEC_E_INSUFFICIENT_MEMORY)
+		;
+	else if(Status == SEC_E_INTERNAL_ERROR)
+		;
+	else if(Status == SEC_E_NO_CREDENTIALS)
+		;
+	else if(Status == SEC_E_NOT_OWNER)
+		;
+	else if(Status == SEC_E_SECPKG_NOT_FOUND)
+		;
+	else if(Status == SEC_E_UNKNOWN_CREDENTIALS)
+		;
+	else if(Status != SEC_E_OK) {
+		perror("Не удалось создать мандат на основе структуры сертификата");
+		CertFreeCertificateContext(pCertContext);
+		free(data.pbData);
+		return Status;
+	}
+
+	/*освобождение ресурсов*/
+	CertFreeCertificateContext(pCertContext);	
+	free(data.pbData);
 
 	return SEC_E_OK;
 }
