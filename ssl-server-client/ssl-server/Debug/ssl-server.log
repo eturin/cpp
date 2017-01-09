@@ -1,0 +1,5 @@
+﻿  main.c
+c:\users\etyurin\documents\visual studio 2013\projectscpp\ssl\ssl-server\main.c(95): warning C4101: i: неиспользованная локальная переменная
+c:\users\etyurin\documents\visual studio 2013\projectscpp\ssl\ssl-server\main.c(97): warning C4101: pszOption: неиспользованная локальная переменная
+c:\users\etyurin\documents\visual studio 2013\projectscpp\ssl\ssl-server\main.c(96): warning C4101: iOption: неиспользованная локальная переменная
+  ssl-server.vcxproj -> C:\Users\etyurin\Documents\Visual Studio 2013\ProjectsCPP\ssl\Debug\ssl-server.exe

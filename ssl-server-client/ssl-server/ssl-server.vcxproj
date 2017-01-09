@@ -11,8 +11,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{28F458B1-D959-4958-A0E5-5819547467AA}</ProjectGuid>
-    <RootNamespace>ssl</RootNamespace>
+    <ProjectGuid>{E75812D2-5820-40B2-924F-0154F4A3C608}</ProjectGuid>
+    <RootNamespace>sslserver</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

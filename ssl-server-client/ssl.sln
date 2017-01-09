@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ssl", "ssl\ssl.vcxproj", "{28F458B1-D959-4958-A0E5-5819547467AA}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ss-clientl", "ssl\ssl.vcxproj", "{28F458B1-D959-4958-A0E5-5819547467AA}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ssl-server", "ssl-server\ssl-server.vcxproj", "{E75812D2-5820-40B2-924F-0154F4A3C608}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{28F458B1-D959-4958-A0E5-5819547467AA}.Debug|Win32.Build.0 = Debug|Win32
 		{28F458B1-D959-4958-A0E5-5819547467AA}.Release|Win32.ActiveCfg = Release|Win32
 		{28F458B1-D959-4958-A0E5-5819547467AA}.Release|Win32.Build.0 = Release|Win32
+		{E75812D2-5820-40B2-924F-0154F4A3C608}.Debug|Win32.ActiveCfg = Debug|Win32
+		{E75812D2-5820-40B2-924F-0154F4A3C608}.Debug|Win32.Build.0 = Debug|Win32
+		{E75812D2-5820-40B2-924F-0154F4A3C608}.Release|Win32.ActiveCfg = Release|Win32
+		{E75812D2-5820-40B2-924F-0154F4A3C608}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
