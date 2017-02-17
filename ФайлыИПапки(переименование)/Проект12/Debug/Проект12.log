@@ -1,0 +1,4 @@
+﻿  Исходный код.c
+c:\users\etyurin\documents\visual studio 2013\projectscpp\проект12\проект12\исходный код.c(13): warning C4047: функция: "LPWSTR" отличается по уровням косвенного обращения от "LPTSTR *"
+c:\users\etyurin\documents\visual studio 2013\projectscpp\проект12\проект12\исходный код.c(13): warning C4024: FormatMessageW: различные типы для формального и фактического параметров 5
+  Проект12.vcxproj -> C:\Users\etyurin\Documents\Visual Studio 2013\ProjectsCPP\Проект12\Debug\Проект12.exe
