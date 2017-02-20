@@ -1,0 +1,17 @@
+DLL attach function called.
+DLL thread detach function called.
+DLL detach function called.
+13:18:55 DLL attach function called.
+13:18:55 DLL thread detach function called.
+13:18:59 DLL thread attach function called.
+13:19:32 DLL detach function called.
+13:19:39 DLL attach function called.
+13:19:45 DLL thread attach function called.
+13:19:46 DLL thread detach function called.
+13:19:52 DLL thread attach function called.
+13:19:59 DLL thread attach function called.
+13:20:27 DLL thread attach function called.
+13:20:31 DLL thread detach function called.
+13:20:45 DLL thread detach function called.
+13:20:49 DLL thread detach function called.
+13:20:49 DLL detach function called.

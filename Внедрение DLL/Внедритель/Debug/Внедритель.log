@@ -1,0 +1,4 @@
+﻿  main.c
+c:\users\etyurin\documents\visual studio 2013\projectscpp\внедрение dll\внедритель\main.c(15): warning C4047: функция: "LPWSTR" отличается по уровням косвенного обращения от "LPTSTR *"
+c:\users\etyurin\documents\visual studio 2013\projectscpp\внедрение dll\внедритель\main.c(15): warning C4024: FormatMessageW: различные типы для формального и фактического параметров 5
+  Внедритель.vcxproj -> C:\Users\etyurin\Documents\Visual Studio 2013\ProjectsCPP\Внедрение DLL\Debug\Внедритель.exe

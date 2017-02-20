@@ -1,0 +1,6 @@
+﻿  main.c
+c:\users\etyurin\documents\visual studio 2013\projectscpp\исследованиепроцессов\исследованиепроцессов\main.c(16): warning C4047: функция: "LPWSTR" отличается по уровням косвенного обращения от "LPTSTR *"
+c:\users\etyurin\documents\visual studio 2013\projectscpp\исследованиепроцессов\исследованиепроцессов\main.c(16): warning C4024: FormatMessageW: различные типы для формального и фактического параметров 5
+c:\users\etyurin\documents\visual studio 2013\projectscpp\исследованиепроцессов\исследованиепроцессов\main.c(41): warning C4715: PrintModuleList: значение возвращается не при всех путях выполнения
+c:\users\etyurin\documents\visual studio 2013\projectscpp\исследованиепроцессов\исследованиепроцессов\main.c(63): warning C4715: PrintProcessList: значение возвращается не при всех путях выполнения
+  ИсследованиеПроцессов.vcxproj -> C:\Users\etyurin\Documents\Visual Studio 2013\ProjectsCPP\ИсследованиеПроцессов\Debug\ИсследованиеПроцессов.exe
