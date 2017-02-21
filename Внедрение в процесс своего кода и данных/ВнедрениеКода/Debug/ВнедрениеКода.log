@@ -1,5 +1,0 @@
-﻿  main.c
-c:\users\etyurin\documents\visual studio 2013\projectscpp\cpp\внедрение в процесс своего кода и данных\внедрениекода\main.c(33): warning C4047: функция: "LPWSTR" отличается по уровням косвенного обращения от "LPTSTR *"
-c:\users\etyurin\documents\visual studio 2013\projectscpp\cpp\внедрение в процесс своего кода и данных\внедрениекода\main.c(33): warning C4024: FormatMessageW: различные типы для формального и фактического параметров 5
-c:\users\etyurin\documents\visual studio 2013\projectscpp\cpp\внедрение в процесс своего кода и данных\внедрениекода\main.c(158): warning C4022: WaitForSingleObject: несоответствие указателя для фактического параметра 1
-  ВнедрениеКода.vcxproj -> C:\Users\etyurin\Documents\Visual Studio 2013\ProjectsCPP\cpp\Внедрение в процесс своего кода и данных\Debug\ВнедрениеКода.exe
