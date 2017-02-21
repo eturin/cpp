@@ -14,9 +14,10 @@ typedef struct _InjectData {
 } InjectData, *PInjectData;
 
 /*точка входа в поток*/
-static DWORD WINAPI InjectionMain(LPVOID lpParams) {
+DWORD InjectionMain(LPVOID lpParams) {
 	PInjectData info = (PInjectData)lpParams;
 	info->MessageB(NULL, (LPCWSTR)info->msg, (LPCWSTR)info->title, MB_OK);
+	//MessageBeep(MB_ICONASTERISK);
 
 	return 0;
 }
@@ -27,9 +28,9 @@ DWORD show_err(LPCTSTR msg) {
 	LPTSTR str_err;
 	DWORD no = GetLastError();
 	if(FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM
-		| FORMAT_MESSAGE_FROM_HMODULE
-		| FORMAT_MESSAGE_ALLOCATE_BUFFER
-		| FORMAT_MESSAGE_IGNORE_INSERTS, NULL, no, MAKELANGID(LANG_RUSSIAN, SUBLANG_DEFAULT), &str_err, 0, NULL)) {
+					|FORMAT_MESSAGE_FROM_HMODULE
+					|FORMAT_MESSAGE_ALLOCATE_BUFFER
+					|FORMAT_MESSAGE_IGNORE_INSERTS, NULL, no, MAKELANGID(LANG_RUSSIAN, SUBLANG_DEFAULT), &str_err, 0, NULL)) {
 		_tprintf(_TEXT("%s: %d\n%s\n"), msg, no, str_err);
 		LocalFree(str_err);
 	} else
@@ -85,7 +86,7 @@ BOOL setPrivilege(HANDLE hToken, LPCTSTR szPrivName, BOOL isOn) {
 }
 
 int main() {
-	setlocale(LC_ALL, "");
+	setlocale(LC_ALL, "russian");
 	/*получаем указатель текущего процесса*/
 	HANDLE hCurrentProc = GetCurrentProcess();
 	
@@ -99,6 +100,10 @@ int main() {
 	
 	/*получаем идентификатор нужного процесса по его имени*/
 	DWORD pid = getProcessID(_TEXT("1cv8c.exe"));
+	//DWORD pid = getProcessID(_TEXT("1cv8.exe"));
+	//DWORD pid = getProcessID(_TEXT("notepad.exe"));
+	//DWORD pid = getProcessID(_TEXT("Skype.exe"));
+	//DWORD pid = getProcessID(_TEXT("ИсследованиеПроцессов.exe"));
 	if(pid == 0) {
 		_tprintf(_TEXT("Не удалось найти нужный процесс.\n"));
 		return 1;
@@ -123,18 +128,18 @@ int main() {
 
 	/*ЗАПИШЕМ НУЖНЫЕ НАМ ДАННЫЕ И КОД В ПАМЯТЬ ПРОЦЕССА И ЗАПУСТИМ В НЕМ ПОТОК*/
 	
-	DWORD ProcSize = 1024; //размер создаваемого региона
+	
 	/*резервируем исполняемый регион памяти в виртуальном адресном пространстве конкретного процесса*/
-	LPVOID lpProc   = VirtualAllocEx(hProc, NULL, ProcSize, MEM_COMMIT, PAGE_EXECUTE_READWRITE);
+	LPVOID lpProc = VirtualAllocEx(hProc, NULL, (char*)show_err - (char*)InjectionMain, MEM_RESERVE | MEM_COMMIT, PAGE_EXECUTE_READWRITE);
 	/*запись в исполняемый регион кода нашей функции (размер с избытком)*/
 	DWORD dwWritten=0;
-	if(WriteProcessMemory(hProc, lpProc, InjectionMain, ProcSize, &dwWritten) == 0) {
+	if(WriteProcessMemory(hProc, lpProc, InjectionMain, (char*)show_err - (char*)InjectionMain, &dwWritten) == 0) {
 		show_err(_TEXT("Ошибка записи в исполняемый регион памяти"));
 		return 1;
 	}
 
 	/*резервируем регион данных памяти в виртуальном адресном пространстве конкретного процесса*/
-	LPVOID lpParams = VirtualAllocEx(hProc, NULL, 1024, MEM_COMMIT, PAGE_READWRITE);
+	LPVOID lpParams = VirtualAllocEx(hProc, NULL, 1024, MEM_RESERVE | MEM_COMMIT, PAGE_READWRITE);
 	/*запись в регион данных нашей структуры*/
 	dwWritten = 0;
 	if(WriteProcessMemory(hProc, lpParams, &injectData, sizeof(injectData), &dwWritten) == 0) {
@@ -144,12 +149,16 @@ int main() {
 
 	/*запускаем поток в удаленном процессе с указанием параметра*/	
 	DWORD ThreadID=0;
-	HANDLE hThread = CreateRemoteThread(hProc, NULL, 0, (LPTHREAD_START_ROUTINE)lpProc, lpParams, 0, &ThreadID);
+	HANDLE hThread = CreateRemoteThread(hProc, NULL, 16*1024, (LPTHREAD_START_ROUTINE)lpProc, lpParams, 0, &ThreadID);
 	if(hThread == NULL) {
 		show_err(_TEXT("Не удалось создать удаленный поток"));
 		return 1;
 	}
-
+	/*дожидаемся завершения потока*/
+	WaitForSingleObject(ThreadID, INFINITE);
+	/*освобождаем память удаленного процесса*/
+	VirtualFree(lpProc, 0, MEM_RELEASE);
+	VirtualFree(lpParams, 0, MEM_RELEASE);
 	/*Закрываем все указатели*/
 	CloseHandle(hThread);
 	CloseHandle(hProc);
