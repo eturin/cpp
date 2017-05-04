@@ -1,0 +1,6 @@
+﻿  main.cpp
+c:\users\etyurin\documents\visual studio 2013\projectscpp\stepicалгоритмы\iii\e1\e1\main.cpp(62): warning C4244: аргумент: преобразование "time_t" в "unsigned int", возможна потеря данных
+          c:\users\etyurin\documents\visual studio 2013\projectscpp\stepicалгоритмы\iii\e1\e1\main.cpp(57): при компиляции функции-члена "hTab<size_t,std::string,10000000>::hTab(size_t)" класса шаблон
+          c:\users\etyurin\documents\visual studio 2013\projectscpp\stepicалгоритмы\iii\e1\e1\main.cpp(149): см. ссылку на создание экземпляров функции шаблон при компиляции "hTab<size_t,std::string,10000000>::hTab(size_t)"
+          c:\users\etyurin\documents\visual studio 2013\projectscpp\stepicалгоритмы\iii\e1\e1\main.cpp(149): см. ссылку на создание экземпляров класса шаблон при компиляции "hTab<size_t,std::string,10000000>"
+  e1.vcxproj -> C:\Users\etyurin\Documents\Visual Studio 2013\ProjectsCPP\StepicАлгоритмы\III\e1\Debug\e1.exe
