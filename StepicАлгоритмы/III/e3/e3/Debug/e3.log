@@ -1,0 +1,5 @@
+﻿  main.cpp
+c:\users\etyurin\documents\visual studio 2013\projectscpp\stepicалгоритмы\iii\e3\e3\main.cpp(22): warning C4244: аргумент: преобразование "time_t" в "unsigned int", возможна потеря данных
+c:\users\etyurin\documents\visual studio 2013\projectscpp\stepicалгоритмы\iii\e3\e3\main.cpp(23): warning C4244: инициализация: преобразование "double" в "unsigned __int64", возможна потеря данных
+c:\users\etyurin\documents\visual studio 2013\projectscpp\stepicалгоритмы\iii\e3\e3\main.cpp(74): warning C4018: <=: несоответствие типов со знаком и без знака
+  e3.vcxproj -> C:\Users\etyurin\Documents\Visual Studio 2013\ProjectsCPP\StepicАлгоритмы\III\e3\Debug\e3.exe
