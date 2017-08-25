@@ -1,0 +1,45 @@
+﻿Сборка начата 24.08.2017 18:26:01.
+     1>Проект "C:\Users\etyurin\Documents\Visual Studio 2013\ProjectsCPP\xmlToSqLite\xmlToSqLite\xmlToSqLite.vcxproj" в узле 2 (целевые объекты Build).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /sdl /O2 /Oi /Oy- /GL /D _MBCS /Gm- /EHsc /MD /GS /Gy /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc120.pdb" /Gd /TC /analyze- /errorReport:prompt main.c
+         main.c
+     1>main.c(65): warning C4047: return: "int *" отличается по уровням косвенного обращения от "int"
+     1>main.c(78): warning C4133: функция: несовместимые типы - из "wchar_t **" в "char **"
+     1>main.c(78): warning C4047: инициализация: "int" отличается по уровням косвенного обращения от "int *"
+     1>main.c(80): warning C4133: функция: несовместимые типы - из "wchar_t *" в "const char *"
+     1>main.c(121): warning C4090: функция: разные квалификаторы "const"
+     1>main.c(221): warning C4090: функция: разные квалификаторы "const"
+     1>main.c(287): warning C4090: функция: разные квалификаторы "const"
+     1>main.c(291): warning C4090: функция: разные квалификаторы "const"
+     1>main.c(295): warning C4090: функция: разные квалификаторы "const"
+     1>main.c(319): warning C4090: функция: разные квалификаторы "const"
+     1>main.c(336): warning C4020: sqlite3_bind_int64: слишком много фактических параметров
+     1>main.c(337): warning C4020: sqlite3_bind_int64: слишком много фактических параметров
+     1>main.c(338): warning C4020: sqlite3_bind_int64: слишком много фактических параметров
+     1>main.c(342): warning C4090: функция: разные квалификаторы "const"
+     1>main.c(358): warning C4020: sqlite3_bind_int64: слишком много фактических параметров
+     1>main.c(359): warning C4020: sqlite3_bind_int64: слишком много фактических параметров
+     1>main.c(360): warning C4020: sqlite3_bind_int64: слишком много фактических параметров
+     1>main.c(361): warning C4047: функция: "sqlite3_int64" отличается по уровням косвенного обращения от "char *"
+     1>main.c(361): warning C4024: sqlite3_bind_int64: различные типы для формального и фактического параметров 3
+     1>main.c(361): warning C4020: sqlite3_bind_int64: слишком много фактических параметров
+     1>main.c(365): warning C4090: функция: разные квалификаторы "const"
+     1>main.c(417): warning C4090: функция: разные квалификаторы "const"
+     1>main.c(444): warning C4090: функция: разные квалификаторы "const"
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\etyurin\Documents\Visual Studio 2013\ProjectsCPP\xmlToSqLite\Release\xmlToSqLite.exe" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\etyurin\Documents\Visual Studio 2013\ProjectsCPP\xmlToSqLite\Release\xmlToSqLite.pdb" /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\etyurin\Documents\Visual Studio 2013\ProjectsCPP\xmlToSqLite\Release\xmlToSqLite.lib" /MACHINE:X86 /SAFESEH Release\loadlibrary.obj
+         Release\main.obj
+         Release\sqlite3.obj
+         Release\xmlparse.obj
+         Release\xmlrole.obj
+         Release\xmltok.obj
+         Release\xmltok_impl.obj
+         Release\xmltok_ns.obj
+         Создание кода
+         Создание кода завершено
+         xmlToSqLite.vcxproj -> C:\Users\etyurin\Documents\Visual Studio 2013\ProjectsCPP\xmlToSqLite\Release\xmlToSqLite.exe
+     1>Сборка проекта "C:\Users\etyurin\Documents\Visual Studio 2013\ProjectsCPP\xmlToSqLite\xmlToSqLite\xmlToSqLite.vcxproj" завершена (целевые объекты Build).
+
+Сборка успешно завершена.
+
+Затраченное время: 00:00:05.08

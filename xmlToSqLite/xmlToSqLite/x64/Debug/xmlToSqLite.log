@@ -1,0 +1,50 @@
+﻿Сборка начата 25.08.2017 12:58:22.
+     1>Проект "C:\Users\etyurin\Documents\Visual Studio 2013\ProjectsCPP\xmlToSqLite\xmlToSqLite\xmlToSqLite.vcxproj" в узле 2 (целевые объекты Build).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\CL.exe /c /Zi /nologo /W3 /WX- /sdl /Od /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /Zc:wchar_t /Zc:forScope /Fo"x64\Debug\\" /Fd"x64\Debug\vc120.pdb" /Gd /TC /errorReport:prompt main.c
+         main.c
+     1>main.c(92): warning C4133: функция: несовместимые типы - из "wchar_t **" в "char **"
+     1>main.c(94): warning C4133: функция: несовместимые типы - из "wchar_t *" в "const char *"
+     1>main.c(128): warning C4267: функция: преобразование из "size_t" в "int"; возможна потеря данных
+     1>main.c(129): warning C4267: функция: преобразование из "size_t" в "int"; возможна потеря данных
+     1>main.c(130): warning C4267: функция: преобразование из "size_t" в "int"; возможна потеря данных
+     1>main.c(135): warning C4090: функция: разные квалификаторы "const"
+     1>main.c(195): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
+     1>main.c(235): warning C4090: функция: разные квалификаторы "const"
+     1>main.c(235): warning C4267: функция: преобразование из "size_t" в "int"; возможна потеря данных
+     1>main.c(248): warning C4267: функция: преобразование из "size_t" в "int"; возможна потеря данных
+     1>main.c(301): warning C4090: функция: разные квалификаторы "const"
+     1>main.c(305): warning C4090: функция: разные квалификаторы "const"
+     1>main.c(309): warning C4090: функция: разные квалификаторы "const"
+     1>main.c(333): warning C4090: функция: разные квалификаторы "const"
+     1>main.c(350): warning C4020: sqlite3_bind_int64: слишком много фактических параметров
+     1>main.c(351): warning C4020: sqlite3_bind_int64: слишком много фактических параметров
+     1>main.c(352): warning C4020: sqlite3_bind_int64: слишком много фактических параметров
+     1>main.c(356): warning C4090: функция: разные квалификаторы "const"
+     1>main.c(371): warning C4267: функция: преобразование из "size_t" в "int"; возможна потеря данных
+     1>main.c(372): warning C4020: sqlite3_bind_int64: слишком много фактических параметров
+     1>main.c(373): warning C4020: sqlite3_bind_int64: слишком много фактических параметров
+     1>main.c(374): warning C4020: sqlite3_bind_int64: слишком много фактических параметров
+     1>main.c(375): warning C4267: функция: преобразование из "size_t" в "int"; возможна потеря данных
+     1>main.c(379): warning C4090: функция: разные квалификаторы "const"
+     1>main.c(392): warning C4244: =: преобразование "__int64" в "int", возможна потеря данных
+     1>main.c(427): warning C4267: функция: преобразование из "size_t" в "int"; возможна потеря данных
+     1>main.c(431): warning C4090: функция: разные квалификаторы "const"
+     1>main.c(456): warning C4133: функция: несовместимые типы - из "char *" в "wchar_t *"
+     1>main.c(460): warning C4267: функция: преобразование из "size_t" в "int"; возможна потеря данных
+     1>main.c(464): warning C4090: функция: разные квалификаторы "const"
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\etyurin\Documents\Visual Studio 2013\ProjectsCPP\xmlToSqLite\x64\Debug\xmlToSqLite.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\etyurin\Documents\Visual Studio 2013\ProjectsCPP\xmlToSqLite\x64\Debug\xmlToSqLite.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\etyurin\Documents\Visual Studio 2013\ProjectsCPP\xmlToSqLite\x64\Debug\xmlToSqLite.lib" /MACHINE:X64 x64\Debug\loadlibrary.obj
+         x64\Debug\main.obj
+         x64\Debug\sqlite3.obj
+         x64\Debug\xmlparse.obj
+         x64\Debug\xmlrole.obj
+         x64\Debug\xmltok.obj
+         x64\Debug\xmltok_impl.obj
+         x64\Debug\xmltok_ns.obj
+         xmlToSqLite.vcxproj -> C:\Users\etyurin\Documents\Visual Studio 2013\ProjectsCPP\xmlToSqLite\x64\Debug\xmlToSqLite.exe
+     1>Сборка проекта "C:\Users\etyurin\Documents\Visual Studio 2013\ProjectsCPP\xmlToSqLite\xmlToSqLite\xmlToSqLite.vcxproj" завершена (целевые объекты Build).
+
+Сборка успешно завершена.
+
+Затраченное время: 00:00:00.54
