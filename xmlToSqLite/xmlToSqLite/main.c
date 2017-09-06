@@ -119,7 +119,7 @@ void freeTask(void ** data, sqlite3 *db){
 	if (*data != NULL){
 		struct Task *tsk = (struct Task*)*data;
 		//отправляем в sqLite
-		char * strDML = "insert or replace into tasks values(?,?,?,datetime('now','localtime'),?,?,?,?)";
+		char * strDML = "insert or replace into tasks (id,job,begin,stop,name,user,user_prop,priority) values(?,?,?,datetime('now','localtime'),?,?,?,?)";
 		sqlite3_stmt *stmt;
 		sqlite3_prepare(db, strDML, -1, &stmt, NULL);
 		sqlite3_bind_text(stmt, 1/*индекс параметра*/, tsk->Id                  , -1              , SQLITE_TRANSIENT);
@@ -176,6 +176,8 @@ struct FileOut{
 	unsigned long long Pages;     //всего страниц
 	char   *BarCode;   //ШК-разделитель этого файла
 	size_t  lenBarCode;
+	char   *path;      //расположение файла
+	size_t  lenPath;
 };
 
 //освобождение структуры задания
@@ -185,6 +187,7 @@ void freeFileOut(void ** data){
 		printf("%s code=%s char=%llu fail=%llu pages=%llu\n", fout->Name, fout->BarCode, fout->totalChar, fout->UncerChar, fout->Pages);
 		free(fout->Name);
 		free(fout->BarCode);
+		free(fout->path);
 		free(fout);
 		*data = NULL;
 	}
@@ -331,6 +334,10 @@ void startData(void *userData, const char *content, int length){
 		struct FileOut *fout = (struct FileOut*)dc->data;
 		//штрих-код разделитель
 		setValLen(&fout->BarCode, content, length, &fout->lenBarCode);
+	}else if (dc->depth == 5 && !strcmp(dc->node, "\\XmlResult\\JobDocument\\OutputDocuments\\FormatSettings\\OutputLocation")){
+		struct FileOut *fout = (struct FileOut*)dc->data;
+		//расположение файла
+		setValLen(&fout->path, content, length, &fout->lenPath);
 	}
 }
 
@@ -339,7 +346,7 @@ void XMLCALL endElement(void *userData, const char *name){
 	struct DataContent *dc = (struct DataContent *)userData;
 	if (dc->depth == 2 && !strcmp(dc->node, "\\XmlResult\\InputFile")){
 		//отправляем в sqLite
-		char * strDML = "insert or replace into fin values(?,?,?,?,?,?,?)";
+		char * strDML = "insert or replace into fin (id,task,name,data,total_char,uncertain_char,pages) values(?,?,?,?,?,?,?)";
 		sqlite3_stmt *stmt;
 		sqlite3_prepare(dc->db, strDML, -1, &stmt, NULL);
 		struct FileIn *fin = (struct FileIn*)dc->data;
@@ -361,8 +368,8 @@ void XMLCALL endElement(void *userData, const char *name){
 		//освобождаем ресурсы
 		freeFileIn(&dc->data);
 	}else if (dc->depth == 2 && !strcmp(dc->node, "\\XmlResult\\JobDocument")){
-		//отправляем в sqLite
-		char * strDML = "insert or replace into fout values(?,?,?,datetime('now','localtime'),?,?,?,?)";
+		//отправляем в sqLite		
+		char * strDML = "insert or replace into fout (id,task,name,data,total_char,uncertain_char,pages,barcode,path) values(?,?,?,datetime('now','localtime'),?,?,?,?,?)";
 		sqlite3_stmt *stmt;
 		sqlite3_prepare(dc->db, strDML, -1, &stmt, NULL);
 		struct FileOut *fout = (struct FileOut*)dc->data;
@@ -373,6 +380,7 @@ void XMLCALL endElement(void *userData, const char *name){
 		sqlite3_bind_int64(stmt, 5, fout->UncerChar, -1              , SQLITE_TRANSIENT);
 		sqlite3_bind_int64(stmt, 6, fout->Pages    , -1              , SQLITE_TRANSIENT);
 		sqlite3_bind_text (stmt, 7, fout->BarCode  , fout->lenBarCode, SQLITE_TRANSIENT);
+		sqlite3_bind_text (stmt, 8, fout->path     , fout->lenPath   , SQLITE_TRANSIENT);
 
 		if (sqlite3_step(stmt) != SQLITE_DONE){
 			fprintf(stderr, "Не удается выполнить запись сведений об исходящем файле: %s\n", sqlite3_errmsg(dc->db));
@@ -508,7 +516,8 @@ sqlite3 * initSql(char * path){
 			"	total_char     integer, --всего символов в файле                      \n"
 			"	uncertain_char integer, --не распознано символов                      \n"
 			"	pages          integer, --всего страниц в файле                       \n"
-			"	barcode        varchar  --идентифицирующий файл ШК                    \n"
+			"	barcode        varchar, --идентифицирующий файл ШК                    \n"
+			"	path           varchar  --расположение файла                          \n"
 			");                                                                       \n"
 			"                                                                         \n"
 			"--входящие файлы                                                         \n"
