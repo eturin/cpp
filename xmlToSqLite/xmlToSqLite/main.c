@@ -135,7 +135,12 @@ void freeTask(void ** data, sqlite3 *db){
 		sqlite3_bind_text(stmt, 6                    , tsk->Property            , tsk->lenProperty, SQLITE_TRANSIENT);
 		sqlite3_bind_text(stmt, 7                    , tsk->Priority            , -1              , SQLITE_TRANSIENT);
 
-		if (sqlite3_step(stmt) != SQLITE_DONE)			
+		int rc = 0;
+		do{
+			rc = sqlite3_step(stmt);
+		} while (rc == SQLITE_BUSY || rc == SQLITE_LOCKED);
+
+		if (rc != SQLITE_DONE)			
 			saveError(db, sqlite3_errmsg(db),"Не удается выполнить запись сведений о задаче", tsk->Id);
 		
 		sqlite3_finalize(stmt);
@@ -362,7 +367,12 @@ void XMLCALL endElement(void *userData, const char *name){
 		sqlite3_bind_int64(stmt, 6, fin->UncerChar           , -1, SQLITE_TRANSIENT);
 		sqlite3_bind_int64(stmt, 7, fin->Pages               , -1, SQLITE_TRANSIENT);
 
-		if (sqlite3_step(stmt) != SQLITE_DONE)			
+		int rc = 0;
+		do{
+			rc = sqlite3_step(stmt);
+		} while (rc == SQLITE_BUSY || rc == SQLITE_LOCKED);
+
+		if (rc != SQLITE_DONE)			
 			saveError(dc->db, sqlite3_errmsg(dc->db),"Не удается выполнить запись сведений о входящем файле", dc->task);
 		
 
@@ -385,7 +395,12 @@ void XMLCALL endElement(void *userData, const char *name){
 		sqlite3_bind_text (stmt, 7, fout->BarCode  , fout->lenBarCode, SQLITE_TRANSIENT);
 		sqlite3_bind_text (stmt, 8, fout->path     , fout->lenPath   , SQLITE_TRANSIENT);
 
-		if (sqlite3_step(stmt) != SQLITE_DONE)			
+		int rc = 0;
+		do{
+			rc = sqlite3_step(stmt);
+		} while (rc == SQLITE_BUSY || rc == SQLITE_LOCKED);
+
+		if (rc != SQLITE_DONE)			
 			saveError(dc->db, sqlite3_errmsg(dc->db), "Не удается выполнить запись сведений об исходящем файле", dc->task);
 		
 
@@ -468,7 +483,12 @@ void parseXML(sqlite3 *db, char * job, char * path){
 				else
 					sqlite3_bind_blob(stmt, 2, buf, size, SQLITE_TRANSIENT);
 				
-				if (sqlite3_step(stmt) != SQLITE_DONE)					
+				int rc = 0;
+				do{
+					rc = sqlite3_step(stmt);
+				} while (rc == SQLITE_BUSY || rc == SQLITE_LOCKED);
+
+				if (rc != SQLITE_DONE)					
 					saveError(db, sqlite3_errmsg(db), "Не удается выполнить запись текста xml-файла", deepCont.task);
 				
 				free(utf8);
@@ -551,7 +571,10 @@ sqlite3 * initSql(char * path){
 		
 
 		char *error=NULL;
-		rc = sqlite3_exec(db, strDDL, NULL, NULL, &error);
+		do{
+			rc = sqlite3_exec(db, strDDL, NULL, NULL, &error);
+		} while (rc == SQLITE_BUSY || rc == SQLITE_LOCKED);
+
 		if(rc)	{
 			time_t t = time(0);
 			struct tm * now = localtime(&t);			
