@@ -5,6 +5,7 @@
 #include <locale.h>
 #include <string.h>
 #include <stdlib.h> 
+#include <time.h>
 
 #include "expat.h"
 #include "sqlite3.h"
@@ -96,8 +97,12 @@ void saveError(sqlite3 *db, char * msg, char * comm, char * strId){
 	}else
 		sqlite3_bind_text(stmt, 3, comm, -1, SQLITE_TRANSIENT);
 
-	if (sqlite3_step(stmt) != SQLITE_DONE)
-		fprintf(stderr, "Не удается выполнить запись ошибки в базу: %s\n", sqlite3_errmsg(db));
+	if (sqlite3_step(stmt) != SQLITE_DONE){
+		time_t t = time(0);  
+		struct tm * now = localtime(&t);		
+		fprintf(stderr, "[%04d.%02d.%02d %02d:%02d:%02d] Не удается выполнить запись ошибки в базу: %s\n", now->tm_year + 1900, now->tm_mon, now->tm_mday, now->tm_hour, now->tm_min, now->tm_sec, sqlite3_errmsg(db));
+		fflush(stderr);
+	}
 
 	sqlite3_finalize(stmt);
 }
@@ -130,10 +135,9 @@ void freeTask(void ** data, sqlite3 *db){
 		sqlite3_bind_text(stmt, 6                    , tsk->Property            , tsk->lenProperty, SQLITE_TRANSIENT);
 		sqlite3_bind_text(stmt, 7                    , tsk->Priority            , -1              , SQLITE_TRANSIENT);
 
-		if (sqlite3_step(stmt) != SQLITE_DONE){
-			fprintf(stderr, "Не удается выполнить запись сведений о задаче: %s\n", sqlite3_errmsg(db));
+		if (sqlite3_step(stmt) != SQLITE_DONE)			
 			saveError(db, sqlite3_errmsg(db),"Не удается выполнить запись сведений о задаче", tsk->Id);
-		}
+		
 		sqlite3_finalize(stmt);
 
 		//освобожаем ресурсы		
@@ -358,10 +362,9 @@ void XMLCALL endElement(void *userData, const char *name){
 		sqlite3_bind_int64(stmt, 6, fin->UncerChar           , -1, SQLITE_TRANSIENT);
 		sqlite3_bind_int64(stmt, 7, fin->Pages               , -1, SQLITE_TRANSIENT);
 
-		if (sqlite3_step(stmt) != SQLITE_DONE){
-			fprintf(stderr, "Не удается выполнить запись сведений о входящем файле: %s\n", sqlite3_errmsg(dc->db));
+		if (sqlite3_step(stmt) != SQLITE_DONE)			
 			saveError(dc->db, sqlite3_errmsg(dc->db),"Не удается выполнить запись сведений о входящем файле", dc->task);
-		}
+		
 
 		sqlite3_finalize(stmt);
 
@@ -382,10 +385,9 @@ void XMLCALL endElement(void *userData, const char *name){
 		sqlite3_bind_text (stmt, 7, fout->BarCode  , fout->lenBarCode, SQLITE_TRANSIENT);
 		sqlite3_bind_text (stmt, 8, fout->path     , fout->lenPath   , SQLITE_TRANSIENT);
 
-		if (sqlite3_step(stmt) != SQLITE_DONE){
-			fprintf(stderr, "Не удается выполнить запись сведений об исходящем файле: %s\n", sqlite3_errmsg(dc->db));
+		if (sqlite3_step(stmt) != SQLITE_DONE)			
 			saveError(dc->db, sqlite3_errmsg(dc->db), "Не удается выполнить запись сведений об исходящем файле", dc->task);
-		}
+		
 
 		sqlite3_finalize(stmt);
 
@@ -432,8 +434,7 @@ void parseXML(sqlite3 *db, char * job, char * path){
 			done = len < sizeof(buf); //если прочитали меньше, чем размер буфера, значит повторять цикл не нужно
 
 			//парсим блок байт
-			if (XML_Parse(parser, buf, len, done) == XML_STATUS_ERROR) {
-				fprintf(stderr, "%s at line %" XML_FMT_INT_MOD "u\n", XML_ErrorString(XML_GetErrorCode(parser)), XML_GetCurrentLineNumber(parser));
+			if (XML_Parse(parser, buf, len, done) == XML_STATUS_ERROR) {				
 				char msg[20] = {0};
 				sprintf(msg, "%" XML_FMT_INT_MOD "u line", XML_GetCurrentLineNumber(parser));
 				saveError(db, XML_ErrorString(XML_GetErrorCode(parser)), msg,"");
@@ -467,10 +468,9 @@ void parseXML(sqlite3 *db, char * job, char * path){
 				else
 					sqlite3_bind_blob(stmt, 2, buf, size, SQLITE_TRANSIENT);
 				
-				if (sqlite3_step(stmt) != SQLITE_DONE){
-					fprintf(stderr, "Не удается выполнить запись текста xml-файла в базу: %s\n", sqlite3_errmsg(db));
+				if (sqlite3_step(stmt) != SQLITE_DONE)					
 					saveError(db, sqlite3_errmsg(db), "Не удается выполнить запись текста xml-файла", deepCont.task);
-				}
+				
 				free(utf8);
 			}
 			free(buf);
@@ -488,7 +488,10 @@ sqlite3 * initSql(char * path){
 	sqlite3 *db = NULL;
 	int rc = sqlite3_open(path, &db);
 	if(rc){
-		fprintf(stderr, "Не удалось установить соединение: %s\n", sqlite3_errmsg(db));
+		time_t t = time(0);
+		struct tm * now = localtime(&t);		
+		fprintf(stderr, "[%04d.%02d.%02d %02d:%02d:%02d] Не удалось установить соединение: %s\n", now->tm_year + 1900, now->tm_mon, now->tm_mday, now->tm_hour, now->tm_min, now->tm_sec, sqlite3_errmsg(db));
+		fflush(stderr);
 		sqlite3_close(db);
 		db = NULL;
 	}else{
@@ -550,7 +553,10 @@ sqlite3 * initSql(char * path){
 		char *error=NULL;
 		rc = sqlite3_exec(db, strDDL, NULL, NULL, &error);
 		if(rc)	{
-			fprintf(stderr, "Не удалось выполнить DDL:\n%s\n-->%s\n",strDDL, sqlite3_errmsg(db));			
+			time_t t = time(0);
+			struct tm * now = localtime(&t);			
+			fprintf(stderr, "[%04d.%02d.%02d %02d:%02d:%02d] Не удалось выполнить DDL:\n%s\n-->%s\n", now->tm_year + 1900, now->tm_mon, now->tm_mday, now->tm_hour, now->tm_min, now->tm_sec, strDDL, sqlite3_errmsg(db));
+			fflush(stderr);
 			sqlite3_free(error);
 			free(error);
 			sqlite3_close(db);
@@ -568,6 +574,12 @@ int main(int argc, char *argv[]){
 	if (argc < 4)
 		printf("Не достаточно параметров командной строки. Применяйте:\n\t%s <pathToSqliteBase> <ИмяСценария> <pathToXml> [<pathToNextXml>]", argv[0]);
 	else{
+		//перенаправление stderr
+		char strPath[256] = {0};
+		strcat(strPath, argv[0]);
+		strcat(strPath, ".log");
+		freopen(strPath, "a", stderr);
+		
 		//инициализация базы sqLite
 		sqlite3 *db=initSql(argv[1]);
 		if (db != NULL){
