@@ -1,0 +1,3168 @@
+﻿// Created by Microsoft (R) C/C++ Compiler Version 12.00.31101.0 (01555808).
+//
+// c:\users\etyurin\documents\visual studio 2013\projectscpp\clientrecognition\clientrecognition\debug\ocrserverclient3.tli
+//
+// Wrapper implementations for Win32 type library OCRServerClient3.tlb
+// compiler-generated file created 09/07/17 at 11:49:40 - DO NOT EDIT!
+
+#pragma once
+
+//
+// interface IStringsCollection wrapper method implementations
+//
+
+inline IUnknownPtr IStringsCollection::Get_NewEnum ( ) {
+    IUnknown * _result = 0;
+    HRESULT _hr = get__NewEnum(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return IUnknownPtr(_result, false);
+}
+
+inline long IStringsCollection::GetCount ( ) {
+    long _result = 0;
+    HRESULT _hr = get_Count(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline _bstr_t IStringsCollection::Item ( long index ) {
+    BSTR _result = 0;
+    HRESULT _hr = raw_Item(index, &_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _bstr_t(_result, false);
+}
+
+inline HRESULT IStringsCollection::Add ( _bstr_t value ) {
+    HRESULT _hr = raw_Add(value);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _hr;
+}
+
+inline HRESULT IStringsCollection::Remove ( long index ) {
+    HRESULT _hr = raw_Remove(index);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _hr;
+}
+
+inline HRESULT IStringsCollection::RemoveAll ( ) {
+    HRESULT _hr = raw_RemoveAll();
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _hr;
+}
+
+//
+// interface ISmtpSettings wrapper method implementations
+//
+
+inline long ISmtpSettings::GetPortNumber ( ) {
+    long _result = 0;
+    HRESULT _hr = get_PortNumber(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void ISmtpSettings::PutPortNumber ( long result ) {
+    HRESULT _hr = put_PortNumber(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline _bstr_t ISmtpSettings::GetSenderAddress ( ) {
+    BSTR _result = 0;
+    HRESULT _hr = get_SenderAddress(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _bstr_t(_result, false);
+}
+
+inline void ISmtpSettings::PutSenderAddress ( _bstr_t result ) {
+    HRESULT _hr = put_SenderAddress(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline _bstr_t ISmtpSettings::GetPassword ( ) {
+    BSTR _result = 0;
+    HRESULT _hr = get_Password(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _bstr_t(_result, false);
+}
+
+inline void ISmtpSettings::PutPassword ( _bstr_t result ) {
+    HRESULT _hr = put_Password(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline _bstr_t ISmtpSettings::GetServerHostName ( ) {
+    BSTR _result = 0;
+    HRESULT _hr = get_ServerHostName(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _bstr_t(_result, false);
+}
+
+inline void ISmtpSettings::PutServerHostName ( _bstr_t result ) {
+    HRESULT _hr = put_ServerHostName(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline VARIANT_BOOL ISmtpSettings::GetServerRequiresAuthentication ( ) {
+    VARIANT_BOOL _result = 0;
+    HRESULT _hr = get_ServerRequiresAuthentication(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void ISmtpSettings::PutServerRequiresAuthentication ( VARIANT_BOOL result ) {
+    HRESULT _hr = put_ServerRequiresAuthentication(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+//
+// interface IOutputFormatSettings wrapper method implementations
+//
+
+inline enum OutputFileFormatEnum IOutputFormatSettings::GetFileFormat ( ) {
+    enum OutputFileFormatEnum _result;
+    HRESULT _hr = get_FileFormat(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline _bstr_t IOutputFormatSettings::GetNamingRule ( ) {
+    BSTR _result = 0;
+    HRESULT _hr = get_NamingRule(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _bstr_t(_result, false);
+}
+
+inline void IOutputFormatSettings::PutNamingRule ( _bstr_t result ) {
+    HRESULT _hr = put_NamingRule(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline VARIANT_BOOL IOutputFormatSettings::GetKeepLastModifiedDate ( ) {
+    VARIANT_BOOL _result = 0;
+    HRESULT _hr = get_KeepLastModifiedDate(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IOutputFormatSettings::PutKeepLastModifiedDate ( VARIANT_BOOL result ) {
+    HRESULT _hr = put_KeepLastModifiedDate(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline _bstr_t IOutputFormatSettings::GetOutputLocation ( ) {
+    BSTR _result = 0;
+    HRESULT _hr = get_OutputLocation(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _bstr_t(_result, false);
+}
+
+inline void IOutputFormatSettings::PutOutputLocation ( _bstr_t result ) {
+    HRESULT _hr = put_OutputLocation(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline enum OutputPublishingMethodEnum IOutputFormatSettings::GetPublishingMethod ( ) {
+    enum OutputPublishingMethodEnum _result;
+    HRESULT _hr = get_PublishingMethod(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IOutputFormatSettings::PutPublishingMethod ( enum OutputPublishingMethodEnum result ) {
+    HRESULT _hr = put_PublishingMethod(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline _bstr_t IOutputFormatSettings::GetSharePointServerUrl ( ) {
+    BSTR _result = 0;
+    HRESULT _hr = get_SharePointServerUrl(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _bstr_t(_result, false);
+}
+
+inline void IOutputFormatSettings::PutSharePointServerUrl ( _bstr_t result ) {
+    HRESULT _hr = put_SharePointServerUrl(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline _bstr_t IOutputFormatSettings::GetSharePointDocumentLibrary ( ) {
+    BSTR _result = 0;
+    HRESULT _hr = get_SharePointDocumentLibrary(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _bstr_t(_result, false);
+}
+
+inline void IOutputFormatSettings::PutSharePointDocumentLibrary ( _bstr_t result ) {
+    HRESULT _hr = put_SharePointDocumentLibrary(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline ISmtpSettingsPtr IOutputFormatSettings::GetSmtpSettings ( ) {
+    struct ISmtpSettings * _result = 0;
+    HRESULT _hr = get_SmtpSettings(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return ISmtpSettingsPtr(_result, false);
+}
+
+//
+// interface IOutputDocument wrapper method implementations
+//
+
+inline IStringsCollectionPtr IOutputDocument::GetFileNames ( ) {
+    struct IStringsCollection * _result = 0;
+    HRESULT _hr = get_FileNames(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return IStringsCollectionPtr(_result, false);
+}
+
+inline IOutputFormatSettingsPtr IOutputDocument::GetFormatSettings ( ) {
+    struct IOutputFormatSettings * _result = 0;
+    HRESULT _hr = get_FormatSettings(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return IOutputFormatSettingsPtr(_result, false);
+}
+
+//
+// interface IOutputDocuments wrapper method implementations
+//
+
+inline long IOutputDocuments::GetCount ( ) {
+    long _result = 0;
+    HRESULT _hr = get_Count(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline IOutputDocumentPtr IOutputDocuments::Item ( long index ) {
+    struct IOutputDocument * _result = 0;
+    HRESULT _hr = raw_Item(index, &_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return IOutputDocumentPtr(_result, false);
+}
+
+//
+// interface IStatistics wrapper method implementations
+//
+
+inline long IStatistics::GetTotalCharacters ( ) {
+    long _result = 0;
+    HRESULT _hr = get_TotalCharacters(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline long IStatistics::GetUncertainCharacters ( ) {
+    long _result = 0;
+    HRESULT _hr = get_UncertainCharacters(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline long IStatistics::GetPagesArea ( ) {
+    long _result = 0;
+    HRESULT _hr = get_PagesArea(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+//
+// interface IDocumentAttribute wrapper method implementations
+//
+
+inline _bstr_t IDocumentAttribute::GetName ( ) {
+    BSTR _result = 0;
+    HRESULT _hr = get_Name(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _bstr_t(_result, false);
+}
+
+inline enum AttributeTypeEnum IDocumentAttribute::GetType ( ) {
+    enum AttributeTypeEnum _result;
+    HRESULT _hr = get_Type(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+//
+// interface IDocumentAttributes wrapper method implementations
+//
+
+inline long IDocumentAttributes::GetCount ( ) {
+    long _result = 0;
+    HRESULT _hr = get_Count(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline IDocumentAttributePtr IDocumentAttributes::Item ( long index ) {
+    struct IDocumentAttribute * _result = 0;
+    HRESULT _hr = raw_Item(index, &_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return IDocumentAttributePtr(_result, false);
+}
+
+inline HRESULT IDocumentAttributes::Add ( struct IDocumentAttribute * value ) {
+    HRESULT _hr = raw_Add(value);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _hr;
+}
+
+inline HRESULT IDocumentAttributes::Remove ( long index ) {
+    HRESULT _hr = raw_Remove(index);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _hr;
+}
+
+inline HRESULT IDocumentAttributes::RemoveAll ( ) {
+    HRESULT _hr = raw_RemoveAll();
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _hr;
+}
+
+inline _bstr_t IDocumentAttributes::GetDocumentType ( ) {
+    BSTR _result = 0;
+    HRESULT _hr = get_DocumentType(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _bstr_t(_result, false);
+}
+
+inline void IDocumentAttributes::PutDocumentType ( _bstr_t result ) {
+    HRESULT _hr = put_DocumentType(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline VARIANT_BOOL IDocumentAttributes::GetSkipManualIndexing ( ) {
+    VARIANT_BOOL _result = 0;
+    HRESULT _hr = get_SkipManualIndexing(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IDocumentAttributes::PutSkipManualIndexing ( VARIANT_BOOL result ) {
+    HRESULT _hr = put_SkipManualIndexing(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+//
+// interface IInputFile wrapper method implementations
+//
+
+inline _bstr_t IInputFile::GetFileName ( ) {
+    BSTR _result = 0;
+    HRESULT _hr = get_FileName(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _bstr_t(_result, false);
+}
+
+inline void IInputFile::PutFileName ( _bstr_t result ) {
+    HRESULT _hr = put_FileName(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline _bstr_t IInputFile::GetPassword ( ) {
+    BSTR _result = 0;
+    HRESULT _hr = get_Password(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _bstr_t(_result, false);
+}
+
+inline void IInputFile::PutPassword ( _bstr_t result ) {
+    HRESULT _hr = put_Password(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline IOutputDocumentsPtr IInputFile::GetOutputDocuments ( ) {
+    struct IOutputDocuments * _result = 0;
+    HRESULT _hr = get_OutputDocuments(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return IOutputDocumentsPtr(_result, false);
+}
+
+inline IStringsCollectionPtr IInputFile::GetErrors ( ) {
+    struct IStringsCollection * _result = 0;
+    HRESULT _hr = get_Errors(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return IStringsCollectionPtr(_result, false);
+}
+
+inline IStringsCollectionPtr IInputFile::GetWarnings ( ) {
+    struct IStringsCollection * _result = 0;
+    HRESULT _hr = get_Warnings(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return IStringsCollectionPtr(_result, false);
+}
+
+inline IStatisticsPtr IInputFile::GetStatistics ( ) {
+    struct IStatistics * _result = 0;
+    HRESULT _hr = get_Statistics(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return IStatisticsPtr(_result, false);
+}
+
+inline IDocumentAttributesPtr IInputFile::GetAttributes ( ) {
+    struct IDocumentAttributes * _result = 0;
+    HRESULT _hr = get_Attributes(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return IDocumentAttributesPtr(_result, false);
+}
+
+inline _bstr_t IInputFile::GetCustomText ( ) {
+    BSTR _result = 0;
+    HRESULT _hr = get_CustomText(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _bstr_t(_result, false);
+}
+
+//
+// interface IInputFiles wrapper method implementations
+//
+
+inline IUnknownPtr IInputFiles::Get_NewEnum ( ) {
+    IUnknown * _result = 0;
+    HRESULT _hr = get__NewEnum(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return IUnknownPtr(_result, false);
+}
+
+inline long IInputFiles::GetCount ( ) {
+    long _result = 0;
+    HRESULT _hr = get_Count(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline IInputFilePtr IInputFiles::Item ( long index ) {
+    struct IInputFile * _result = 0;
+    HRESULT _hr = raw_Item(index, &_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return IInputFilePtr(_result, false);
+}
+
+inline HRESULT IInputFiles::Add ( struct IInputFile * Item ) {
+    HRESULT _hr = raw_Add(Item);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _hr;
+}
+
+inline HRESULT IInputFiles::Remove ( long index ) {
+    HRESULT _hr = raw_Remove(index);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _hr;
+}
+
+inline HRESULT IInputFiles::RemoveAll ( ) {
+    HRESULT _hr = raw_RemoveAll();
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _hr;
+}
+
+//
+// interface IPreprocessingParams wrapper method implementations
+//
+
+inline VARIANT_BOOL IPreprocessingParams::GetDeskew ( ) {
+    VARIANT_BOOL _result = 0;
+    HRESULT _hr = get_Deskew(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IPreprocessingParams::PutDeskew ( VARIANT_BOOL result ) {
+    HRESULT _hr = put_Deskew(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline VARIANT_BOOL IPreprocessingParams::GetRemoveGarbage ( ) {
+    VARIANT_BOOL _result = 0;
+    HRESULT _hr = get_RemoveGarbage(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IPreprocessingParams::PutRemoveGarbage ( VARIANT_BOOL result ) {
+    HRESULT _hr = put_RemoveGarbage(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline VARIANT_BOOL IPreprocessingParams::GetRemoveTexture ( ) {
+    VARIANT_BOOL _result = 0;
+    HRESULT _hr = get_RemoveTexture(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IPreprocessingParams::PutRemoveTexture ( VARIANT_BOOL result ) {
+    HRESULT _hr = put_RemoveTexture(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline VARIANT_BOOL IPreprocessingParams::GetSplitDualPages ( ) {
+    VARIANT_BOOL _result = 0;
+    HRESULT _hr = get_SplitDualPages(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IPreprocessingParams::PutSplitDualPages ( VARIANT_BOOL result ) {
+    HRESULT _hr = put_SplitDualPages(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline VARIANT_BOOL IPreprocessingParams::GetConvertToBWFormat ( ) {
+    VARIANT_BOOL _result = 0;
+    HRESULT _hr = get_ConvertToBWFormat(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IPreprocessingParams::PutConvertToBWFormat ( VARIANT_BOOL result ) {
+    HRESULT _hr = put_ConvertToBWFormat(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline enum RotationTypeEnum IPreprocessingParams::GetRotationType ( ) {
+    enum RotationTypeEnum _result;
+    HRESULT _hr = get_RotationType(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IPreprocessingParams::PutRotationType ( enum RotationTypeEnum result ) {
+    HRESULT _hr = put_RotationType(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+//
+// interface IRecognitionParams wrapper method implementations
+//
+
+inline IStringsCollectionPtr IRecognitionParams::GetLanguages ( ) {
+    struct IStringsCollection * _result = 0;
+    HRESULT _hr = get_Languages(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return IStringsCollectionPtr(_result, false);
+}
+
+inline VARIANT_BOOL IRecognitionParams::GetLookForBarcodes ( ) {
+    VARIANT_BOOL _result = 0;
+    HRESULT _hr = get_LookForBarcodes(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IRecognitionParams::PutLookForBarcodes ( VARIANT_BOOL result ) {
+    HRESULT _hr = put_LookForBarcodes(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline long IRecognitionParams::GetTextTypes ( ) {
+    long _result = 0;
+    HRESULT _hr = get_TextTypes(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IRecognitionParams::PutTextTypes ( long result ) {
+    HRESULT _hr = put_TextTypes(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline enum RecognitionQualitySettingEnum IRecognitionParams::GetRecognitionQuality ( ) {
+    enum RecognitionQualitySettingEnum _result;
+    HRESULT _hr = get_RecognitionQuality(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IRecognitionParams::PutRecognitionQuality ( enum RecognitionQualitySettingEnum result ) {
+    HRESULT _hr = put_RecognitionQuality(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline enum RecognitionModeEnum IRecognitionParams::GetRecognitionMode ( ) {
+    enum RecognitionModeEnum _result;
+    HRESULT _hr = get_RecognitionMode(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IRecognitionParams::PutRecognitionMode ( enum RecognitionModeEnum result ) {
+    HRESULT _hr = put_RecognitionMode(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+//
+// interface IOutputFormatSettingsCollection wrapper method implementations
+//
+
+inline long IOutputFormatSettingsCollection::GetCount ( ) {
+    long _result = 0;
+    HRESULT _hr = get_Count(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline IOutputFormatSettingsPtr IOutputFormatSettingsCollection::Item ( long index ) {
+    struct IOutputFormatSettings * _result = 0;
+    HRESULT _hr = raw_Item(index, &_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return IOutputFormatSettingsPtr(_result, false);
+}
+
+inline HRESULT IOutputFormatSettingsCollection::Add ( struct IOutputFormatSettings * value ) {
+    HRESULT _hr = raw_Add(value);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _hr;
+}
+
+inline HRESULT IOutputFormatSettingsCollection::Remove ( long index ) {
+    HRESULT _hr = raw_Remove(index);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _hr;
+}
+
+inline HRESULT IOutputFormatSettingsCollection::RemoveAll ( ) {
+    HRESULT _hr = raw_RemoveAll();
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _hr;
+}
+
+//
+// interface IExportParams wrapper method implementations
+//
+
+inline IOutputFormatSettingsCollectionPtr IExportParams::GetOutputFormats ( ) {
+    struct IOutputFormatSettingsCollection * _result = 0;
+    HRESULT _hr = get_OutputFormats(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return IOutputFormatSettingsCollectionPtr(_result, false);
+}
+
+inline enum DocumentSeparationMethodEnum IExportParams::GetSeparationMethod ( ) {
+    enum DocumentSeparationMethodEnum _result;
+    HRESULT _hr = get_SeparationMethod(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IExportParams::PutSeparationMethod ( enum DocumentSeparationMethodEnum result ) {
+    HRESULT _hr = put_SeparationMethod(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline _bstr_t IExportParams::GetXmlResultLocation ( ) {
+    BSTR _result = 0;
+    HRESULT _hr = get_XmlResultLocation(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _bstr_t(_result, false);
+}
+
+//
+// interface IXmlTicket wrapper method implementations
+//
+
+inline _bstr_t IXmlTicket::GetId ( ) {
+    BSTR _result = 0;
+    HRESULT _hr = get_Id(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _bstr_t(_result, false);
+}
+
+inline _bstr_t IXmlTicket::GetName ( ) {
+    BSTR _result = 0;
+    HRESULT _hr = get_Name(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _bstr_t(_result, false);
+}
+
+inline void IXmlTicket::PutName ( _bstr_t result ) {
+    HRESULT _hr = put_Name(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline enum PriorityEnum IXmlTicket::GetPriority ( ) {
+    enum PriorityEnum _result;
+    HRESULT _hr = get_Priority(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IXmlTicket::PutPriority ( enum PriorityEnum result ) {
+    HRESULT _hr = put_Priority(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline HRESULT IXmlTicket::AddImage ( _bstr_t file, _bstr_t pwd ) {
+    HRESULT _hr = raw_AddImage(file, pwd);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _hr;
+}
+
+inline IInputFilesPtr IXmlTicket::GetInputFiles ( ) {
+    struct IInputFiles * _result = 0;
+    HRESULT _hr = get_InputFiles(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return IInputFilesPtr(_result, false);
+}
+
+inline IPreprocessingParamsPtr IXmlTicket::GetPreprocessingParams ( ) {
+    struct IPreprocessingParams * _result = 0;
+    HRESULT _hr = get_PreprocessingParams(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return IPreprocessingParamsPtr(_result, false);
+}
+
+inline IRecognitionParamsPtr IXmlTicket::GetRecognitionParams ( ) {
+    struct IRecognitionParams * _result = 0;
+    HRESULT _hr = get_RecognitionParams(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return IRecognitionParamsPtr(_result, false);
+}
+
+inline IExportParamsPtr IXmlTicket::GetExportParams ( ) {
+    struct IExportParams * _result = 0;
+    HRESULT _hr = get_ExportParams(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return IExportParamsPtr(_result, false);
+}
+
+inline HRESULT IXmlTicket::SaveToFile ( _bstr_t file ) {
+    HRESULT _hr = raw_SaveToFile(file);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _hr;
+}
+
+inline HRESULT IXmlTicket::LoadFromFile ( _bstr_t file ) {
+    HRESULT _hr = raw_LoadFromFile(file);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _hr;
+}
+
+inline _bstr_t IXmlTicket::GetUserProperty ( ) {
+    BSTR _result = 0;
+    HRESULT _hr = get_UserProperty(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _bstr_t(_result, false);
+}
+
+inline void IXmlTicket::PutUserProperty ( _bstr_t result ) {
+    HRESULT _hr = put_UserProperty(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline IDocumentAttributesPtr IXmlTicket::GetAttributes ( ) {
+    struct IDocumentAttributes * _result = 0;
+    HRESULT _hr = get_Attributes(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return IDocumentAttributesPtr(_result, false);
+}
+
+inline long IXmlTicket::GetOcrTimeout ( ) {
+    long _result = 0;
+    HRESULT _hr = get_OcrTimeout(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IXmlTicket::PutOcrTimeout ( long result ) {
+    HRESULT _hr = put_OcrTimeout(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+//
+// interface IJobDocument wrapper method implementations
+//
+
+inline _bstr_t IJobDocument::GetName ( ) {
+    BSTR _result = 0;
+    HRESULT _hr = get_Name(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _bstr_t(_result, false);
+}
+
+inline void IJobDocument::PutName ( _bstr_t result ) {
+    HRESULT _hr = put_Name(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline IOutputDocumentsPtr IJobDocument::GetOutputDocuments ( ) {
+    struct IOutputDocuments * _result = 0;
+    HRESULT _hr = get_OutputDocuments(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return IOutputDocumentsPtr(_result, false);
+}
+
+inline IStringsCollectionPtr IJobDocument::GetErrors ( ) {
+    struct IStringsCollection * _result = 0;
+    HRESULT _hr = get_Errors(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return IStringsCollectionPtr(_result, false);
+}
+
+inline IStringsCollectionPtr IJobDocument::GetWarnings ( ) {
+    struct IStringsCollection * _result = 0;
+    HRESULT _hr = get_Warnings(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return IStringsCollectionPtr(_result, false);
+}
+
+inline IStatisticsPtr IJobDocument::GetStatistics ( ) {
+    struct IStatistics * _result = 0;
+    HRESULT _hr = get_Statistics(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return IStatisticsPtr(_result, false);
+}
+
+inline IDocumentAttributesPtr IJobDocument::GetAttributes ( ) {
+    struct IDocumentAttributes * _result = 0;
+    HRESULT _hr = get_Attributes(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return IDocumentAttributesPtr(_result, false);
+}
+
+inline _bstr_t IJobDocument::GetCustomText ( ) {
+    BSTR _result = 0;
+    HRESULT _hr = get_CustomText(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _bstr_t(_result, false);
+}
+
+inline _bstr_t IJobDocument::GetBarcodeText ( ) {
+    BSTR _result = 0;
+    HRESULT _hr = get_BarcodeText(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _bstr_t(_result, false);
+}
+
+//
+// interface IJobDocuments wrapper method implementations
+//
+
+inline IUnknownPtr IJobDocuments::Get_NewEnum ( ) {
+    IUnknown * _result = 0;
+    HRESULT _hr = get__NewEnum(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return IUnknownPtr(_result, false);
+}
+
+inline long IJobDocuments::GetCount ( ) {
+    long _result = 0;
+    HRESULT _hr = get_Count(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline IJobDocumentPtr IJobDocuments::Item ( long index ) {
+    struct IJobDocument * _result = 0;
+    HRESULT _hr = raw_Item(index, &_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return IJobDocumentPtr(_result, false);
+}
+
+inline HRESULT IJobDocuments::Add ( struct IJobDocument * Item ) {
+    HRESULT _hr = raw_Add(Item);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _hr;
+}
+
+inline HRESULT IJobDocuments::Remove ( long index ) {
+    HRESULT _hr = raw_Remove(index);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _hr;
+}
+
+inline HRESULT IJobDocuments::RemoveAll ( ) {
+    HRESULT _hr = raw_RemoveAll();
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _hr;
+}
+
+//
+// interface IXmlResult wrapper method implementations
+//
+
+inline _bstr_t IXmlResult::GetId ( ) {
+    BSTR _result = 0;
+    HRESULT _hr = get_Id(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _bstr_t(_result, false);
+}
+
+inline _bstr_t IXmlResult::GetName ( ) {
+    BSTR _result = 0;
+    HRESULT _hr = get_Name(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _bstr_t(_result, false);
+}
+
+inline enum PriorityEnum IXmlResult::GetPriority ( ) {
+    enum PriorityEnum _result;
+    HRESULT _hr = get_Priority(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline VARIANT_BOOL IXmlResult::GetIsFailed ( ) {
+    VARIANT_BOOL _result = 0;
+    HRESULT _hr = get_IsFailed(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline IStatisticsPtr IXmlResult::GetStatistics ( ) {
+    struct IStatistics * _result = 0;
+    HRESULT _hr = get_Statistics(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return IStatisticsPtr(_result, false);
+}
+
+inline IInputFilesPtr IXmlResult::GetInputFiles ( ) {
+    struct IInputFiles * _result = 0;
+    HRESULT _hr = get_InputFiles(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return IInputFilesPtr(_result, false);
+}
+
+inline IJobDocumentsPtr IXmlResult::GetJobDocuments ( ) {
+    struct IJobDocuments * _result = 0;
+    HRESULT _hr = get_JobDocuments(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return IJobDocumentsPtr(_result, false);
+}
+
+inline IPreprocessingParamsPtr IXmlResult::GetPreprocessingParams ( ) {
+    struct IPreprocessingParams * _result = 0;
+    HRESULT _hr = get_PreprocessingParams(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return IPreprocessingParamsPtr(_result, false);
+}
+
+inline IRecognitionParamsPtr IXmlResult::GetRecognitionParams ( ) {
+    struct IRecognitionParams * _result = 0;
+    HRESULT _hr = get_RecognitionParams(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return IRecognitionParamsPtr(_result, false);
+}
+
+inline IExportParamsPtr IXmlResult::GetExportParams ( ) {
+    struct IExportParams * _result = 0;
+    HRESULT _hr = get_ExportParams(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return IExportParamsPtr(_result, false);
+}
+
+inline IStringsCollectionPtr IXmlResult::GetErrors ( ) {
+    struct IStringsCollection * _result = 0;
+    HRESULT _hr = get_Errors(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return IStringsCollectionPtr(_result, false);
+}
+
+inline IStringsCollectionPtr IXmlResult::GetWarnings ( ) {
+    struct IStringsCollection * _result = 0;
+    HRESULT _hr = get_Warnings(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return IStringsCollectionPtr(_result, false);
+}
+
+inline HRESULT IXmlResult::SaveToFile ( _bstr_t file ) {
+    HRESULT _hr = raw_SaveToFile(file);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _hr;
+}
+
+inline HRESULT IXmlResult::LoadFromFile ( _bstr_t file ) {
+    HRESULT _hr = raw_LoadFromFile(file);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _hr;
+}
+
+inline _bstr_t IXmlResult::GetUserProperty ( ) {
+    BSTR _result = 0;
+    HRESULT _hr = get_UserProperty(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _bstr_t(_result, false);
+}
+
+inline _bstr_t IXmlResult::GetBarcodeText ( ) {
+    BSTR _result = 0;
+    HRESULT _hr = get_BarcodeText(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _bstr_t(_result, false);
+}
+
+inline _bstr_t IXmlResult::GetLoadedFrom ( ) {
+    BSTR _result = 0;
+    HRESULT _hr = get_LoadedFrom(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _bstr_t(_result, false);
+}
+
+inline long IXmlResult::GetOcrTimeout ( ) {
+    long _result = 0;
+    HRESULT _hr = get_OcrTimeout(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+//
+// interface IIndexingField wrapper method implementations
+//
+
+inline _bstr_t IIndexingField::GetName ( ) {
+    BSTR _result = 0;
+    HRESULT _hr = get_Name(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _bstr_t(_result, false);
+}
+
+inline enum AttributeTypeEnum IIndexingField::GetType ( ) {
+    enum AttributeTypeEnum _result;
+    HRESULT _hr = get_Type(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline VARIANT_BOOL IIndexingField::GetIsRequired ( ) {
+    VARIANT_BOOL _result = 0;
+    HRESULT _hr = get_IsRequired(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+//
+// interface IIndexingFields wrapper method implementations
+//
+
+inline long IIndexingFields::GetCount ( ) {
+    long _result = 0;
+    HRESULT _hr = get_Count(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline IIndexingFieldPtr IIndexingFields::Item ( long index ) {
+    struct IIndexingField * _result = 0;
+    HRESULT _hr = raw_Item(index, &_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return IIndexingFieldPtr(_result, false);
+}
+
+inline HRESULT IIndexingFields::Add ( struct IIndexingField * Item ) {
+    HRESULT _hr = raw_Add(Item);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _hr;
+}
+
+inline HRESULT IIndexingFields::Remove ( long index ) {
+    HRESULT _hr = raw_Remove(index);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _hr;
+}
+
+inline HRESULT IIndexingFields::RemoveAll ( ) {
+    HRESULT _hr = raw_RemoveAll();
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _hr;
+}
+
+inline IIndexingFieldPtr IIndexingFields::CreateNew ( enum AttributeTypeEnum Type, VARIANT_BOOL IsRequired, _bstr_t Name ) {
+    struct IIndexingField * _result = 0;
+    HRESULT _hr = raw_CreateNew(Type, IsRequired, Name, &_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return IIndexingFieldPtr(_result, false);
+}
+
+//
+// interface IDocumentType wrapper method implementations
+//
+
+inline _bstr_t IDocumentType::GetName ( ) {
+    BSTR _result = 0;
+    HRESULT _hr = get_Name(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _bstr_t(_result, false);
+}
+
+inline IIndexingFieldsPtr IDocumentType::GetFields ( ) {
+    struct IIndexingFields * _result = 0;
+    HRESULT _hr = get_Fields(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return IIndexingFieldsPtr(_result, false);
+}
+
+//
+// interface IDocumentTypes wrapper method implementations
+//
+
+inline long IDocumentTypes::GetCount ( ) {
+    long _result = 0;
+    HRESULT _hr = get_Count(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline IDocumentTypePtr IDocumentTypes::Item ( long index ) {
+    struct IDocumentType * _result = 0;
+    HRESULT _hr = raw_Item(index, &_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return IDocumentTypePtr(_result, false);
+}
+
+inline HRESULT IDocumentTypes::Add ( struct IDocumentType * Item ) {
+    HRESULT _hr = raw_Add(Item);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _hr;
+}
+
+inline HRESULT IDocumentTypes::Remove ( long index ) {
+    HRESULT _hr = raw_Remove(index);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _hr;
+}
+
+inline HRESULT IDocumentTypes::RemoveAll ( ) {
+    HRESULT _hr = raw_RemoveAll();
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _hr;
+}
+
+inline IDocumentTypePtr IDocumentTypes::CreateNew ( _bstr_t Name ) {
+    struct IDocumentType * _result = 0;
+    HRESULT _hr = raw_CreateNew(Name, &_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return IDocumentTypePtr(_result, false);
+}
+
+//
+// interface IIndexingSettings wrapper method implementations
+//
+
+inline IDocumentTypesPtr IIndexingSettings::GetDocumentTypes ( ) {
+    struct IDocumentTypes * _result = 0;
+    HRESULT _hr = get_DocumentTypes(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return IDocumentTypesPtr(_result, false);
+}
+
+inline _bstr_t IIndexingSettings::GetDefaultDocumentType ( ) {
+    BSTR _result = 0;
+    HRESULT _hr = get_DefaultDocumentType(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _bstr_t(_result, false);
+}
+
+inline void IIndexingSettings::PutDefaultDocumentType ( _bstr_t result ) {
+    HRESULT _hr = put_DefaultDocumentType(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+//
+// interface IWorkflow wrapper method implementations
+//
+
+inline _bstr_t IWorkflow::GetName ( ) {
+    BSTR _result = 0;
+    HRESULT _hr = get_Name(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _bstr_t(_result, false);
+}
+
+inline _bstr_t IWorkflow::GetInputFolder ( ) {
+    BSTR _result = 0;
+    HRESULT _hr = get_InputFolder(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _bstr_t(_result, false);
+}
+
+inline _bstr_t IWorkflow::GetExceptionsFolder ( ) {
+    BSTR _result = 0;
+    HRESULT _hr = get_ExceptionsFolder(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _bstr_t(_result, false);
+}
+
+inline IExportParamsPtr IWorkflow::GetExportParams ( ) {
+    struct IExportParams * _result = 0;
+    HRESULT _hr = get_ExportParams(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return IExportParamsPtr(_result, false);
+}
+
+inline IIndexingSettingsPtr IWorkflow::GetIndexingSettings ( ) {
+    struct IIndexingSettings * _result = 0;
+    HRESULT _hr = get_IndexingSettings(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return IIndexingSettingsPtr(_result, false);
+}
+
+//
+// interface IWorkflows wrapper method implementations
+//
+
+inline long IWorkflows::GetCount ( ) {
+    long _result = 0;
+    HRESULT _hr = get_Count(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline IWorkflowPtr IWorkflows::Item ( long index ) {
+    struct IWorkflow * _result = 0;
+    HRESULT _hr = raw_Item(index, &_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return IWorkflowPtr(_result, false);
+}
+
+//
+// interface IClient wrapper method implementations
+//
+
+inline HRESULT IClient::Connect ( _bstr_t serverName ) {
+    HRESULT _hr = raw_Connect(serverName);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _hr;
+}
+
+inline IStringsCollectionPtr IClient::GetWorkflows ( ) {
+    struct IStringsCollection * _result = 0;
+    HRESULT _hr = get_Workflows(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return IStringsCollectionPtr(_result, false);
+}
+
+inline IXmlTicketPtr IClient::CreateXmlTicket ( _bstr_t workflowName ) {
+    struct IXmlTicket * _result = 0;
+    HRESULT _hr = raw_CreateXmlTicket(workflowName, &_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return IXmlTicketPtr(_result, false);
+}
+
+inline IXmlResultPtr IClient::ProcessFile ( _bstr_t file, _bstr_t workflowName, _bstr_t pwd ) {
+    struct IXmlResult * _result = 0;
+    HRESULT _hr = raw_ProcessFile(file, workflowName, pwd, &_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return IXmlResultPtr(_result, false);
+}
+
+inline _bstr_t IClient::ProcessFileAsync ( _bstr_t file, _bstr_t workflowName, _bstr_t pwd ) {
+    BSTR _result = 0;
+    HRESULT _hr = raw_ProcessFileAsync(file, workflowName, pwd, &_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _bstr_t(_result, false);
+}
+
+inline IXmlResultPtr IClient::ProcessXmlTicket ( struct IXmlTicket * ticket, _bstr_t workflowName ) {
+    struct IXmlResult * _result = 0;
+    HRESULT _hr = raw_ProcessXmlTicket(ticket, workflowName, &_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return IXmlResultPtr(_result, false);
+}
+
+inline _bstr_t IClient::ProcessXmlTicketAsync ( struct IXmlTicket * ticket, _bstr_t workflowName ) {
+    BSTR _result = 0;
+    HRESULT _hr = raw_ProcessXmlTicketAsync(ticket, workflowName, &_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _bstr_t(_result, false);
+}
+
+inline VARIANT_BOOL IClient::IsListening ( _bstr_t workflow ) {
+    VARIANT_BOOL _result = 0;
+    HRESULT _hr = raw_IsListening(workflow, &_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline HRESULT IClient::StartListening ( _bstr_t workflow, VARIANT_BOOL doStart ) {
+    HRESULT _hr = raw_StartListening(workflow, doStart);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _hr;
+}
+
+inline IOutputFormatSettingsPtr IClient::CreateOutputFormatSettings ( enum OutputFileFormatEnum format ) {
+    struct IOutputFormatSettings * _result = 0;
+    HRESULT _hr = raw_CreateOutputFormatSettings(format, &_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return IOutputFormatSettingsPtr(_result, false);
+}
+
+inline IWorkflowsPtr IClient::GetWorkflowsSettings ( ) {
+    struct IWorkflows * _result = 0;
+    HRESULT _hr = get_WorkflowsSettings(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return IWorkflowsPtr(_result, false);
+}
+
+inline IStringsCollectionPtr IClient::GetCustomModules ( ) {
+    struct IStringsCollection * _result = 0;
+    HRESULT _hr = get_CustomModules(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return IStringsCollectionPtr(_result, false);
+}
+
+inline IDocumentAttributePtr IClient::CreateDocumentAttribute ( enum AttributeTypeEnum Type ) {
+    struct IDocumentAttribute * _result = 0;
+    HRESULT _hr = raw_CreateDocumentAttribute(Type, &_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return IDocumentAttributePtr(_result, false);
+}
+
+inline HRESULT IClient::GetJobState ( _bstr_t jobId, enum JobStateEnum * State, long * Progress ) {
+    HRESULT _hr = raw_GetJobState(jobId, State, Progress);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _hr;
+}
+
+inline HRESULT IClient::UpdateWorkflow ( struct IWorkflow * workflow ) {
+    HRESULT _hr = raw_UpdateWorkflow(workflow);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _hr;
+}
+
+//
+// interface IClientEvents wrapper method implementations
+//
+
+inline HRESULT IClientEvents::OnJobComplete ( _bstr_t jobId, struct IXmlResult * result ) {
+    HRESULT _hr = raw_OnJobComplete(jobId, result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _hr;
+}
+
+//
+// dispinterface DIClientEvents wrapper method implementations
+//
+
+inline HRESULT DIClientEvents::OnJobComplete ( _bstr_t jobId, struct IXmlResult * result ) {
+    HRESULT _result = 0;
+    _com_dispatch_method(this, 0x1, DISPATCH_METHOD, VT_ERROR, (void*)&_result, 
+        L"\x0008\x0009", (BSTR)jobId, result);
+    return _result;
+}
+
+//
+// interface IRTFExportSettings wrapper method implementations
+//
+
+inline enum RTFSynthesisModeEnum IRTFExportSettings::GetRTFSynthesisMode ( ) {
+    enum RTFSynthesisModeEnum _result;
+    HRESULT _hr = get_RTFSynthesisMode(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IRTFExportSettings::PutRTFSynthesisMode ( enum RTFSynthesisModeEnum result ) {
+    HRESULT _hr = put_RTFSynthesisMode(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline long IRTFExportSettings::GetPaperWidth ( ) {
+    long _result = 0;
+    HRESULT _hr = get_PaperWidth(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IRTFExportSettings::PutPaperWidth ( long result ) {
+    HRESULT _hr = put_PaperWidth(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline long IRTFExportSettings::GetPaperHeight ( ) {
+    long _result = 0;
+    HRESULT _hr = get_PaperHeight(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IRTFExportSettings::PutPaperHeight ( long result ) {
+    HRESULT _hr = put_PaperHeight(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline VARIANT_BOOL IRTFExportSettings::GetForceFixedPageSize ( ) {
+    VARIANT_BOOL _result = 0;
+    HRESULT _hr = get_ForceFixedPageSize(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IRTFExportSettings::PutForceFixedPageSize ( VARIANT_BOOL result ) {
+    HRESULT _hr = put_ForceFixedPageSize(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline VARIANT_BOOL IRTFExportSettings::GetWritePictures ( ) {
+    VARIANT_BOOL _result = 0;
+    HRESULT _hr = get_WritePictures(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IRTFExportSettings::PutWritePictures ( VARIANT_BOOL result ) {
+    HRESULT _hr = put_WritePictures(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline VARIANT_BOOL IRTFExportSettings::GetHighlightErrorsWithBackgroundColor ( ) {
+    VARIANT_BOOL _result = 0;
+    HRESULT _hr = get_HighlightErrorsWithBackgroundColor(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IRTFExportSettings::PutHighlightErrorsWithBackgroundColor ( VARIANT_BOOL result ) {
+    HRESULT _hr = put_HighlightErrorsWithBackgroundColor(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+//
+// interface IHTMLExportSettings wrapper method implementations
+//
+
+inline enum CodePageEnum IHTMLExportSettings::GetCodePage ( ) {
+    enum CodePageEnum _result;
+    HRESULT _hr = get_CodePage(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IHTMLExportSettings::PutCodePage ( enum CodePageEnum result ) {
+    HRESULT _hr = put_CodePage(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline VARIANT_BOOL IHTMLExportSettings::GetAllowCss ( ) {
+    VARIANT_BOOL _result = 0;
+    HRESULT _hr = get_AllowCss(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IHTMLExportSettings::PutAllowCss ( VARIANT_BOOL result ) {
+    HRESULT _hr = put_AllowCss(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline enum HTMLSynthesisModeEnum IHTMLExportSettings::GetHTMLSynthesisMode ( ) {
+    enum HTMLSynthesisModeEnum _result;
+    HRESULT _hr = get_HTMLSynthesisMode(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IHTMLExportSettings::PutHTMLSynthesisMode ( enum HTMLSynthesisModeEnum result ) {
+    HRESULT _hr = put_HTMLSynthesisMode(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline enum TextEncodingTypeEnum IHTMLExportSettings::GetEncodingType ( ) {
+    enum TextEncodingTypeEnum _result;
+    HRESULT _hr = get_EncodingType(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IHTMLExportSettings::PutEncodingType ( enum TextEncodingTypeEnum result ) {
+    HRESULT _hr = put_EncodingType(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline VARIANT_BOOL IHTMLExportSettings::GetWritePictures ( ) {
+    VARIANT_BOOL _result = 0;
+    HRESULT _hr = get_WritePictures(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IHTMLExportSettings::PutWritePictures ( VARIANT_BOOL result ) {
+    HRESULT _hr = put_WritePictures(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+//
+// interface IXLExportSettings wrapper method implementations
+//
+
+inline VARIANT_BOOL IXLExportSettings::GetConvertNumericValuesToNumbers ( ) {
+    VARIANT_BOOL _result = 0;
+    HRESULT _hr = get_ConvertNumericValuesToNumbers(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IXLExportSettings::PutConvertNumericValuesToNumbers ( VARIANT_BOOL result ) {
+    HRESULT _hr = put_ConvertNumericValuesToNumbers(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline VARIANT_BOOL IXLExportSettings::GetIgnoreTextOutsideTables ( ) {
+    VARIANT_BOOL _result = 0;
+    HRESULT _hr = get_IgnoreTextOutsideTables(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IXLExportSettings::PutIgnoreTextOutsideTables ( VARIANT_BOOL result ) {
+    HRESULT _hr = put_IgnoreTextOutsideTables(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+//
+// interface IXMLExportSettings wrapper method implementations
+//
+
+inline VARIANT_BOOL IXMLExportSettings::GetWriteCharAttributes ( ) {
+    VARIANT_BOOL _result = 0;
+    HRESULT _hr = get_WriteCharAttributes(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IXMLExportSettings::PutWriteCharAttributes ( VARIANT_BOOL result ) {
+    HRESULT _hr = put_WriteCharAttributes(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline VARIANT_BOOL IXMLExportSettings::GetWriteExtendedCharAttributes ( ) {
+    VARIANT_BOOL _result = 0;
+    HRESULT _hr = get_WriteExtendedCharAttributes(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IXMLExportSettings::PutWriteExtendedCharAttributes ( VARIANT_BOOL result ) {
+    HRESULT _hr = put_WriteExtendedCharAttributes(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline VARIANT_BOOL IXMLExportSettings::GetWriteCharactersFormatting ( ) {
+    VARIANT_BOOL _result = 0;
+    HRESULT _hr = get_WriteCharactersFormatting(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IXMLExportSettings::PutWriteCharactersFormatting ( VARIANT_BOOL result ) {
+    HRESULT _hr = put_WriteCharactersFormatting(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline VARIANT_BOOL IXMLExportSettings::GetWriteNonDeskewedCoordinates ( ) {
+    VARIANT_BOOL _result = 0;
+    HRESULT _hr = get_WriteNonDeskewedCoordinates(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IXMLExportSettings::PutWriteNonDeskewedCoordinates ( VARIANT_BOOL result ) {
+    HRESULT _hr = put_WriteNonDeskewedCoordinates(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline long IXMLExportSettings::GetPagesPerFile ( ) {
+    long _result = 0;
+    HRESULT _hr = get_PagesPerFile(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IXMLExportSettings::PutPagesPerFile ( long result ) {
+    HRESULT _hr = put_PagesPerFile(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+//
+// interface IAltoExportSettings wrapper method implementations
+//
+
+inline enum TextCoordinatesParticularityEnum IAltoExportSettings::GetTextCoordinatesParticularity ( ) {
+    enum TextCoordinatesParticularityEnum _result;
+    HRESULT _hr = get_TextCoordinatesParticularity(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IAltoExportSettings::PutTextCoordinatesParticularity ( enum TextCoordinatesParticularityEnum result ) {
+    HRESULT _hr = put_TextCoordinatesParticularity(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline enum FontFormattingModeEnum IAltoExportSettings::GetFontFormattingMode ( ) {
+    enum FontFormattingModeEnum _result;
+    HRESULT _hr = get_FontFormattingMode(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IAltoExportSettings::PutFontFormattingMode ( enum FontFormattingModeEnum result ) {
+    HRESULT _hr = put_FontFormattingMode(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+//
+// interface IEpubExportSettings wrapper method implementations
+//
+
+inline VARIANT_BOOL IEpubExportSettings::GetThreatFirstPageAsCover ( ) {
+    VARIANT_BOOL _result = 0;
+    HRESULT _hr = get_ThreatFirstPageAsCover(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IEpubExportSettings::PutThreatFirstPageAsCover ( VARIANT_BOOL result ) {
+    HRESULT _hr = put_ThreatFirstPageAsCover(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline VARIANT_BOOL IEpubExportSettings::GetKeepPictures ( ) {
+    VARIANT_BOOL _result = 0;
+    HRESULT _hr = get_KeepPictures(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IEpubExportSettings::PutKeepPictures ( VARIANT_BOOL result ) {
+    HRESULT _hr = put_KeepPictures(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline enum FontFormattingModeEnum IEpubExportSettings::GetFontFormattingMode ( ) {
+    enum FontFormattingModeEnum _result;
+    HRESULT _hr = get_FontFormattingMode(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IEpubExportSettings::PutFontFormattingMode ( enum FontFormattingModeEnum result ) {
+    HRESULT _hr = put_FontFormattingMode(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline long IEpubExportSettings::GetPictureResolution ( ) {
+    long _result = 0;
+    HRESULT _hr = get_PictureResolution(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IEpubExportSettings::PutPictureResolution ( long result ) {
+    HRESULT _hr = put_PictureResolution(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline long IEpubExportSettings::GetQuality ( ) {
+    long _result = 0;
+    HRESULT _hr = get_Quality(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IEpubExportSettings::PutQuality ( long result ) {
+    HRESULT _hr = put_Quality(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline enum ExportPictureFormatEnum IEpubExportSettings::GetPictureFormat ( ) {
+    enum ExportPictureFormatEnum _result;
+    HRESULT _hr = get_PictureFormat(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IEpubExportSettings::PutPictureFormat ( enum ExportPictureFormatEnum result ) {
+    HRESULT _hr = put_PictureFormat(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+//
+// interface ITextExportSettings wrapper method implementations
+//
+
+inline enum CodePageEnum ITextExportSettings::GetCodePage ( ) {
+    enum CodePageEnum _result;
+    HRESULT _hr = get_CodePage(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void ITextExportSettings::PutCodePage ( enum CodePageEnum result ) {
+    HRESULT _hr = put_CodePage(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline VARIANT_BOOL ITextExportSettings::GetInsertEmptyLineBetweenParagraphs ( ) {
+    VARIANT_BOOL _result = 0;
+    HRESULT _hr = get_InsertEmptyLineBetweenParagraphs(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void ITextExportSettings::PutInsertEmptyLineBetweenParagraphs ( VARIANT_BOOL result ) {
+    HRESULT _hr = put_InsertEmptyLineBetweenParagraphs(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline VARIANT_BOOL ITextExportSettings::GetExportParagraphsAsOneLine ( ) {
+    VARIANT_BOOL _result = 0;
+    HRESULT _hr = get_ExportParagraphsAsOneLine(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void ITextExportSettings::PutExportParagraphsAsOneLine ( VARIANT_BOOL result ) {
+    HRESULT _hr = put_ExportParagraphsAsOneLine(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline VARIANT_BOOL ITextExportSettings::GetUsePageBreaks ( ) {
+    VARIANT_BOOL _result = 0;
+    HRESULT _hr = get_UsePageBreaks(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void ITextExportSettings::PutUsePageBreaks ( VARIANT_BOOL result ) {
+    HRESULT _hr = put_UsePageBreaks(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline enum TextEncodingTypeEnum ITextExportSettings::GetEncodingType ( ) {
+    enum TextEncodingTypeEnum _result;
+    HRESULT _hr = get_EncodingType(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void ITextExportSettings::PutEncodingType ( enum TextEncodingTypeEnum result ) {
+    HRESULT _hr = put_EncodingType(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline VARIANT_BOOL ITextExportSettings::GetKeepOriginalHeadersFooters ( ) {
+    VARIANT_BOOL _result = 0;
+    HRESULT _hr = get_KeepOriginalHeadersFooters(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void ITextExportSettings::PutKeepOriginalHeadersFooters ( VARIANT_BOOL result ) {
+    HRESULT _hr = put_KeepOriginalHeadersFooters(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+//
+// interface ICSVExportSettings wrapper method implementations
+//
+
+inline enum CodePageEnum ICSVExportSettings::GetCodePage ( ) {
+    enum CodePageEnum _result;
+    HRESULT _hr = get_CodePage(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void ICSVExportSettings::PutCodePage ( enum CodePageEnum result ) {
+    HRESULT _hr = put_CodePage(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline _bstr_t ICSVExportSettings::GetTabSeparator ( ) {
+    BSTR _result = 0;
+    HRESULT _hr = get_TabSeparator(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _bstr_t(_result, false);
+}
+
+inline void ICSVExportSettings::PutTabSeparator ( _bstr_t result ) {
+    HRESULT _hr = put_TabSeparator(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline VARIANT_BOOL ICSVExportSettings::GetIgnoreTextOutsideTables ( ) {
+    VARIANT_BOOL _result = 0;
+    HRESULT _hr = get_IgnoreTextOutsideTables(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void ICSVExportSettings::PutIgnoreTextOutsideTables ( VARIANT_BOOL result ) {
+    HRESULT _hr = put_IgnoreTextOutsideTables(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline VARIANT_BOOL ICSVExportSettings::GetUsePageBreaks ( ) {
+    VARIANT_BOOL _result = 0;
+    HRESULT _hr = get_UsePageBreaks(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void ICSVExportSettings::PutUsePageBreaks ( VARIANT_BOOL result ) {
+    HRESULT _hr = put_UsePageBreaks(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline enum TextEncodingTypeEnum ICSVExportSettings::GetEncodingType ( ) {
+    enum TextEncodingTypeEnum _result;
+    HRESULT _hr = get_EncodingType(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void ICSVExportSettings::PutEncodingType ( enum TextEncodingTypeEnum result ) {
+    HRESULT _hr = put_EncodingType(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+//
+// interface IDocumentInfoItem wrapper method implementations
+//
+
+inline _bstr_t IDocumentInfoItem::GetName ( ) {
+    BSTR _result = 0;
+    HRESULT _hr = get_Name(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _bstr_t(_result, false);
+}
+
+inline _bstr_t IDocumentInfoItem::Getvalue ( ) {
+    BSTR _result = 0;
+    HRESULT _hr = get_value(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _bstr_t(_result, false);
+}
+
+inline void IDocumentInfoItem::Putvalue ( _bstr_t result ) {
+    HRESULT _hr = put_value(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+//
+// interface IDocumentInfoItems wrapper method implementations
+//
+
+inline long IDocumentInfoItems::GetCount ( ) {
+    long _result = 0;
+    HRESULT _hr = get_Count(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline IDocumentInfoItemPtr IDocumentInfoItems::GetItem ( long index ) {
+    struct IDocumentInfoItem * _result = 0;
+    HRESULT _hr = get_Item(index, &_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return IDocumentInfoItemPtr(_result, false);
+}
+
+inline HRESULT IDocumentInfoItems::Add ( _bstr_t Name, _bstr_t value ) {
+    HRESULT _hr = raw_Add(Name, value);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _hr;
+}
+
+inline HRESULT IDocumentInfoItems::Remove ( long index ) {
+    HRESULT _hr = raw_Remove(index);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _hr;
+}
+
+inline HRESULT IDocumentInfoItems::RemoveAll ( ) {
+    HRESULT _hr = raw_RemoveAll();
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _hr;
+}
+
+//
+// interface IHeaderAndFooterSettings wrapper method implementations
+//
+
+inline _bstr_t IHeaderAndFooterSettings::GetLeftHeader ( ) {
+    BSTR _result = 0;
+    HRESULT _hr = get_LeftHeader(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _bstr_t(_result, false);
+}
+
+inline void IHeaderAndFooterSettings::PutLeftHeader ( _bstr_t result ) {
+    HRESULT _hr = put_LeftHeader(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline _bstr_t IHeaderAndFooterSettings::GetCentralHeader ( ) {
+    BSTR _result = 0;
+    HRESULT _hr = get_CentralHeader(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _bstr_t(_result, false);
+}
+
+inline void IHeaderAndFooterSettings::PutCentralHeader ( _bstr_t result ) {
+    HRESULT _hr = put_CentralHeader(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline _bstr_t IHeaderAndFooterSettings::GetRightHeader ( ) {
+    BSTR _result = 0;
+    HRESULT _hr = get_RightHeader(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _bstr_t(_result, false);
+}
+
+inline void IHeaderAndFooterSettings::PutRightHeader ( _bstr_t result ) {
+    HRESULT _hr = put_RightHeader(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline _bstr_t IHeaderAndFooterSettings::GetLeftFooter ( ) {
+    BSTR _result = 0;
+    HRESULT _hr = get_LeftFooter(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _bstr_t(_result, false);
+}
+
+inline void IHeaderAndFooterSettings::PutLeftFooter ( _bstr_t result ) {
+    HRESULT _hr = put_LeftFooter(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline _bstr_t IHeaderAndFooterSettings::GetCentralFooter ( ) {
+    BSTR _result = 0;
+    HRESULT _hr = get_CentralFooter(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _bstr_t(_result, false);
+}
+
+inline void IHeaderAndFooterSettings::PutCentralFooter ( _bstr_t result ) {
+    HRESULT _hr = put_CentralFooter(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline _bstr_t IHeaderAndFooterSettings::GetRightFooter ( ) {
+    BSTR _result = 0;
+    HRESULT _hr = get_RightFooter(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _bstr_t(_result, false);
+}
+
+inline void IHeaderAndFooterSettings::PutRightFooter ( _bstr_t result ) {
+    HRESULT _hr = put_RightFooter(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline _bstr_t IHeaderAndFooterSettings::GetFontName ( ) {
+    BSTR _result = 0;
+    HRESULT _hr = get_FontName(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _bstr_t(_result, false);
+}
+
+inline void IHeaderAndFooterSettings::PutFontName ( _bstr_t result ) {
+    HRESULT _hr = put_FontName(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline long IHeaderAndFooterSettings::GetFontSize ( ) {
+    long _result = 0;
+    HRESULT _hr = get_FontSize(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IHeaderAndFooterSettings::PutFontSize ( long result ) {
+    HRESULT _hr = put_FontSize(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline VARIANT_BOOL IHeaderAndFooterSettings::GetIsBold ( ) {
+    VARIANT_BOOL _result = 0;
+    HRESULT _hr = get_IsBold(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IHeaderAndFooterSettings::PutIsBold ( VARIANT_BOOL result ) {
+    HRESULT _hr = put_IsBold(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline VARIANT_BOOL IHeaderAndFooterSettings::GetIsItalic ( ) {
+    VARIANT_BOOL _result = 0;
+    HRESULT _hr = get_IsItalic(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IHeaderAndFooterSettings::PutIsItalic ( VARIANT_BOOL result ) {
+    HRESULT _hr = put_IsItalic(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline VARIANT_BOOL IHeaderAndFooterSettings::GetIsUnderlined ( ) {
+    VARIANT_BOOL _result = 0;
+    HRESULT _hr = get_IsUnderlined(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IHeaderAndFooterSettings::PutIsUnderlined ( VARIANT_BOOL result ) {
+    HRESULT _hr = put_IsUnderlined(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline long IHeaderAndFooterSettings::GetTextColor ( ) {
+    long _result = 0;
+    HRESULT _hr = get_TextColor(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IHeaderAndFooterSettings::PutTextColor ( long result ) {
+    HRESULT _hr = put_TextColor(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline double IHeaderAndFooterSettings::GetTopMargin ( ) {
+    double _result = 0;
+    HRESULT _hr = get_TopMargin(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IHeaderAndFooterSettings::PutTopMargin ( double result ) {
+    HRESULT _hr = put_TopMargin(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline double IHeaderAndFooterSettings::GetBottomMargin ( ) {
+    double _result = 0;
+    HRESULT _hr = get_BottomMargin(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IHeaderAndFooterSettings::PutBottomMargin ( double result ) {
+    HRESULT _hr = put_BottomMargin(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline double IHeaderAndFooterSettings::GetLeftMargin ( ) {
+    double _result = 0;
+    HRESULT _hr = get_LeftMargin(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IHeaderAndFooterSettings::PutLeftMargin ( double result ) {
+    HRESULT _hr = put_LeftMargin(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline double IHeaderAndFooterSettings::GetRightMargin ( ) {
+    double _result = 0;
+    HRESULT _hr = get_RightMargin(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IHeaderAndFooterSettings::PutRightMargin ( double result ) {
+    HRESULT _hr = put_RightMargin(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline VARIANT_BOOL IHeaderAndFooterSettings::GetIsInInches ( ) {
+    VARIANT_BOOL _result = 0;
+    HRESULT _hr = get_IsInInches(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IHeaderAndFooterSettings::PutIsInInches ( VARIANT_BOOL result ) {
+    HRESULT _hr = put_IsInInches(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline long IHeaderAndFooterSettings::GetStartingNumber ( ) {
+    long _result = 0;
+    HRESULT _hr = get_StartingNumber(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IHeaderAndFooterSettings::PutStartingNumber ( long result ) {
+    HRESULT _hr = put_StartingNumber(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline long IHeaderAndFooterSettings::GetNumberOfDigits ( ) {
+    long _result = 0;
+    HRESULT _hr = get_NumberOfDigits(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IHeaderAndFooterSettings::PutNumberOfDigits ( long result ) {
+    HRESULT _hr = put_NumberOfDigits(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+//
+// interface IPDFAExportSettings wrapper method implementations
+//
+
+inline enum PDFExportModeEnum IPDFAExportSettings::GetPDFExportMode ( ) {
+    enum PDFExportModeEnum _result;
+    HRESULT _hr = get_PDFExportMode(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IPDFAExportSettings::PutPDFExportMode ( enum PDFExportModeEnum result ) {
+    HRESULT _hr = put_PDFExportMode(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline long IPDFAExportSettings::GetPictureResolution ( ) {
+    long _result = 0;
+    HRESULT _hr = get_PictureResolution(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IPDFAExportSettings::PutPictureResolution ( long result ) {
+    HRESULT _hr = put_PictureResolution(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline long IPDFAExportSettings::GetQuality ( ) {
+    long _result = 0;
+    HRESULT _hr = get_Quality(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IPDFAExportSettings::PutQuality ( long result ) {
+    HRESULT _hr = put_Quality(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline VARIANT_BOOL IPDFAExportSettings::GetWrite1ACompliant ( ) {
+    VARIANT_BOOL _result = 0;
+    HRESULT _hr = get_Write1ACompliant(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IPDFAExportSettings::PutWrite1ACompliant ( VARIANT_BOOL result ) {
+    HRESULT _hr = put_Write1ACompliant(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline VARIANT_BOOL IPDFAExportSettings::GetOverwriteMetadata ( ) {
+    VARIANT_BOOL _result = 0;
+    HRESULT _hr = get_OverwriteMetadata(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IPDFAExportSettings::PutOverwriteMetadata ( VARIANT_BOOL result ) {
+    HRESULT _hr = put_OverwriteMetadata(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline _bstr_t IPDFAExportSettings::GetTitle ( ) {
+    BSTR _result = 0;
+    HRESULT _hr = get_Title(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _bstr_t(_result, false);
+}
+
+inline void IPDFAExportSettings::PutTitle ( _bstr_t result ) {
+    HRESULT _hr = put_Title(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline _bstr_t IPDFAExportSettings::GetAuthor ( ) {
+    BSTR _result = 0;
+    HRESULT _hr = get_Author(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _bstr_t(_result, false);
+}
+
+inline void IPDFAExportSettings::PutAuthor ( _bstr_t result ) {
+    HRESULT _hr = put_Author(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline _bstr_t IPDFAExportSettings::GetProducer ( ) {
+    BSTR _result = 0;
+    HRESULT _hr = get_Producer(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _bstr_t(_result, false);
+}
+
+inline void IPDFAExportSettings::PutProducer ( _bstr_t result ) {
+    HRESULT _hr = put_Producer(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline _bstr_t IPDFAExportSettings::GetSubject ( ) {
+    BSTR _result = 0;
+    HRESULT _hr = get_Subject(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _bstr_t(_result, false);
+}
+
+inline void IPDFAExportSettings::PutSubject ( _bstr_t result ) {
+    HRESULT _hr = put_Subject(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline _bstr_t IPDFAExportSettings::GetKeywords ( ) {
+    BSTR _result = 0;
+    HRESULT _hr = get_Keywords(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _bstr_t(_result, false);
+}
+
+inline void IPDFAExportSettings::PutKeywords ( _bstr_t result ) {
+    HRESULT _hr = put_Keywords(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline IDocumentInfoItemsPtr IPDFAExportSettings::GetDocumentInfo ( ) {
+    struct IDocumentInfoItems * _result = 0;
+    HRESULT _hr = get_DocumentInfo(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return IDocumentInfoItemsPtr(_result, false);
+}
+
+inline IHeaderAndFooterSettingsPtr IPDFAExportSettings::GetHeaderAndFooter ( ) {
+    struct IHeaderAndFooterSettings * _result = 0;
+    HRESULT _hr = get_HeaderAndFooter(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return IHeaderAndFooterSettingsPtr(_result, false);
+}
+
+inline enum ExportPictureFormatEnum IPDFAExportSettings::GetPictureFormat ( ) {
+    enum ExportPictureFormatEnum _result;
+    HRESULT _hr = get_PictureFormat(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IPDFAExportSettings::PutPictureFormat ( enum ExportPictureFormatEnum result ) {
+    HRESULT _hr = put_PictureFormat(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline VARIANT_BOOL IPDFAExportSettings::GetUseOriginalPaperSize ( ) {
+    VARIANT_BOOL _result = 0;
+    HRESULT _hr = get_UseOriginalPaperSize(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IPDFAExportSettings::PutUseOriginalPaperSize ( VARIANT_BOOL result ) {
+    HRESULT _hr = put_UseOriginalPaperSize(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline long IPDFAExportSettings::GetPaperWidth ( ) {
+    long _result = 0;
+    HRESULT _hr = get_PaperWidth(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IPDFAExportSettings::PutPaperWidth ( long result ) {
+    HRESULT _hr = put_PaperWidth(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline long IPDFAExportSettings::GetPaperHeight ( ) {
+    long _result = 0;
+    HRESULT _hr = get_PaperHeight(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IPDFAExportSettings::PutPaperHeight ( long result ) {
+    HRESULT _hr = put_PaperHeight(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline enum PDFVersionEnum IPDFAExportSettings::GetPDFVersion ( ) {
+    enum PDFVersionEnum _result;
+    HRESULT _hr = get_PDFVersion(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IPDFAExportSettings::PutPDFVersion ( enum PDFVersionEnum result ) {
+    HRESULT _hr = put_PDFVersion(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline VARIANT_BOOL IPDFAExportSettings::GetKeepOriginalHeadersFooters ( ) {
+    VARIANT_BOOL _result = 0;
+    HRESULT _hr = get_KeepOriginalHeadersFooters(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IPDFAExportSettings::PutKeepOriginalHeadersFooters ( VARIANT_BOOL result ) {
+    HRESULT _hr = put_KeepOriginalHeadersFooters(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+//
+// interface IPDFEncryptionInfo wrapper method implementations
+//
+
+inline _bstr_t IPDFEncryptionInfo::GetUserPassword ( ) {
+    BSTR _result = 0;
+    HRESULT _hr = get_UserPassword(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _bstr_t(_result, false);
+}
+
+inline void IPDFEncryptionInfo::PutUserPassword ( _bstr_t result ) {
+    HRESULT _hr = put_UserPassword(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline _bstr_t IPDFEncryptionInfo::GetOwnerPassword ( ) {
+    BSTR _result = 0;
+    HRESULT _hr = get_OwnerPassword(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _bstr_t(_result, false);
+}
+
+inline void IPDFEncryptionInfo::PutOwnerPassword ( _bstr_t result ) {
+    HRESULT _hr = put_OwnerPassword(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline enum PDFEncryptionLevelEnum IPDFEncryptionInfo::GetEncryptionLevel ( ) {
+    enum PDFEncryptionLevelEnum _result;
+    HRESULT _hr = get_EncryptionLevel(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IPDFEncryptionInfo::PutEncryptionLevel ( enum PDFEncryptionLevelEnum result ) {
+    HRESULT _hr = put_EncryptionLevel(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline VARIANT_BOOL IPDFEncryptionInfo::GetAllowPrinting ( ) {
+    VARIANT_BOOL _result = 0;
+    HRESULT _hr = get_AllowPrinting(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IPDFEncryptionInfo::PutAllowPrinting ( VARIANT_BOOL result ) {
+    HRESULT _hr = put_AllowPrinting(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline VARIANT_BOOL IPDFEncryptionInfo::GetAllowPrintingExt ( ) {
+    VARIANT_BOOL _result = 0;
+    HRESULT _hr = get_AllowPrintingExt(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IPDFEncryptionInfo::PutAllowPrintingExt ( VARIANT_BOOL result ) {
+    HRESULT _hr = put_AllowPrintingExt(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline VARIANT_BOOL IPDFEncryptionInfo::GetAllowModifyingContent ( ) {
+    VARIANT_BOOL _result = 0;
+    HRESULT _hr = get_AllowModifyingContent(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IPDFEncryptionInfo::PutAllowModifyingContent ( VARIANT_BOOL result ) {
+    HRESULT _hr = put_AllowModifyingContent(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline VARIANT_BOOL IPDFEncryptionInfo::GetAllowExtractingTextAndGraphics ( ) {
+    VARIANT_BOOL _result = 0;
+    HRESULT _hr = get_AllowExtractingTextAndGraphics(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IPDFEncryptionInfo::PutAllowExtractingTextAndGraphics ( VARIANT_BOOL result ) {
+    HRESULT _hr = put_AllowExtractingTextAndGraphics(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline VARIANT_BOOL IPDFEncryptionInfo::GetAllowAddingTextAnnotations ( ) {
+    VARIANT_BOOL _result = 0;
+    HRESULT _hr = get_AllowAddingTextAnnotations(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IPDFEncryptionInfo::PutAllowAddingTextAnnotations ( VARIANT_BOOL result ) {
+    HRESULT _hr = put_AllowAddingTextAnnotations(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline VARIANT_BOOL IPDFEncryptionInfo::GetAllowFillingFormFields ( ) {
+    VARIANT_BOOL _result = 0;
+    HRESULT _hr = get_AllowFillingFormFields(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IPDFEncryptionInfo::PutAllowFillingFormFields ( VARIANT_BOOL result ) {
+    HRESULT _hr = put_AllowFillingFormFields(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline VARIANT_BOOL IPDFEncryptionInfo::GetAllowExtractingTextAndGraphicsExt ( ) {
+    VARIANT_BOOL _result = 0;
+    HRESULT _hr = get_AllowExtractingTextAndGraphicsExt(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IPDFEncryptionInfo::PutAllowExtractingTextAndGraphicsExt ( VARIANT_BOOL result ) {
+    HRESULT _hr = put_AllowExtractingTextAndGraphicsExt(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline VARIANT_BOOL IPDFEncryptionInfo::GetAllowDocumentAssembling ( ) {
+    VARIANT_BOOL _result = 0;
+    HRESULT _hr = get_AllowDocumentAssembling(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IPDFEncryptionInfo::PutAllowDocumentAssembling ( VARIANT_BOOL result ) {
+    HRESULT _hr = put_AllowDocumentAssembling(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+//
+// interface IPDFExportSettings wrapper method implementations
+//
+
+inline enum PDFExportModeEnum IPDFExportSettings::GetPDFExportMode ( ) {
+    enum PDFExportModeEnum _result;
+    HRESULT _hr = get_PDFExportMode(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IPDFExportSettings::PutPDFExportMode ( enum PDFExportModeEnum result ) {
+    HRESULT _hr = put_PDFExportMode(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline long IPDFExportSettings::GetPictureResolution ( ) {
+    long _result = 0;
+    HRESULT _hr = get_PictureResolution(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IPDFExportSettings::PutPictureResolution ( long result ) {
+    HRESULT _hr = put_PictureResolution(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline long IPDFExportSettings::GetQuality ( ) {
+    long _result = 0;
+    HRESULT _hr = get_Quality(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IPDFExportSettings::PutQuality ( long result ) {
+    HRESULT _hr = put_Quality(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline VARIANT_BOOL IPDFExportSettings::GetWriteTaggedPdf ( ) {
+    VARIANT_BOOL _result = 0;
+    HRESULT _hr = get_WriteTaggedPdf(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IPDFExportSettings::PutWriteTaggedPdf ( VARIANT_BOOL result ) {
+    HRESULT _hr = put_WriteTaggedPdf(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline VARIANT_BOOL IPDFExportSettings::GetUseImprovedCompression ( ) {
+    VARIANT_BOOL _result = 0;
+    HRESULT _hr = get_UseImprovedCompression(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IPDFExportSettings::PutUseImprovedCompression ( VARIANT_BOOL result ) {
+    HRESULT _hr = put_UseImprovedCompression(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline VARIANT_BOOL IPDFExportSettings::GetOverwriteMetadata ( ) {
+    VARIANT_BOOL _result = 0;
+    HRESULT _hr = get_OverwriteMetadata(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IPDFExportSettings::PutOverwriteMetadata ( VARIANT_BOOL result ) {
+    HRESULT _hr = put_OverwriteMetadata(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline _bstr_t IPDFExportSettings::GetTitle ( ) {
+    BSTR _result = 0;
+    HRESULT _hr = get_Title(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _bstr_t(_result, false);
+}
+
+inline void IPDFExportSettings::PutTitle ( _bstr_t result ) {
+    HRESULT _hr = put_Title(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline _bstr_t IPDFExportSettings::GetAuthor ( ) {
+    BSTR _result = 0;
+    HRESULT _hr = get_Author(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _bstr_t(_result, false);
+}
+
+inline void IPDFExportSettings::PutAuthor ( _bstr_t result ) {
+    HRESULT _hr = put_Author(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline _bstr_t IPDFExportSettings::GetProducer ( ) {
+    BSTR _result = 0;
+    HRESULT _hr = get_Producer(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _bstr_t(_result, false);
+}
+
+inline void IPDFExportSettings::PutProducer ( _bstr_t result ) {
+    HRESULT _hr = put_Producer(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline _bstr_t IPDFExportSettings::GetSubject ( ) {
+    BSTR _result = 0;
+    HRESULT _hr = get_Subject(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _bstr_t(_result, false);
+}
+
+inline void IPDFExportSettings::PutSubject ( _bstr_t result ) {
+    HRESULT _hr = put_Subject(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline _bstr_t IPDFExportSettings::GetKeywords ( ) {
+    BSTR _result = 0;
+    HRESULT _hr = get_Keywords(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _bstr_t(_result, false);
+}
+
+inline void IPDFExportSettings::PutKeywords ( _bstr_t result ) {
+    HRESULT _hr = put_Keywords(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline VARIANT_BOOL IPDFExportSettings::GetIsEncryptionRequested ( ) {
+    VARIANT_BOOL _result = 0;
+    HRESULT _hr = get_IsEncryptionRequested(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IPDFExportSettings::PutIsEncryptionRequested ( VARIANT_BOOL result ) {
+    HRESULT _hr = put_IsEncryptionRequested(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline IPDFEncryptionInfoPtr IPDFExportSettings::GetEncryptionInfo ( ) {
+    struct IPDFEncryptionInfo * _result = 0;
+    HRESULT _hr = get_EncryptionInfo(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return IPDFEncryptionInfoPtr(_result, false);
+}
+
+inline VARIANT_BOOL IPDFExportSettings::GetReplaceUncertainWordsWithImages ( ) {
+    VARIANT_BOOL _result = 0;
+    HRESULT _hr = get_ReplaceUncertainWordsWithImages(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IPDFExportSettings::PutReplaceUncertainWordsWithImages ( VARIANT_BOOL result ) {
+    HRESULT _hr = put_ReplaceUncertainWordsWithImages(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline IDocumentInfoItemsPtr IPDFExportSettings::GetDocumentInfo ( ) {
+    struct IDocumentInfoItems * _result = 0;
+    HRESULT _hr = get_DocumentInfo(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return IDocumentInfoItemsPtr(_result, false);
+}
+
+inline IHeaderAndFooterSettingsPtr IPDFExportSettings::GetHeaderAndFooter ( ) {
+    struct IHeaderAndFooterSettings * _result = 0;
+    HRESULT _hr = get_HeaderAndFooter(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return IHeaderAndFooterSettingsPtr(_result, false);
+}
+
+inline enum ExportPictureFormatEnum IPDFExportSettings::GetPictureFormat ( ) {
+    enum ExportPictureFormatEnum _result;
+    HRESULT _hr = get_PictureFormat(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IPDFExportSettings::PutPictureFormat ( enum ExportPictureFormatEnum result ) {
+    HRESULT _hr = put_PictureFormat(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline VARIANT_BOOL IPDFExportSettings::GetUseOriginalPaperSize ( ) {
+    VARIANT_BOOL _result = 0;
+    HRESULT _hr = get_UseOriginalPaperSize(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IPDFExportSettings::PutUseOriginalPaperSize ( VARIANT_BOOL result ) {
+    HRESULT _hr = put_UseOriginalPaperSize(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline long IPDFExportSettings::GetPaperWidth ( ) {
+    long _result = 0;
+    HRESULT _hr = get_PaperWidth(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IPDFExportSettings::PutPaperWidth ( long result ) {
+    HRESULT _hr = put_PaperWidth(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline long IPDFExportSettings::GetPaperHeight ( ) {
+    long _result = 0;
+    HRESULT _hr = get_PaperHeight(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IPDFExportSettings::PutPaperHeight ( long result ) {
+    HRESULT _hr = put_PaperHeight(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline enum PDFVersionEnum IPDFExportSettings::GetPDFVersion ( ) {
+    enum PDFVersionEnum _result;
+    HRESULT _hr = get_PDFVersion(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IPDFExportSettings::PutPDFVersion ( enum PDFVersionEnum result ) {
+    HRESULT _hr = put_PDFVersion(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline VARIANT_BOOL IPDFExportSettings::GetKeepOriginalHeadersFooters ( ) {
+    VARIANT_BOOL _result = 0;
+    HRESULT _hr = get_KeepOriginalHeadersFooters(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IPDFExportSettings::PutKeepOriginalHeadersFooters ( VARIANT_BOOL result ) {
+    HRESULT _hr = put_KeepOriginalHeadersFooters(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+//
+// interface IDOCXExportSettings wrapper method implementations
+//
+
+inline enum RTFSynthesisModeEnum IDOCXExportSettings::GetRTFSynthesisMode ( ) {
+    enum RTFSynthesisModeEnum _result;
+    HRESULT _hr = get_RTFSynthesisMode(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IDOCXExportSettings::PutRTFSynthesisMode ( enum RTFSynthesisModeEnum result ) {
+    HRESULT _hr = put_RTFSynthesisMode(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline long IDOCXExportSettings::GetPaperWidth ( ) {
+    long _result = 0;
+    HRESULT _hr = get_PaperWidth(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IDOCXExportSettings::PutPaperWidth ( long result ) {
+    HRESULT _hr = put_PaperWidth(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline long IDOCXExportSettings::GetPaperHeight ( ) {
+    long _result = 0;
+    HRESULT _hr = get_PaperHeight(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IDOCXExportSettings::PutPaperHeight ( long result ) {
+    HRESULT _hr = put_PaperHeight(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline VARIANT_BOOL IDOCXExportSettings::GetForceFixedPageSize ( ) {
+    VARIANT_BOOL _result = 0;
+    HRESULT _hr = get_ForceFixedPageSize(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IDOCXExportSettings::PutForceFixedPageSize ( VARIANT_BOOL result ) {
+    HRESULT _hr = put_ForceFixedPageSize(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline VARIANT_BOOL IDOCXExportSettings::GetWritePictures ( ) {
+    VARIANT_BOOL _result = 0;
+    HRESULT _hr = get_WritePictures(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IDOCXExportSettings::PutWritePictures ( VARIANT_BOOL result ) {
+    HRESULT _hr = put_WritePictures(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline VARIANT_BOOL IDOCXExportSettings::GetHighlightErrorsWithBackgroundColor ( ) {
+    VARIANT_BOOL _result = 0;
+    HRESULT _hr = get_HighlightErrorsWithBackgroundColor(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IDOCXExportSettings::PutHighlightErrorsWithBackgroundColor ( VARIANT_BOOL result ) {
+    HRESULT _hr = put_HighlightErrorsWithBackgroundColor(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+//
+// interface IMSWordExportSettings wrapper method implementations
+//
+
+inline enum RTFSynthesisModeEnum IMSWordExportSettings::GetRTFSynthesisMode ( ) {
+    enum RTFSynthesisModeEnum _result;
+    HRESULT _hr = get_RTFSynthesisMode(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IMSWordExportSettings::PutRTFSynthesisMode ( enum RTFSynthesisModeEnum result ) {
+    HRESULT _hr = put_RTFSynthesisMode(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline long IMSWordExportSettings::GetPaperWidth ( ) {
+    long _result = 0;
+    HRESULT _hr = get_PaperWidth(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IMSWordExportSettings::PutPaperWidth ( long result ) {
+    HRESULT _hr = put_PaperWidth(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline long IMSWordExportSettings::GetPaperHeight ( ) {
+    long _result = 0;
+    HRESULT _hr = get_PaperHeight(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IMSWordExportSettings::PutPaperHeight ( long result ) {
+    HRESULT _hr = put_PaperHeight(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline VARIANT_BOOL IMSWordExportSettings::GetForceFixedPageSize ( ) {
+    VARIANT_BOOL _result = 0;
+    HRESULT _hr = get_ForceFixedPageSize(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IMSWordExportSettings::PutForceFixedPageSize ( VARIANT_BOOL result ) {
+    HRESULT _hr = put_ForceFixedPageSize(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline VARIANT_BOOL IMSWordExportSettings::GetWritePictures ( ) {
+    VARIANT_BOOL _result = 0;
+    HRESULT _hr = get_WritePictures(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IMSWordExportSettings::PutWritePictures ( VARIANT_BOOL result ) {
+    HRESULT _hr = put_WritePictures(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline VARIANT_BOOL IMSWordExportSettings::GetHighlightErrorsWithBackgroundColor ( ) {
+    VARIANT_BOOL _result = 0;
+    HRESULT _hr = get_HighlightErrorsWithBackgroundColor(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IMSWordExportSettings::PutHighlightErrorsWithBackgroundColor ( VARIANT_BOOL result ) {
+    HRESULT _hr = put_HighlightErrorsWithBackgroundColor(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+//
+// interface IXLSXExportSettings wrapper method implementations
+//
+
+inline VARIANT_BOOL IXLSXExportSettings::GetConvertNumericValuesToNumbers ( ) {
+    VARIANT_BOOL _result = 0;
+    HRESULT _hr = get_ConvertNumericValuesToNumbers(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IXLSXExportSettings::PutConvertNumericValuesToNumbers ( VARIANT_BOOL result ) {
+    HRESULT _hr = put_ConvertNumericValuesToNumbers(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline VARIANT_BOOL IXLSXExportSettings::GetIgnoreTextOutsideTables ( ) {
+    VARIANT_BOOL _result = 0;
+    HRESULT _hr = get_IgnoreTextOutsideTables(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IXLSXExportSettings::PutIgnoreTextOutsideTables ( VARIANT_BOOL result ) {
+    HRESULT _hr = put_IgnoreTextOutsideTables(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+//
+// interface ITiffExportSettings wrapper method implementations
+//
+
+inline enum ImageCompressionTypeEnum ITiffExportSettings::GetCompression ( ) {
+    enum ImageCompressionTypeEnum _result;
+    HRESULT _hr = get_Compression(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void ITiffExportSettings::PutCompression ( enum ImageCompressionTypeEnum result ) {
+    HRESULT _hr = put_Compression(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline long ITiffExportSettings::GetResolution ( ) {
+    long _result = 0;
+    HRESULT _hr = get_Resolution(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void ITiffExportSettings::PutResolution ( long result ) {
+    HRESULT _hr = put_Resolution(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline enum ImageColorModeEnum ITiffExportSettings::GetColorMode ( ) {
+    enum ImageColorModeEnum _result;
+    HRESULT _hr = get_ColorMode(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void ITiffExportSettings::PutColorMode ( enum ImageColorModeEnum result ) {
+    HRESULT _hr = put_ColorMode(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+//
+// interface IJpegExportSettings wrapper method implementations
+//
+
+inline long IJpegExportSettings::GetQuality ( ) {
+    long _result = 0;
+    HRESULT _hr = get_Quality(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IJpegExportSettings::PutQuality ( long result ) {
+    HRESULT _hr = put_Quality(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline long IJpegExportSettings::GetResolution ( ) {
+    long _result = 0;
+    HRESULT _hr = get_Resolution(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IJpegExportSettings::PutResolution ( long result ) {
+    HRESULT _hr = put_Resolution(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline enum ImageColorModeEnum IJpegExportSettings::GetColorMode ( ) {
+    enum ImageColorModeEnum _result;
+    HRESULT _hr = get_ColorMode(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IJpegExportSettings::PutColorMode ( enum ImageColorModeEnum result ) {
+    HRESULT _hr = put_ColorMode(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+//
+// interface IJpeg2kExportSettings wrapper method implementations
+//
+
+inline long IJpeg2kExportSettings::GetQuality ( ) {
+    long _result = 0;
+    HRESULT _hr = get_Quality(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IJpeg2kExportSettings::PutQuality ( long result ) {
+    HRESULT _hr = put_Quality(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline long IJpeg2kExportSettings::GetResolution ( ) {
+    long _result = 0;
+    HRESULT _hr = get_Resolution(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IJpeg2kExportSettings::PutResolution ( long result ) {
+    HRESULT _hr = put_Resolution(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline enum ImageColorModeEnum IJpeg2kExportSettings::GetColorMode ( ) {
+    enum ImageColorModeEnum _result;
+    HRESULT _hr = get_ColorMode(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IJpeg2kExportSettings::PutColorMode ( enum ImageColorModeEnum result ) {
+    HRESULT _hr = put_ColorMode(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+//
+// interface IJBig2ExportSettings wrapper method implementations
+//
+
+inline long IJBig2ExportSettings::GetResolution ( ) {
+    long _result = 0;
+    HRESULT _hr = get_Resolution(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IJBig2ExportSettings::PutResolution ( long result ) {
+    HRESULT _hr = put_Resolution(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+//
+// interface IEnumerationIndexingField wrapper method implementations
+//
+
+inline IStringsCollectionPtr IEnumerationIndexingField::GetPossibleValues ( ) {
+    struct IStringsCollection * _result = 0;
+    HRESULT _hr = get_PossibleValues(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return IStringsCollectionPtr(_result, false);
+}
+
+//
+// interface IRegularExpressionIndexingField wrapper method implementations
+//
+
+inline _bstr_t IRegularExpressionIndexingField::GetExpression ( ) {
+    BSTR _result = 0;
+    HRESULT _hr = get_Expression(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _bstr_t(_result, false);
+}
+
+inline void IRegularExpressionIndexingField::PutExpression ( _bstr_t result ) {
+    HRESULT _hr = put_Expression(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+//
+// interface IObjectsCollection wrapper method implementations
+//
+
+inline IUnknownPtr IObjectsCollection::Get_NewEnum ( ) {
+    IUnknown * _result = 0;
+    HRESULT _hr = get__NewEnum(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return IUnknownPtr(_result, false);
+}
+
+inline long IObjectsCollection::GetCount ( ) {
+    long _result = 0;
+    HRESULT _hr = get_Count(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline IUnknownPtr IObjectsCollection::Item ( long index ) {
+    IUnknown * _result = 0;
+    HRESULT _hr = raw_Item(index, &_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return IUnknownPtr(_result, false);
+}
+
+inline HRESULT IObjectsCollection::Add ( IUnknown * value ) {
+    HRESULT _hr = raw_Add(value);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _hr;
+}
+
+inline HRESULT IObjectsCollection::Remove ( long index ) {
+    HRESULT _hr = raw_Remove(index);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _hr;
+}
+
+inline HRESULT IObjectsCollection::RemoveAll ( ) {
+    HRESULT _hr = raw_RemoveAll();
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _hr;
+}
+
+//
+// interface IBooleanAttribute wrapper method implementations
+//
+
+inline VARIANT_BOOL IBooleanAttribute::Getvalue ( ) {
+    VARIANT_BOOL _result = 0;
+    HRESULT _hr = get_value(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IBooleanAttribute::Putvalue ( VARIANT_BOOL result ) {
+    HRESULT _hr = put_value(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+//
+// interface IEnumerationAttribute wrapper method implementations
+//
+
+inline _bstr_t IEnumerationAttribute::Getvalue ( ) {
+    BSTR _result = 0;
+    HRESULT _hr = get_value(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _bstr_t(_result, false);
+}
+
+inline void IEnumerationAttribute::Putvalue ( _bstr_t result ) {
+    HRESULT _hr = put_value(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+//
+// interface ISingleLineAttribute wrapper method implementations
+//
+
+inline _bstr_t ISingleLineAttribute::Getvalue ( ) {
+    BSTR _result = 0;
+    HRESULT _hr = get_value(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _bstr_t(_result, false);
+}
+
+inline void ISingleLineAttribute::Putvalue ( _bstr_t result ) {
+    HRESULT _hr = put_value(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+//
+// interface IMultipleLinesAttribute wrapper method implementations
+//
+
+inline IStringsCollectionPtr IMultipleLinesAttribute::Getvalue ( ) {
+    struct IStringsCollection * _result = 0;
+    HRESULT _hr = get_value(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return IStringsCollectionPtr(_result, false);
+}
+
+//
+// interface IRegularExpressionAttribute wrapper method implementations
+//
+
+inline _bstr_t IRegularExpressionAttribute::Getvalue ( ) {
+    BSTR _result = 0;
+    HRESULT _hr = get_value(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _bstr_t(_result, false);
+}
+
+inline void IRegularExpressionAttribute::Putvalue ( _bstr_t result ) {
+    HRESULT _hr = put_value(result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}

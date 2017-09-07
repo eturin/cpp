@@ -1,0 +1,3920 @@
+﻿// Created by Microsoft (R) C/C++ Compiler Version 12.00.31101.0 (01555808).
+//
+// c:\users\etyurin\documents\visual studio 2013\projectscpp\clientrecognition\clientrecognition\debug\ocrserverclient3.tlh
+//
+// C++ source equivalent of Win32 type library OCRServerClient3.tlb
+// compiler-generated file created 09/07/17 at 11:49:40 - DO NOT EDIT!
+
+#pragma once
+#pragma pack(push, 8)
+
+#include <comdef.h>
+
+//
+// Forward references and typedefs
+//
+
+struct __declspec(uuid("6d47b27f-9937-4ce7-b003-2b114bd56050"))
+/* LIBID */ __ABBYYRecognitionServer3;
+struct __declspec(uuid("085369e4-adb5-4447-811a-516cb4f263e4"))
+/* dual interface */ IClient;
+struct __declspec(uuid("f79901f7-96be-497f-b29d-d30d0ef3add7"))
+/* dual interface */ IStringsCollection;
+struct __declspec(uuid("52351963-c541-41ad-af9c-86a175d095e4"))
+/* dual interface */ IXmlTicket;
+enum PriorityEnum;
+struct __declspec(uuid("bf4f5ffe-5d3c-450d-b3f4-1de644428f3f"))
+/* dual interface */ IInputFiles;
+struct __declspec(uuid("8befec9c-310c-4cee-8843-e444fb5f355c"))
+/* dual interface */ IInputFile;
+struct __declspec(uuid("7014d469-aa30-4b76-b03c-f3cf874f6fc6"))
+/* dual interface */ IOutputDocuments;
+struct __declspec(uuid("ebe8fa3d-39e1-485d-bb0f-773f499049e2"))
+/* dual interface */ IOutputDocument;
+struct __declspec(uuid("a13017e3-84b3-4674-91d6-f3ccd5977eb9"))
+/* dual interface */ IOutputFormatSettings;
+enum OutputFileFormatEnum;
+enum OutputPublishingMethodEnum;
+struct __declspec(uuid("191cb9c0-a985-4b68-a253-5c45b68816e7"))
+/* dual interface */ ISmtpSettings;
+struct __declspec(uuid("c2802f2f-2770-44b6-9b03-e9b999312799"))
+/* dual interface */ IStatistics;
+struct __declspec(uuid("ab8a549b-0b8d-4520-a07e-5564d1b0470d"))
+/* dual interface */ IDocumentAttributes;
+struct __declspec(uuid("0988ba06-6e47-4b69-9bd9-fb46cc674bd4"))
+/* dual interface */ IDocumentAttribute;
+enum AttributeTypeEnum;
+struct __declspec(uuid("294c5af9-18c6-494c-a96a-320133acdf59"))
+/* dual interface */ IPreprocessingParams;
+enum RotationTypeEnum;
+struct __declspec(uuid("702723f2-a7a3-4f6c-a194-e9bfccf83448"))
+/* dual interface */ IRecognitionParams;
+enum RecognitionQualitySettingEnum;
+enum RecognitionModeEnum;
+struct __declspec(uuid("f10c99da-3f79-441e-aa8a-a45eb5084f4b"))
+/* dual interface */ IExportParams;
+struct __declspec(uuid("727c1028-142c-4682-a2bf-266c09208745"))
+/* dual interface */ IOutputFormatSettingsCollection;
+enum DocumentSeparationMethodEnum;
+struct __declspec(uuid("640d3126-c7c4-4ad4-81c3-af013e9cb19e"))
+/* dual interface */ IXmlResult;
+struct __declspec(uuid("bf4f5ffe-5d3c-450d-b3f4-1de644428f30"))
+/* dual interface */ IJobDocuments;
+struct __declspec(uuid("8befec9c-310c-4cee-8843-e444fb5f3550"))
+/* dual interface */ IJobDocument;
+struct __declspec(uuid("1dfef592-a1ef-4e5c-8b98-93c1e108db7c"))
+/* dual interface */ IWorkflows;
+struct __declspec(uuid("bbdd103c-9d5a-43e0-bb4d-2955d6388214"))
+/* dual interface */ IWorkflow;
+struct __declspec(uuid("61ae7eb7-168e-4c67-90de-b963a1301339"))
+/* dual interface */ IIndexingSettings;
+struct __declspec(uuid("a0efbb07-5031-4774-abf8-73f77e569591"))
+/* dual interface */ IDocumentTypes;
+struct __declspec(uuid("37205c83-a996-43dd-9214-884fa70900e8"))
+/* dual interface */ IDocumentType;
+struct __declspec(uuid("4f585939-b1e4-4e41-8206-e3d619592533"))
+/* dual interface */ IIndexingFields;
+struct __declspec(uuid("65d8c7cc-b6d3-4c39-bc77-48fefacb9d13"))
+/* dual interface */ IIndexingField;
+enum JobStateEnum;
+struct __declspec(uuid("59f7caed-943a-4976-b7cf-24094256acb6"))
+/* interface */ IClientEvents;
+struct __declspec(uuid("1f4912c1-f93e-4f85-bcae-681550254429"))
+/* dispinterface */ DIClientEvents;
+struct __declspec(uuid("b18e9d19-8da3-4ba9-96e5-4493f5c1cb52"))
+/* dual interface */ IRTFExportSettings;
+enum RTFSynthesisModeEnum;
+struct __declspec(uuid("9e6bf226-c671-42a4-98b2-283bd7b1ab5e"))
+/* dual interface */ IHTMLExportSettings;
+enum CodePageEnum;
+enum HTMLSynthesisModeEnum;
+enum TextEncodingTypeEnum;
+struct __declspec(uuid("ab89d81b-07b1-40f3-b494-0e000d4d0aa1"))
+/* dual interface */ IXLExportSettings;
+struct __declspec(uuid("aa009e14-a232-4c8b-8191-662f3a4f2cd3"))
+/* dual interface */ IXMLExportSettings;
+struct __declspec(uuid("aa009e14-a232-4c8b-8191-662f3a4f2cd4"))
+/* dual interface */ IAltoExportSettings;
+enum TextCoordinatesParticularityEnum;
+enum FontFormattingModeEnum;
+struct __declspec(uuid("aa009e14-a232-4c8b-8191-662f3a4f2cd5"))
+/* dual interface */ IEpubExportSettings;
+enum ExportPictureFormatEnum;
+struct __declspec(uuid("39c0683e-6c97-4d4e-b08a-09afd35e3650"))
+/* dual interface */ ITextExportSettings;
+struct __declspec(uuid("c94ba81f-b6a5-47e1-8840-be9fd712121c"))
+/* dual interface */ ICSVExportSettings;
+struct __declspec(uuid("7153dd95-2e7a-43c7-b19f-5daaead155ae"))
+/* dual interface */ IPDFAExportSettings;
+enum PDFExportModeEnum;
+struct __declspec(uuid("6136f178-6fd9-4a9e-8476-d047e81033b8"))
+/* dual interface */ IDocumentInfoItems;
+struct __declspec(uuid("7493e704-0609-4034-a8a8-a3bda539d8b0"))
+/* dual interface */ IDocumentInfoItem;
+struct __declspec(uuid("2554b5b2-2832-483b-ae09-f1836d6da573"))
+/* dual interface */ IHeaderAndFooterSettings;
+enum PDFVersionEnum;
+struct __declspec(uuid("f0018a78-1a59-46d3-ab14-61d6a3c5d1b7"))
+/* dual interface */ IPDFExportSettings;
+struct __declspec(uuid("de724596-680b-4b1f-8b23-f136b0077d20"))
+/* dual interface */ IPDFEncryptionInfo;
+enum PDFEncryptionLevelEnum;
+enum ImageCompressionTypeEnum;
+enum ImageColorModeEnum;
+enum CodePageTypeEnum;
+enum HTMLFormatModeEnum;
+struct __declspec(uuid("578bf47c-4a64-4edc-87b1-d7292d9728f0"))
+/* dual interface */ IDOCXExportSettings;
+struct __declspec(uuid("65829b00-34ae-495f-b84e-7f769fc9c6a6"))
+/* dual interface */ IMSWordExportSettings;
+struct __declspec(uuid("ef4dd90c-d83e-4565-8685-82fd96f2f4fc"))
+/* dual interface */ IXLSXExportSettings;
+struct __declspec(uuid("f52adcab-471c-437e-a749-8e3f22c6369d"))
+/* dual interface */ IInternalFormatExportSettings;
+struct __declspec(uuid("bb01ea0e-fef2-4e66-9f94-96d16ab718d8"))
+/* dual interface */ INoConversionExportSettings;
+struct __declspec(uuid("099fe048-275e-4683-8ac6-f8a369cd4b4b"))
+/* dual interface */ ITiffExportSettings;
+struct __declspec(uuid("16c0fb8f-d375-4996-8848-255333d2c8e6"))
+/* dual interface */ IJpegExportSettings;
+struct __declspec(uuid("3b318fae-baf6-4e66-b6f9-eb47644384c0"))
+/* dual interface */ IJpeg2kExportSettings;
+struct __declspec(uuid("29aed799-01fa-45bf-911e-3e2664443077"))
+/* dual interface */ IJBig2ExportSettings;
+struct /* coclass */ RTFExportSettings;
+struct /* coclass */ MSWordExportSettings;
+struct /* coclass */ DOCXExportSettings;
+struct /* coclass */ HTMLExportSettings;
+struct /* coclass */ XLSXExportSettings;
+struct /* coclass */ XLExportSettings;
+struct /* coclass */ XMLExportSettings;
+struct /* coclass */ AltoExportSettings;
+struct /* coclass */ EpubExportSettings;
+struct /* coclass */ TextExportSettings;
+struct /* coclass */ CSVExportSettings;
+struct /* coclass */ InternalFormatExportSettings;
+struct /* coclass */ NoConversionExportSettings;
+struct /* coclass */ PDFExportSettings;
+struct /* coclass */ TiffExportSettings;
+struct /* coclass */ JpegExportSettings;
+struct /* coclass */ Jpeg2kExportSettings;
+struct /* coclass */ JBig2ExportSettings;
+struct /* coclass */ PDFAExportSettings;
+struct __declspec(uuid("448c2584-861d-4444-8c68-aa53607adefb"))
+/* dual interface */ IEnumerationIndexingField;
+struct __declspec(uuid("2a917c5e-19df-405e-b006-8d9e2414d209"))
+/* dual interface */ IBooleanIndexingField;
+struct __declspec(uuid("a4fddf27-18ed-42cd-bea2-afd758d51241"))
+/* dual interface */ ISingleLineIndexingField;
+struct __declspec(uuid("7fd68a6b-8c83-48b2-bd57-fce46194eb1e"))
+/* dual interface */ IMultipleLinesIndexingField;
+struct __declspec(uuid("cf769410-83ce-4fd7-8827-f7001d2adc9c"))
+/* dual interface */ IRegularExpressionIndexingField;
+enum TextTypeEnum;
+enum XMLResultPublishingMethodEnum;
+struct __declspec(uuid("73057928-5f5a-47be-9ebd-545beb752481"))
+/* dual interface */ IObjectsCollection;
+struct __declspec(uuid("f300306b-c79e-45b4-a724-42eceee19f81"))
+/* dual interface */ IBooleanAttribute;
+struct __declspec(uuid("4f1f0248-3948-4b9d-90be-d41c0c0c5271"))
+/* dual interface */ IEnumerationAttribute;
+struct __declspec(uuid("2109d9dc-b74f-47e1-b97e-fb3eab8c235e"))
+/* dual interface */ ISingleLineAttribute;
+struct __declspec(uuid("d44ee6f6-7a37-4cfc-953f-cee1ca3410c9"))
+/* dual interface */ IMultipleLinesAttribute;
+struct __declspec(uuid("28038c7d-a5db-49d3-8110-3c2a8f32b1bd"))
+/* dual interface */ IRegularExpressionAttribute;
+struct /* coclass */ Client;
+struct /* coclass */ XmlTicket;
+struct /* coclass */ XmlResult;
+struct /* coclass */ InputFile;
+struct /* coclass */ JobDocument;
+struct /* coclass */ StringsCollection;
+
+//
+// Smart pointer typedef declarations
+//
+
+_COM_SMARTPTR_TYPEDEF(IStringsCollection, __uuidof(IStringsCollection));
+_COM_SMARTPTR_TYPEDEF(ISmtpSettings, __uuidof(ISmtpSettings));
+_COM_SMARTPTR_TYPEDEF(IOutputFormatSettings, __uuidof(IOutputFormatSettings));
+_COM_SMARTPTR_TYPEDEF(IOutputDocument, __uuidof(IOutputDocument));
+_COM_SMARTPTR_TYPEDEF(IOutputDocuments, __uuidof(IOutputDocuments));
+_COM_SMARTPTR_TYPEDEF(IStatistics, __uuidof(IStatistics));
+_COM_SMARTPTR_TYPEDEF(IDocumentAttribute, __uuidof(IDocumentAttribute));
+_COM_SMARTPTR_TYPEDEF(IDocumentAttributes, __uuidof(IDocumentAttributes));
+_COM_SMARTPTR_TYPEDEF(IInputFile, __uuidof(IInputFile));
+_COM_SMARTPTR_TYPEDEF(IInputFiles, __uuidof(IInputFiles));
+_COM_SMARTPTR_TYPEDEF(IPreprocessingParams, __uuidof(IPreprocessingParams));
+_COM_SMARTPTR_TYPEDEF(IRecognitionParams, __uuidof(IRecognitionParams));
+_COM_SMARTPTR_TYPEDEF(IOutputFormatSettingsCollection, __uuidof(IOutputFormatSettingsCollection));
+_COM_SMARTPTR_TYPEDEF(IExportParams, __uuidof(IExportParams));
+_COM_SMARTPTR_TYPEDEF(IXmlTicket, __uuidof(IXmlTicket));
+_COM_SMARTPTR_TYPEDEF(IJobDocument, __uuidof(IJobDocument));
+_COM_SMARTPTR_TYPEDEF(IJobDocuments, __uuidof(IJobDocuments));
+_COM_SMARTPTR_TYPEDEF(IXmlResult, __uuidof(IXmlResult));
+_COM_SMARTPTR_TYPEDEF(IIndexingField, __uuidof(IIndexingField));
+_COM_SMARTPTR_TYPEDEF(IIndexingFields, __uuidof(IIndexingFields));
+_COM_SMARTPTR_TYPEDEF(IDocumentType, __uuidof(IDocumentType));
+_COM_SMARTPTR_TYPEDEF(IDocumentTypes, __uuidof(IDocumentTypes));
+_COM_SMARTPTR_TYPEDEF(IIndexingSettings, __uuidof(IIndexingSettings));
+_COM_SMARTPTR_TYPEDEF(IWorkflow, __uuidof(IWorkflow));
+_COM_SMARTPTR_TYPEDEF(IWorkflows, __uuidof(IWorkflows));
+_COM_SMARTPTR_TYPEDEF(IClient, __uuidof(IClient));
+_COM_SMARTPTR_TYPEDEF(IClientEvents, __uuidof(IClientEvents));
+_COM_SMARTPTR_TYPEDEF(DIClientEvents, __uuidof(DIClientEvents));
+_COM_SMARTPTR_TYPEDEF(IRTFExportSettings, __uuidof(IRTFExportSettings));
+_COM_SMARTPTR_TYPEDEF(IHTMLExportSettings, __uuidof(IHTMLExportSettings));
+_COM_SMARTPTR_TYPEDEF(IXLExportSettings, __uuidof(IXLExportSettings));
+_COM_SMARTPTR_TYPEDEF(IXMLExportSettings, __uuidof(IXMLExportSettings));
+_COM_SMARTPTR_TYPEDEF(IAltoExportSettings, __uuidof(IAltoExportSettings));
+_COM_SMARTPTR_TYPEDEF(IEpubExportSettings, __uuidof(IEpubExportSettings));
+_COM_SMARTPTR_TYPEDEF(ITextExportSettings, __uuidof(ITextExportSettings));
+_COM_SMARTPTR_TYPEDEF(ICSVExportSettings, __uuidof(ICSVExportSettings));
+_COM_SMARTPTR_TYPEDEF(IDocumentInfoItem, __uuidof(IDocumentInfoItem));
+_COM_SMARTPTR_TYPEDEF(IDocumentInfoItems, __uuidof(IDocumentInfoItems));
+_COM_SMARTPTR_TYPEDEF(IHeaderAndFooterSettings, __uuidof(IHeaderAndFooterSettings));
+_COM_SMARTPTR_TYPEDEF(IPDFAExportSettings, __uuidof(IPDFAExportSettings));
+_COM_SMARTPTR_TYPEDEF(IPDFEncryptionInfo, __uuidof(IPDFEncryptionInfo));
+_COM_SMARTPTR_TYPEDEF(IPDFExportSettings, __uuidof(IPDFExportSettings));
+_COM_SMARTPTR_TYPEDEF(IDOCXExportSettings, __uuidof(IDOCXExportSettings));
+_COM_SMARTPTR_TYPEDEF(IMSWordExportSettings, __uuidof(IMSWordExportSettings));
+_COM_SMARTPTR_TYPEDEF(IXLSXExportSettings, __uuidof(IXLSXExportSettings));
+_COM_SMARTPTR_TYPEDEF(IInternalFormatExportSettings, __uuidof(IInternalFormatExportSettings));
+_COM_SMARTPTR_TYPEDEF(INoConversionExportSettings, __uuidof(INoConversionExportSettings));
+_COM_SMARTPTR_TYPEDEF(ITiffExportSettings, __uuidof(ITiffExportSettings));
+_COM_SMARTPTR_TYPEDEF(IJpegExportSettings, __uuidof(IJpegExportSettings));
+_COM_SMARTPTR_TYPEDEF(IJpeg2kExportSettings, __uuidof(IJpeg2kExportSettings));
+_COM_SMARTPTR_TYPEDEF(IJBig2ExportSettings, __uuidof(IJBig2ExportSettings));
+_COM_SMARTPTR_TYPEDEF(IEnumerationIndexingField, __uuidof(IEnumerationIndexingField));
+_COM_SMARTPTR_TYPEDEF(IBooleanIndexingField, __uuidof(IBooleanIndexingField));
+_COM_SMARTPTR_TYPEDEF(ISingleLineIndexingField, __uuidof(ISingleLineIndexingField));
+_COM_SMARTPTR_TYPEDEF(IMultipleLinesIndexingField, __uuidof(IMultipleLinesIndexingField));
+_COM_SMARTPTR_TYPEDEF(IRegularExpressionIndexingField, __uuidof(IRegularExpressionIndexingField));
+_COM_SMARTPTR_TYPEDEF(IObjectsCollection, __uuidof(IObjectsCollection));
+_COM_SMARTPTR_TYPEDEF(IBooleanAttribute, __uuidof(IBooleanAttribute));
+_COM_SMARTPTR_TYPEDEF(IEnumerationAttribute, __uuidof(IEnumerationAttribute));
+_COM_SMARTPTR_TYPEDEF(ISingleLineAttribute, __uuidof(ISingleLineAttribute));
+_COM_SMARTPTR_TYPEDEF(IMultipleLinesAttribute, __uuidof(IMultipleLinesAttribute));
+_COM_SMARTPTR_TYPEDEF(IRegularExpressionAttribute, __uuidof(IRegularExpressionAttribute));
+
+//
+// Type library items
+//
+
+struct __declspec(uuid("f79901f7-96be-497f-b29d-d30d0ef3add7"))
+IStringsCollection : IDispatch
+{
+    //
+    // Property data
+    //
+
+    __declspec(property(get=GetCount))
+    long Count;
+    __declspec(property(get=Get_NewEnum))
+    IUnknownPtr _NewEnum;
+
+    //
+    // Wrapper methods for error-handling
+    //
+
+    IUnknownPtr Get_NewEnum ( );
+    long GetCount ( );
+    _bstr_t Item (
+        long index );
+    HRESULT Add (
+        _bstr_t value );
+    HRESULT Remove (
+        long index );
+    HRESULT RemoveAll ( );
+
+    //
+    // Raw methods provided by interface
+    //
+
+      virtual HRESULT __stdcall get__NewEnum (
+        /*[out,retval]*/ IUnknown * * result ) = 0;
+      virtual HRESULT __stdcall get_Count (
+        /*[out,retval]*/ long * result ) = 0;
+      virtual HRESULT __stdcall raw_Item (
+        /*[in]*/ long index,
+        /*[out,retval]*/ BSTR * Item ) = 0;
+      virtual HRESULT __stdcall raw_Add (
+        /*[in]*/ BSTR value ) = 0;
+      virtual HRESULT __stdcall raw_Remove (
+        /*[in]*/ long index ) = 0;
+      virtual HRESULT __stdcall raw_RemoveAll ( ) = 0;
+};
+
+enum PriorityEnum
+{
+    P_Low = 0,
+    P_BelowNormal = 1,
+    P_Normal = 2,
+    P_AboveNormal = 3,
+    P_High = 4
+};
+
+enum OutputFileFormatEnum
+{
+    OFF_MSWord = 1,
+    OFF_MSExcel = 4,
+    OFF_RTF = 16,
+    OFF_XML = 32,
+    OFF_PDF = 64,
+    OFF_PDFA = 128,
+    OFF_Text = 256,
+    OFF_CSV = 512,
+    OFF_HTML = 1024,
+    OFF_NoConversion = 2048,
+    OFF_TIFF = 4096,
+    OFF_JPG = 8192,
+    OFF_J2K = 16384,
+    OFF_InternalFormat = 32768,
+    OFF_DOCX = 65536,
+    OFF_XLSX = 131072,
+    OFF_JBIG2 = 262144,
+    OFF_ALTO = 524288,
+    OFF_EPUB = 1048576
+};
+
+enum OutputPublishingMethodEnum
+{
+    OPM_SharedFolder = 0,
+    OPM_SharePoint = 1,
+    OPM_Mail = 2,
+    OPM_Smtp = 3
+};
+
+struct __declspec(uuid("191cb9c0-a985-4b68-a253-5c45b68816e7"))
+ISmtpSettings : IDispatch
+{
+    //
+    // Property data
+    //
+
+    __declspec(property(get=GetPortNumber,put=PutPortNumber))
+    long PortNumber;
+    __declspec(property(get=GetSenderAddress,put=PutSenderAddress))
+    _bstr_t SenderAddress;
+    __declspec(property(get=GetPassword,put=PutPassword))
+    _bstr_t Password;
+    __declspec(property(get=GetServerHostName,put=PutServerHostName))
+    _bstr_t ServerHostName;
+    __declspec(property(get=GetServerRequiresAuthentication,put=PutServerRequiresAuthentication))
+    VARIANT_BOOL ServerRequiresAuthentication;
+
+    //
+    // Wrapper methods for error-handling
+    //
+
+    long GetPortNumber ( );
+    void PutPortNumber (
+        long result );
+    _bstr_t GetSenderAddress ( );
+    void PutSenderAddress (
+        _bstr_t result );
+    _bstr_t GetPassword ( );
+    void PutPassword (
+        _bstr_t result );
+    _bstr_t GetServerHostName ( );
+    void PutServerHostName (
+        _bstr_t result );
+    VARIANT_BOOL GetServerRequiresAuthentication ( );
+    void PutServerRequiresAuthentication (
+        VARIANT_BOOL result );
+
+    //
+    // Raw methods provided by interface
+    //
+
+      virtual HRESULT __stdcall get_PortNumber (
+        /*[out,retval]*/ long * result ) = 0;
+      virtual HRESULT __stdcall put_PortNumber (
+        /*[in]*/ long result ) = 0;
+      virtual HRESULT __stdcall get_SenderAddress (
+        /*[out,retval]*/ BSTR * result ) = 0;
+      virtual HRESULT __stdcall put_SenderAddress (
+        /*[in]*/ BSTR result ) = 0;
+      virtual HRESULT __stdcall get_Password (
+        /*[out,retval]*/ BSTR * result ) = 0;
+      virtual HRESULT __stdcall put_Password (
+        /*[in]*/ BSTR result ) = 0;
+      virtual HRESULT __stdcall get_ServerHostName (
+        /*[out,retval]*/ BSTR * result ) = 0;
+      virtual HRESULT __stdcall put_ServerHostName (
+        /*[in]*/ BSTR result ) = 0;
+      virtual HRESULT __stdcall get_ServerRequiresAuthentication (
+        /*[out,retval]*/ VARIANT_BOOL * result ) = 0;
+      virtual HRESULT __stdcall put_ServerRequiresAuthentication (
+        /*[in]*/ VARIANT_BOOL result ) = 0;
+};
+
+struct __declspec(uuid("a13017e3-84b3-4674-91d6-f3ccd5977eb9"))
+IOutputFormatSettings : IDispatch
+{
+    //
+    // Property data
+    //
+
+    __declspec(property(get=GetFileFormat))
+    enum OutputFileFormatEnum FileFormat;
+    __declspec(property(get=GetNamingRule,put=PutNamingRule))
+    _bstr_t NamingRule;
+    __declspec(property(get=GetKeepLastModifiedDate,put=PutKeepLastModifiedDate))
+    VARIANT_BOOL KeepLastModifiedDate;
+    __declspec(property(get=GetOutputLocation,put=PutOutputLocation))
+    _bstr_t OutputLocation;
+    __declspec(property(get=GetPublishingMethod,put=PutPublishingMethod))
+    enum OutputPublishingMethodEnum PublishingMethod;
+    __declspec(property(get=GetSharePointServerUrl,put=PutSharePointServerUrl))
+    _bstr_t SharePointServerUrl;
+    __declspec(property(get=GetSharePointDocumentLibrary,put=PutSharePointDocumentLibrary))
+    _bstr_t SharePointDocumentLibrary;
+    __declspec(property(get=GetSmtpSettings))
+    ISmtpSettingsPtr SmtpSettings;
+
+    //
+    // Wrapper methods for error-handling
+    //
+
+    enum OutputFileFormatEnum GetFileFormat ( );
+    _bstr_t GetNamingRule ( );
+    void PutNamingRule (
+        _bstr_t result );
+    VARIANT_BOOL GetKeepLastModifiedDate ( );
+    void PutKeepLastModifiedDate (
+        VARIANT_BOOL result );
+    _bstr_t GetOutputLocation ( );
+    void PutOutputLocation (
+        _bstr_t result );
+    enum OutputPublishingMethodEnum GetPublishingMethod ( );
+    void PutPublishingMethod (
+        enum OutputPublishingMethodEnum result );
+    _bstr_t GetSharePointServerUrl ( );
+    void PutSharePointServerUrl (
+        _bstr_t result );
+    _bstr_t GetSharePointDocumentLibrary ( );
+    void PutSharePointDocumentLibrary (
+        _bstr_t result );
+    ISmtpSettingsPtr GetSmtpSettings ( );
+
+    //
+    // Raw methods provided by interface
+    //
+
+      virtual HRESULT __stdcall get_FileFormat (
+        /*[out,retval]*/ enum OutputFileFormatEnum * result ) = 0;
+      virtual HRESULT __stdcall get_NamingRule (
+        /*[out,retval]*/ BSTR * result ) = 0;
+      virtual HRESULT __stdcall put_NamingRule (
+        /*[in]*/ BSTR result ) = 0;
+      virtual HRESULT __stdcall get_KeepLastModifiedDate (
+        /*[out,retval]*/ VARIANT_BOOL * result ) = 0;
+      virtual HRESULT __stdcall put_KeepLastModifiedDate (
+        /*[in]*/ VARIANT_BOOL result ) = 0;
+      virtual HRESULT __stdcall get_OutputLocation (
+        /*[out,retval]*/ BSTR * result ) = 0;
+      virtual HRESULT __stdcall put_OutputLocation (
+        /*[in]*/ BSTR result ) = 0;
+      virtual HRESULT __stdcall get_PublishingMethod (
+        /*[out,retval]*/ enum OutputPublishingMethodEnum * result ) = 0;
+      virtual HRESULT __stdcall put_PublishingMethod (
+        /*[in]*/ enum OutputPublishingMethodEnum result ) = 0;
+      virtual HRESULT __stdcall get_SharePointServerUrl (
+        /*[out,retval]*/ BSTR * result ) = 0;
+      virtual HRESULT __stdcall put_SharePointServerUrl (
+        /*[in]*/ BSTR result ) = 0;
+      virtual HRESULT __stdcall get_SharePointDocumentLibrary (
+        /*[out,retval]*/ BSTR * result ) = 0;
+      virtual HRESULT __stdcall put_SharePointDocumentLibrary (
+        /*[in]*/ BSTR result ) = 0;
+      virtual HRESULT __stdcall get_SmtpSettings (
+        /*[out,retval]*/ struct ISmtpSettings * * result ) = 0;
+};
+
+struct __declspec(uuid("ebe8fa3d-39e1-485d-bb0f-773f499049e2"))
+IOutputDocument : IDispatch
+{
+    //
+    // Property data
+    //
+
+    __declspec(property(get=GetFileNames))
+    IStringsCollectionPtr FileNames;
+    __declspec(property(get=GetFormatSettings))
+    IOutputFormatSettingsPtr FormatSettings;
+
+    //
+    // Wrapper methods for error-handling
+    //
+
+    IStringsCollectionPtr GetFileNames ( );
+    IOutputFormatSettingsPtr GetFormatSettings ( );
+
+    //
+    // Raw methods provided by interface
+    //
+
+      virtual HRESULT __stdcall get_FileNames (
+        /*[out,retval]*/ struct IStringsCollection * * result ) = 0;
+      virtual HRESULT __stdcall get_FormatSettings (
+        /*[out,retval]*/ struct IOutputFormatSettings * * result ) = 0;
+};
+
+struct __declspec(uuid("7014d469-aa30-4b76-b03c-f3cf874f6fc6"))
+IOutputDocuments : IDispatch
+{
+    //
+    // Property data
+    //
+
+    __declspec(property(get=GetCount))
+    long Count;
+
+    //
+    // Wrapper methods for error-handling
+    //
+
+    long GetCount ( );
+    IOutputDocumentPtr Item (
+        long index );
+
+    //
+    // Raw methods provided by interface
+    //
+
+      virtual HRESULT __stdcall get_Count (
+        /*[out,retval]*/ long * result ) = 0;
+      virtual HRESULT __stdcall raw_Item (
+        /*[in]*/ long index,
+        /*[out,retval]*/ struct IOutputDocument * * result ) = 0;
+};
+
+struct __declspec(uuid("c2802f2f-2770-44b6-9b03-e9b999312799"))
+IStatistics : IDispatch
+{
+    //
+    // Property data
+    //
+
+    __declspec(property(get=GetTotalCharacters))
+    long TotalCharacters;
+    __declspec(property(get=GetUncertainCharacters))
+    long UncertainCharacters;
+    __declspec(property(get=GetPagesArea))
+    long PagesArea;
+
+    //
+    // Wrapper methods for error-handling
+    //
+
+    long GetTotalCharacters ( );
+    long GetUncertainCharacters ( );
+    long GetPagesArea ( );
+
+    //
+    // Raw methods provided by interface
+    //
+
+      virtual HRESULT __stdcall get_TotalCharacters (
+        /*[out,retval]*/ long * result ) = 0;
+      virtual HRESULT __stdcall get_UncertainCharacters (
+        /*[out,retval]*/ long * result ) = 0;
+      virtual HRESULT __stdcall get_PagesArea (
+        /*[out,retval]*/ long * result ) = 0;
+};
+
+enum AttributeTypeEnum
+{
+    AT_Boolean = 0,
+    AT_Enumeration = 1,
+    AT_SingleLine = 2,
+    AT_MultipleLines = 3,
+    AT_RegularExpression = 4
+};
+
+struct __declspec(uuid("0988ba06-6e47-4b69-9bd9-fb46cc674bd4"))
+IDocumentAttribute : IDispatch
+{
+    //
+    // Property data
+    //
+
+    __declspec(property(get=GetName))
+    _bstr_t Name;
+    __declspec(property(get=GetType))
+    enum AttributeTypeEnum Type;
+
+    //
+    // Wrapper methods for error-handling
+    //
+
+    _bstr_t GetName ( );
+    enum AttributeTypeEnum GetType ( );
+
+    //
+    // Raw methods provided by interface
+    //
+
+      virtual HRESULT __stdcall get_Name (
+        /*[out,retval]*/ BSTR * result ) = 0;
+      virtual HRESULT __stdcall get_Type (
+        /*[out,retval]*/ enum AttributeTypeEnum * value ) = 0;
+};
+
+struct __declspec(uuid("ab8a549b-0b8d-4520-a07e-5564d1b0470d"))
+IDocumentAttributes : IDispatch
+{
+    //
+    // Property data
+    //
+
+    __declspec(property(get=GetCount))
+    long Count;
+    __declspec(property(get=GetDocumentType,put=PutDocumentType))
+    _bstr_t DocumentType;
+    __declspec(property(get=GetSkipManualIndexing,put=PutSkipManualIndexing))
+    VARIANT_BOOL SkipManualIndexing;
+
+    //
+    // Wrapper methods for error-handling
+    //
+
+    long GetCount ( );
+    IDocumentAttributePtr Item (
+        long index );
+    HRESULT Add (
+        struct IDocumentAttribute * value );
+    HRESULT Remove (
+        long index );
+    HRESULT RemoveAll ( );
+    _bstr_t GetDocumentType ( );
+    void PutDocumentType (
+        _bstr_t result );
+    VARIANT_BOOL GetSkipManualIndexing ( );
+    void PutSkipManualIndexing (
+        VARIANT_BOOL result );
+
+    //
+    // Raw methods provided by interface
+    //
+
+      virtual HRESULT __stdcall get_Count (
+        /*[out,retval]*/ long * result ) = 0;
+      virtual HRESULT __stdcall raw_Item (
+        /*[in]*/ long index,
+        /*[out,retval]*/ struct IDocumentAttribute * * Item ) = 0;
+      virtual HRESULT __stdcall raw_Add (
+        /*[in]*/ struct IDocumentAttribute * value ) = 0;
+      virtual HRESULT __stdcall raw_Remove (
+        /*[in]*/ long index ) = 0;
+      virtual HRESULT __stdcall raw_RemoveAll ( ) = 0;
+      virtual HRESULT __stdcall get_DocumentType (
+        /*[out,retval]*/ BSTR * result ) = 0;
+      virtual HRESULT __stdcall put_DocumentType (
+        /*[in]*/ BSTR result ) = 0;
+      virtual HRESULT __stdcall get_SkipManualIndexing (
+        /*[out,retval]*/ VARIANT_BOOL * result ) = 0;
+      virtual HRESULT __stdcall put_SkipManualIndexing (
+        /*[in]*/ VARIANT_BOOL result ) = 0;
+};
+
+struct __declspec(uuid("8befec9c-310c-4cee-8843-e444fb5f355c"))
+IInputFile : IDispatch
+{
+    //
+    // Property data
+    //
+
+    __declspec(property(get=GetFileName,put=PutFileName))
+    _bstr_t FileName;
+    __declspec(property(get=GetPassword,put=PutPassword))
+    _bstr_t Password;
+    __declspec(property(get=GetOutputDocuments))
+    IOutputDocumentsPtr OutputDocuments;
+    __declspec(property(get=GetErrors))
+    IStringsCollectionPtr Errors;
+    __declspec(property(get=GetWarnings))
+    IStringsCollectionPtr Warnings;
+    __declspec(property(get=GetStatistics))
+    IStatisticsPtr Statistics;
+    __declspec(property(get=GetAttributes))
+    IDocumentAttributesPtr Attributes;
+    __declspec(property(get=GetCustomText))
+    _bstr_t CustomText;
+
+    //
+    // Wrapper methods for error-handling
+    //
+
+    _bstr_t GetFileName ( );
+    void PutFileName (
+        _bstr_t result );
+    _bstr_t GetPassword ( );
+    void PutPassword (
+        _bstr_t result );
+    IOutputDocumentsPtr GetOutputDocuments ( );
+    IStringsCollectionPtr GetErrors ( );
+    IStringsCollectionPtr GetWarnings ( );
+    IStatisticsPtr GetStatistics ( );
+    IDocumentAttributesPtr GetAttributes ( );
+    _bstr_t GetCustomText ( );
+
+    //
+    // Raw methods provided by interface
+    //
+
+      virtual HRESULT __stdcall get_FileName (
+        /*[out,retval]*/ BSTR * result ) = 0;
+      virtual HRESULT __stdcall put_FileName (
+        /*[in]*/ BSTR result ) = 0;
+      virtual HRESULT __stdcall get_Password (
+        /*[out,retval]*/ BSTR * result ) = 0;
+      virtual HRESULT __stdcall put_Password (
+        /*[in]*/ BSTR result ) = 0;
+      virtual HRESULT __stdcall get_OutputDocuments (
+        /*[out,retval]*/ struct IOutputDocuments * * result ) = 0;
+      virtual HRESULT __stdcall get_Errors (
+        /*[out,retval]*/ struct IStringsCollection * * result ) = 0;
+      virtual HRESULT __stdcall get_Warnings (
+        /*[out,retval]*/ struct IStringsCollection * * result ) = 0;
+      virtual HRESULT __stdcall get_Statistics (
+        /*[out,retval]*/ struct IStatistics * * result ) = 0;
+      virtual HRESULT __stdcall get_Attributes (
+        /*[out,retval]*/ struct IDocumentAttributes * * result ) = 0;
+      virtual HRESULT __stdcall get_CustomText (
+        /*[out,retval]*/ BSTR * result ) = 0;
+};
+
+struct __declspec(uuid("bf4f5ffe-5d3c-450d-b3f4-1de644428f3f"))
+IInputFiles : IDispatch
+{
+    //
+    // Property data
+    //
+
+    __declspec(property(get=GetCount))
+    long Count;
+    __declspec(property(get=Get_NewEnum))
+    IUnknownPtr _NewEnum;
+
+    //
+    // Wrapper methods for error-handling
+    //
+
+    IUnknownPtr Get_NewEnum ( );
+    long GetCount ( );
+    IInputFilePtr Item (
+        long index );
+    HRESULT Add (
+        struct IInputFile * Item );
+    HRESULT Remove (
+        long index );
+    HRESULT RemoveAll ( );
+
+    //
+    // Raw methods provided by interface
+    //
+
+      virtual HRESULT __stdcall get__NewEnum (
+        /*[out,retval]*/ IUnknown * * result ) = 0;
+      virtual HRESULT __stdcall get_Count (
+        /*[out,retval]*/ long * result ) = 0;
+      virtual HRESULT __stdcall raw_Item (
+        /*[in]*/ long index,
+        /*[out,retval]*/ struct IInputFile * * Item ) = 0;
+      virtual HRESULT __stdcall raw_Add (
+        /*[in]*/ struct IInputFile * Item ) = 0;
+      virtual HRESULT __stdcall raw_Remove (
+        /*[in]*/ long index ) = 0;
+      virtual HRESULT __stdcall raw_RemoveAll ( ) = 0;
+};
+
+enum RotationTypeEnum
+{
+    RT_NoRotation = 0,
+    RT_Automatic = 1,
+    RT_Clockwise = 2,
+    RT_Counterclockwise = 3,
+    RT_Upsidedown = 4
+};
+
+struct __declspec(uuid("294c5af9-18c6-494c-a96a-320133acdf59"))
+IPreprocessingParams : IDispatch
+{
+    //
+    // Property data
+    //
+
+    __declspec(property(get=GetDeskew,put=PutDeskew))
+    VARIANT_BOOL Deskew;
+    __declspec(property(get=GetRemoveGarbage,put=PutRemoveGarbage))
+    VARIANT_BOOL RemoveGarbage;
+    __declspec(property(get=GetRemoveTexture,put=PutRemoveTexture))
+    VARIANT_BOOL RemoveTexture;
+    __declspec(property(get=GetSplitDualPages,put=PutSplitDualPages))
+    VARIANT_BOOL SplitDualPages;
+    __declspec(property(get=GetConvertToBWFormat,put=PutConvertToBWFormat))
+    VARIANT_BOOL ConvertToBWFormat;
+    __declspec(property(get=GetRotationType,put=PutRotationType))
+    enum RotationTypeEnum RotationType;
+
+    //
+    // Wrapper methods for error-handling
+    //
+
+    VARIANT_BOOL GetDeskew ( );
+    void PutDeskew (
+        VARIANT_BOOL result );
+    VARIANT_BOOL GetRemoveGarbage ( );
+    void PutRemoveGarbage (
+        VARIANT_BOOL result );
+    VARIANT_BOOL GetRemoveTexture ( );
+    void PutRemoveTexture (
+        VARIANT_BOOL result );
+    VARIANT_BOOL GetSplitDualPages ( );
+    void PutSplitDualPages (
+        VARIANT_BOOL result );
+    VARIANT_BOOL GetConvertToBWFormat ( );
+    void PutConvertToBWFormat (
+        VARIANT_BOOL result );
+    enum RotationTypeEnum GetRotationType ( );
+    void PutRotationType (
+        enum RotationTypeEnum result );
+
+    //
+    // Raw methods provided by interface
+    //
+
+      virtual HRESULT __stdcall get_Deskew (
+        /*[out,retval]*/ VARIANT_BOOL * result ) = 0;
+      virtual HRESULT __stdcall put_Deskew (
+        /*[in]*/ VARIANT_BOOL result ) = 0;
+      virtual HRESULT __stdcall get_RemoveGarbage (
+        /*[out,retval]*/ VARIANT_BOOL * result ) = 0;
+      virtual HRESULT __stdcall put_RemoveGarbage (
+        /*[in]*/ VARIANT_BOOL result ) = 0;
+      virtual HRESULT __stdcall get_RemoveTexture (
+        /*[out,retval]*/ VARIANT_BOOL * result ) = 0;
+      virtual HRESULT __stdcall put_RemoveTexture (
+        /*[in]*/ VARIANT_BOOL result ) = 0;
+      virtual HRESULT __stdcall get_SplitDualPages (
+        /*[out,retval]*/ VARIANT_BOOL * result ) = 0;
+      virtual HRESULT __stdcall put_SplitDualPages (
+        /*[in]*/ VARIANT_BOOL result ) = 0;
+      virtual HRESULT __stdcall get_ConvertToBWFormat (
+        /*[out,retval]*/ VARIANT_BOOL * result ) = 0;
+      virtual HRESULT __stdcall put_ConvertToBWFormat (
+        /*[in]*/ VARIANT_BOOL result ) = 0;
+      virtual HRESULT __stdcall get_RotationType (
+        /*[out,retval]*/ enum RotationTypeEnum * result ) = 0;
+      virtual HRESULT __stdcall put_RotationType (
+        /*[in]*/ enum RotationTypeEnum result ) = 0;
+};
+
+enum RecognitionQualitySettingEnum
+{
+    RQS_Thorough = 0,
+    RQS_Balanced = 1,
+    RQS_Fast = 2
+};
+
+enum RecognitionModeEnum
+{
+    RM_FullPage = 0,
+    RM_BarcodesOnly = 1
+};
+
+struct __declspec(uuid("702723f2-a7a3-4f6c-a194-e9bfccf83448"))
+IRecognitionParams : IDispatch
+{
+    //
+    // Property data
+    //
+
+    __declspec(property(get=GetLanguages))
+    IStringsCollectionPtr Languages;
+    __declspec(property(get=GetLookForBarcodes,put=PutLookForBarcodes))
+    VARIANT_BOOL LookForBarcodes;
+    __declspec(property(get=GetTextTypes,put=PutTextTypes))
+    long TextTypes;
+    __declspec(property(get=GetRecognitionQuality,put=PutRecognitionQuality))
+    enum RecognitionQualitySettingEnum RecognitionQuality;
+    __declspec(property(get=GetRecognitionMode,put=PutRecognitionMode))
+    enum RecognitionModeEnum RecognitionMode;
+
+    //
+    // Wrapper methods for error-handling
+    //
+
+    IStringsCollectionPtr GetLanguages ( );
+    VARIANT_BOOL GetLookForBarcodes ( );
+    void PutLookForBarcodes (
+        VARIANT_BOOL result );
+    long GetTextTypes ( );
+    void PutTextTypes (
+        long result );
+    enum RecognitionQualitySettingEnum GetRecognitionQuality ( );
+    void PutRecognitionQuality (
+        enum RecognitionQualitySettingEnum result );
+    enum RecognitionModeEnum GetRecognitionMode ( );
+    void PutRecognitionMode (
+        enum RecognitionModeEnum result );
+
+    //
+    // Raw methods provided by interface
+    //
+
+      virtual HRESULT __stdcall get_Languages (
+        /*[out,retval]*/ struct IStringsCollection * * result ) = 0;
+      virtual HRESULT __stdcall get_LookForBarcodes (
+        /*[out,retval]*/ VARIANT_BOOL * result ) = 0;
+      virtual HRESULT __stdcall put_LookForBarcodes (
+        /*[in]*/ VARIANT_BOOL result ) = 0;
+      virtual HRESULT __stdcall get_TextTypes (
+        /*[out,retval]*/ long * result ) = 0;
+      virtual HRESULT __stdcall put_TextTypes (
+        /*[in]*/ long result ) = 0;
+      virtual HRESULT __stdcall get_RecognitionQuality (
+        /*[out,retval]*/ enum RecognitionQualitySettingEnum * result ) = 0;
+      virtual HRESULT __stdcall put_RecognitionQuality (
+        /*[in]*/ enum RecognitionQualitySettingEnum result ) = 0;
+      virtual HRESULT __stdcall get_RecognitionMode (
+        /*[out,retval]*/ enum RecognitionModeEnum * result ) = 0;
+      virtual HRESULT __stdcall put_RecognitionMode (
+        /*[in]*/ enum RecognitionModeEnum result ) = 0;
+};
+
+struct __declspec(uuid("727c1028-142c-4682-a2bf-266c09208745"))
+IOutputFormatSettingsCollection : IDispatch
+{
+    //
+    // Property data
+    //
+
+    __declspec(property(get=GetCount))
+    long Count;
+
+    //
+    // Wrapper methods for error-handling
+    //
+
+    long GetCount ( );
+    IOutputFormatSettingsPtr Item (
+        long index );
+    HRESULT Add (
+        struct IOutputFormatSettings * value );
+    HRESULT Remove (
+        long index );
+    HRESULT RemoveAll ( );
+
+    //
+    // Raw methods provided by interface
+    //
+
+      virtual HRESULT __stdcall get_Count (
+        /*[out,retval]*/ long * result ) = 0;
+      virtual HRESULT __stdcall raw_Item (
+        /*[in]*/ long index,
+        /*[out,retval]*/ struct IOutputFormatSettings * * Item ) = 0;
+      virtual HRESULT __stdcall raw_Add (
+        /*[in]*/ struct IOutputFormatSettings * value ) = 0;
+      virtual HRESULT __stdcall raw_Remove (
+        /*[in]*/ long index ) = 0;
+      virtual HRESULT __stdcall raw_RemoveAll ( ) = 0;
+};
+
+enum DocumentSeparationMethodEnum
+{
+    DSM_OneFilePerImage = 0,
+    DSM_ByNumberOfPages = 1,
+    DSM_ByBlankPages = 2,
+    DSM_BySubfolder = 3,
+    DSM_ByBarcode = 4,
+    DSM_MergeIntoSingleFile = 5
+};
+
+struct __declspec(uuid("f10c99da-3f79-441e-aa8a-a45eb5084f4b"))
+IExportParams : IDispatch
+{
+    //
+    // Property data
+    //
+
+    __declspec(property(get=GetOutputFormats))
+    IOutputFormatSettingsCollectionPtr OutputFormats;
+    __declspec(property(get=GetSeparationMethod,put=PutSeparationMethod))
+    enum DocumentSeparationMethodEnum SeparationMethod;
+    __declspec(property(get=GetXmlResultLocation))
+    _bstr_t XmlResultLocation;
+
+    //
+    // Wrapper methods for error-handling
+    //
+
+    IOutputFormatSettingsCollectionPtr GetOutputFormats ( );
+    enum DocumentSeparationMethodEnum GetSeparationMethod ( );
+    void PutSeparationMethod (
+        enum DocumentSeparationMethodEnum result );
+    _bstr_t GetXmlResultLocation ( );
+
+    //
+    // Raw methods provided by interface
+    //
+
+      virtual HRESULT __stdcall get_OutputFormats (
+        /*[out,retval]*/ struct IOutputFormatSettingsCollection * * result ) = 0;
+      virtual HRESULT __stdcall get_SeparationMethod (
+        /*[out,retval]*/ enum DocumentSeparationMethodEnum * result ) = 0;
+      virtual HRESULT __stdcall put_SeparationMethod (
+        /*[in]*/ enum DocumentSeparationMethodEnum result ) = 0;
+      virtual HRESULT __stdcall get_XmlResultLocation (
+        /*[out,retval]*/ BSTR * result ) = 0;
+};
+
+struct __declspec(uuid("52351963-c541-41ad-af9c-86a175d095e4"))
+IXmlTicket : IDispatch
+{
+    //
+    // Property data
+    //
+
+    __declspec(property(get=GetId))
+    _bstr_t Id;
+    __declspec(property(get=GetName,put=PutName))
+    _bstr_t Name;
+    __declspec(property(get=GetPriority,put=PutPriority))
+    enum PriorityEnum Priority;
+    __declspec(property(get=GetInputFiles))
+    IInputFilesPtr InputFiles;
+    __declspec(property(get=GetPreprocessingParams))
+    IPreprocessingParamsPtr PreprocessingParams;
+    __declspec(property(get=GetRecognitionParams))
+    IRecognitionParamsPtr RecognitionParams;
+    __declspec(property(get=GetExportParams))
+    IExportParamsPtr ExportParams;
+    __declspec(property(get=GetUserProperty,put=PutUserProperty))
+    _bstr_t UserProperty;
+    __declspec(property(get=GetAttributes))
+    IDocumentAttributesPtr Attributes;
+    __declspec(property(get=GetOcrTimeout,put=PutOcrTimeout))
+    long OcrTimeout;
+
+    //
+    // Wrapper methods for error-handling
+    //
+
+    _bstr_t GetId ( );
+    _bstr_t GetName ( );
+    void PutName (
+        _bstr_t result );
+    enum PriorityEnum GetPriority ( );
+    void PutPriority (
+        enum PriorityEnum result );
+    HRESULT AddImage (
+        _bstr_t file,
+        _bstr_t pwd );
+    IInputFilesPtr GetInputFiles ( );
+    IPreprocessingParamsPtr GetPreprocessingParams ( );
+    IRecognitionParamsPtr GetRecognitionParams ( );
+    IExportParamsPtr GetExportParams ( );
+    HRESULT SaveToFile (
+        _bstr_t file );
+    HRESULT LoadFromFile (
+        _bstr_t file );
+    _bstr_t GetUserProperty ( );
+    void PutUserProperty (
+        _bstr_t result );
+    IDocumentAttributesPtr GetAttributes ( );
+    long GetOcrTimeout ( );
+    void PutOcrTimeout (
+        long result );
+
+    //
+    // Raw methods provided by interface
+    //
+
+      virtual HRESULT __stdcall get_Id (
+        /*[out,retval]*/ BSTR * result ) = 0;
+      virtual HRESULT __stdcall get_Name (
+        /*[out,retval]*/ BSTR * result ) = 0;
+      virtual HRESULT __stdcall put_Name (
+        /*[in]*/ BSTR result ) = 0;
+      virtual HRESULT __stdcall get_Priority (
+        /*[out,retval]*/ enum PriorityEnum * result ) = 0;
+      virtual HRESULT __stdcall put_Priority (
+        /*[in]*/ enum PriorityEnum result ) = 0;
+      virtual HRESULT __stdcall raw_AddImage (
+        /*[in]*/ BSTR file,
+        /*[in]*/ BSTR pwd ) = 0;
+      virtual HRESULT __stdcall get_InputFiles (
+        /*[out,retval]*/ struct IInputFiles * * result ) = 0;
+      virtual HRESULT __stdcall get_PreprocessingParams (
+        /*[out,retval]*/ struct IPreprocessingParams * * result ) = 0;
+      virtual HRESULT __stdcall get_RecognitionParams (
+        /*[out,retval]*/ struct IRecognitionParams * * result ) = 0;
+      virtual HRESULT __stdcall get_ExportParams (
+        /*[out,retval]*/ struct IExportParams * * result ) = 0;
+      virtual HRESULT __stdcall raw_SaveToFile (
+        /*[in]*/ BSTR file ) = 0;
+      virtual HRESULT __stdcall raw_LoadFromFile (
+        /*[in]*/ BSTR file ) = 0;
+      virtual HRESULT __stdcall get_UserProperty (
+        /*[out,retval]*/ BSTR * result ) = 0;
+      virtual HRESULT __stdcall put_UserProperty (
+        /*[in]*/ BSTR result ) = 0;
+      virtual HRESULT __stdcall get_Attributes (
+        /*[out,retval]*/ struct IDocumentAttributes * * result ) = 0;
+      virtual HRESULT __stdcall get_OcrTimeout (
+        /*[out,retval]*/ long * result ) = 0;
+      virtual HRESULT __stdcall put_OcrTimeout (
+        /*[in]*/ long result ) = 0;
+};
+
+struct __declspec(uuid("8befec9c-310c-4cee-8843-e444fb5f3550"))
+IJobDocument : IDispatch
+{
+    //
+    // Property data
+    //
+
+    __declspec(property(get=GetName,put=PutName))
+    _bstr_t Name;
+    __declspec(property(get=GetOutputDocuments))
+    IOutputDocumentsPtr OutputDocuments;
+    __declspec(property(get=GetErrors))
+    IStringsCollectionPtr Errors;
+    __declspec(property(get=GetWarnings))
+    IStringsCollectionPtr Warnings;
+    __declspec(property(get=GetStatistics))
+    IStatisticsPtr Statistics;
+    __declspec(property(get=GetAttributes))
+    IDocumentAttributesPtr Attributes;
+    __declspec(property(get=GetCustomText))
+    _bstr_t CustomText;
+    __declspec(property(get=GetBarcodeText))
+    _bstr_t BarcodeText;
+
+    //
+    // Wrapper methods for error-handling
+    //
+
+    _bstr_t GetName ( );
+    void PutName (
+        _bstr_t result );
+    IOutputDocumentsPtr GetOutputDocuments ( );
+    IStringsCollectionPtr GetErrors ( );
+    IStringsCollectionPtr GetWarnings ( );
+    IStatisticsPtr GetStatistics ( );
+    IDocumentAttributesPtr GetAttributes ( );
+    _bstr_t GetCustomText ( );
+    _bstr_t GetBarcodeText ( );
+
+    //
+    // Raw methods provided by interface
+    //
+
+      virtual HRESULT __stdcall get_Name (
+        /*[out,retval]*/ BSTR * result ) = 0;
+      virtual HRESULT __stdcall put_Name (
+        /*[in]*/ BSTR result ) = 0;
+      virtual HRESULT __stdcall get_OutputDocuments (
+        /*[out,retval]*/ struct IOutputDocuments * * result ) = 0;
+      virtual HRESULT __stdcall get_Errors (
+        /*[out,retval]*/ struct IStringsCollection * * result ) = 0;
+      virtual HRESULT __stdcall get_Warnings (
+        /*[out,retval]*/ struct IStringsCollection * * result ) = 0;
+      virtual HRESULT __stdcall get_Statistics (
+        /*[out,retval]*/ struct IStatistics * * result ) = 0;
+      virtual HRESULT __stdcall get_Attributes (
+        /*[out,retval]*/ struct IDocumentAttributes * * result ) = 0;
+      virtual HRESULT __stdcall get_CustomText (
+        /*[out,retval]*/ BSTR * result ) = 0;
+      virtual HRESULT __stdcall get_BarcodeText (
+        /*[out,retval]*/ BSTR * result ) = 0;
+};
+
+struct __declspec(uuid("bf4f5ffe-5d3c-450d-b3f4-1de644428f30"))
+IJobDocuments : IDispatch
+{
+    //
+    // Property data
+    //
+
+    __declspec(property(get=GetCount))
+    long Count;
+    __declspec(property(get=Get_NewEnum))
+    IUnknownPtr _NewEnum;
+
+    //
+    // Wrapper methods for error-handling
+    //
+
+    IUnknownPtr Get_NewEnum ( );
+    long GetCount ( );
+    IJobDocumentPtr Item (
+        long index );
+    HRESULT Add (
+        struct IJobDocument * Item );
+    HRESULT Remove (
+        long index );
+    HRESULT RemoveAll ( );
+
+    //
+    // Raw methods provided by interface
+    //
+
+      virtual HRESULT __stdcall get__NewEnum (
+        /*[out,retval]*/ IUnknown * * result ) = 0;
+      virtual HRESULT __stdcall get_Count (
+        /*[out,retval]*/ long * result ) = 0;
+      virtual HRESULT __stdcall raw_Item (
+        /*[in]*/ long index,
+        /*[out,retval]*/ struct IJobDocument * * Item ) = 0;
+      virtual HRESULT __stdcall raw_Add (
+        /*[in]*/ struct IJobDocument * Item ) = 0;
+      virtual HRESULT __stdcall raw_Remove (
+        /*[in]*/ long index ) = 0;
+      virtual HRESULT __stdcall raw_RemoveAll ( ) = 0;
+};
+
+struct __declspec(uuid("640d3126-c7c4-4ad4-81c3-af013e9cb19e"))
+IXmlResult : IDispatch
+{
+    //
+    // Property data
+    //
+
+    __declspec(property(get=GetId))
+    _bstr_t Id;
+    __declspec(property(get=GetName))
+    _bstr_t Name;
+    __declspec(property(get=GetPriority))
+    enum PriorityEnum Priority;
+    __declspec(property(get=GetIsFailed))
+    VARIANT_BOOL IsFailed;
+    __declspec(property(get=GetStatistics))
+    IStatisticsPtr Statistics;
+    __declspec(property(get=GetInputFiles))
+    IInputFilesPtr InputFiles;
+    __declspec(property(get=GetJobDocuments))
+    IJobDocumentsPtr JobDocuments;
+    __declspec(property(get=GetPreprocessingParams))
+    IPreprocessingParamsPtr PreprocessingParams;
+    __declspec(property(get=GetRecognitionParams))
+    IRecognitionParamsPtr RecognitionParams;
+    __declspec(property(get=GetExportParams))
+    IExportParamsPtr ExportParams;
+    __declspec(property(get=GetErrors))
+    IStringsCollectionPtr Errors;
+    __declspec(property(get=GetWarnings))
+    IStringsCollectionPtr Warnings;
+    __declspec(property(get=GetUserProperty))
+    _bstr_t UserProperty;
+    __declspec(property(get=GetBarcodeText))
+    _bstr_t BarcodeText;
+    __declspec(property(get=GetLoadedFrom))
+    _bstr_t LoadedFrom;
+    __declspec(property(get=GetOcrTimeout))
+    long OcrTimeout;
+
+    //
+    // Wrapper methods for error-handling
+    //
+
+    _bstr_t GetId ( );
+    _bstr_t GetName ( );
+    enum PriorityEnum GetPriority ( );
+    VARIANT_BOOL GetIsFailed ( );
+    IStatisticsPtr GetStatistics ( );
+    IInputFilesPtr GetInputFiles ( );
+    IJobDocumentsPtr GetJobDocuments ( );
+    IPreprocessingParamsPtr GetPreprocessingParams ( );
+    IRecognitionParamsPtr GetRecognitionParams ( );
+    IExportParamsPtr GetExportParams ( );
+    IStringsCollectionPtr GetErrors ( );
+    IStringsCollectionPtr GetWarnings ( );
+    HRESULT SaveToFile (
+        _bstr_t file );
+    HRESULT LoadFromFile (
+        _bstr_t file );
+    _bstr_t GetUserProperty ( );
+    _bstr_t GetBarcodeText ( );
+    _bstr_t GetLoadedFrom ( );
+    long GetOcrTimeout ( );
+
+    //
+    // Raw methods provided by interface
+    //
+
+      virtual HRESULT __stdcall get_Id (
+        /*[out,retval]*/ BSTR * result ) = 0;
+      virtual HRESULT __stdcall get_Name (
+        /*[out,retval]*/ BSTR * result ) = 0;
+      virtual HRESULT __stdcall get_Priority (
+        /*[out,retval]*/ enum PriorityEnum * result ) = 0;
+      virtual HRESULT __stdcall get_IsFailed (
+        /*[out,retval]*/ VARIANT_BOOL * result ) = 0;
+      virtual HRESULT __stdcall get_Statistics (
+        /*[out,retval]*/ struct IStatistics * * result ) = 0;
+      virtual HRESULT __stdcall get_InputFiles (
+        /*[out,retval]*/ struct IInputFiles * * result ) = 0;
+      virtual HRESULT __stdcall get_JobDocuments (
+        /*[out,retval]*/ struct IJobDocuments * * result ) = 0;
+      virtual HRESULT __stdcall get_PreprocessingParams (
+        /*[out,retval]*/ struct IPreprocessingParams * * result ) = 0;
+      virtual HRESULT __stdcall get_RecognitionParams (
+        /*[out,retval]*/ struct IRecognitionParams * * result ) = 0;
+      virtual HRESULT __stdcall get_ExportParams (
+        /*[out,retval]*/ struct IExportParams * * result ) = 0;
+      virtual HRESULT __stdcall get_Errors (
+        /*[out,retval]*/ struct IStringsCollection * * result ) = 0;
+      virtual HRESULT __stdcall get_Warnings (
+        /*[out,retval]*/ struct IStringsCollection * * result ) = 0;
+      virtual HRESULT __stdcall raw_SaveToFile (
+        /*[in]*/ BSTR file ) = 0;
+      virtual HRESULT __stdcall raw_LoadFromFile (
+        /*[in]*/ BSTR file ) = 0;
+      virtual HRESULT __stdcall get_UserProperty (
+        /*[out,retval]*/ BSTR * result ) = 0;
+      virtual HRESULT __stdcall get_BarcodeText (
+        /*[out,retval]*/ BSTR * result ) = 0;
+      virtual HRESULT __stdcall get_LoadedFrom (
+        /*[out,retval]*/ BSTR * result ) = 0;
+      virtual HRESULT __stdcall get_OcrTimeout (
+        /*[out,retval]*/ long * result ) = 0;
+};
+
+struct __declspec(uuid("65d8c7cc-b6d3-4c39-bc77-48fefacb9d13"))
+IIndexingField : IDispatch
+{
+    //
+    // Property data
+    //
+
+    __declspec(property(get=GetName))
+    _bstr_t Name;
+    __declspec(property(get=GetType))
+    enum AttributeTypeEnum Type;
+    __declspec(property(get=GetIsRequired))
+    VARIANT_BOOL IsRequired;
+
+    //
+    // Wrapper methods for error-handling
+    //
+
+    _bstr_t GetName ( );
+    enum AttributeTypeEnum GetType ( );
+    VARIANT_BOOL GetIsRequired ( );
+
+    //
+    // Raw methods provided by interface
+    //
+
+      virtual HRESULT __stdcall get_Name (
+        /*[out,retval]*/ BSTR * result ) = 0;
+      virtual HRESULT __stdcall get_Type (
+        /*[out,retval]*/ enum AttributeTypeEnum * result ) = 0;
+      virtual HRESULT __stdcall get_IsRequired (
+        /*[out,retval]*/ VARIANT_BOOL * result ) = 0;
+};
+
+struct __declspec(uuid("4f585939-b1e4-4e41-8206-e3d619592533"))
+IIndexingFields : IDispatch
+{
+    //
+    // Property data
+    //
+
+    __declspec(property(get=GetCount))
+    long Count;
+
+    //
+    // Wrapper methods for error-handling
+    //
+
+    long GetCount ( );
+    IIndexingFieldPtr Item (
+        long index );
+    HRESULT Add (
+        struct IIndexingField * Item );
+    HRESULT Remove (
+        long index );
+    HRESULT RemoveAll ( );
+    IIndexingFieldPtr CreateNew (
+        enum AttributeTypeEnum Type,
+        VARIANT_BOOL IsRequired,
+        _bstr_t Name );
+
+    //
+    // Raw methods provided by interface
+    //
+
+      virtual HRESULT __stdcall get_Count (
+        /*[out,retval]*/ long * result ) = 0;
+      virtual HRESULT __stdcall raw_Item (
+        /*[in]*/ long index,
+        /*[out,retval]*/ struct IIndexingField * * Item ) = 0;
+      virtual HRESULT __stdcall raw_Add (
+        /*[in]*/ struct IIndexingField * Item ) = 0;
+      virtual HRESULT __stdcall raw_Remove (
+        /*[in]*/ long index ) = 0;
+      virtual HRESULT __stdcall raw_RemoveAll ( ) = 0;
+      virtual HRESULT __stdcall raw_CreateNew (
+        /*[in]*/ enum AttributeTypeEnum Type,
+        /*[in]*/ VARIANT_BOOL IsRequired,
+        /*[in]*/ BSTR Name,
+        /*[out,retval]*/ struct IIndexingField * * Item ) = 0;
+};
+
+struct __declspec(uuid("37205c83-a996-43dd-9214-884fa70900e8"))
+IDocumentType : IDispatch
+{
+    //
+    // Property data
+    //
+
+    __declspec(property(get=GetName))
+    _bstr_t Name;
+    __declspec(property(get=GetFields))
+    IIndexingFieldsPtr Fields;
+
+    //
+    // Wrapper methods for error-handling
+    //
+
+    _bstr_t GetName ( );
+    IIndexingFieldsPtr GetFields ( );
+
+    //
+    // Raw methods provided by interface
+    //
+
+      virtual HRESULT __stdcall get_Name (
+        /*[out,retval]*/ BSTR * result ) = 0;
+      virtual HRESULT __stdcall get_Fields (
+        /*[out,retval]*/ struct IIndexingFields * * result ) = 0;
+};
+
+struct __declspec(uuid("a0efbb07-5031-4774-abf8-73f77e569591"))
+IDocumentTypes : IDispatch
+{
+    //
+    // Property data
+    //
+
+    __declspec(property(get=GetCount))
+    long Count;
+
+    //
+    // Wrapper methods for error-handling
+    //
+
+    long GetCount ( );
+    IDocumentTypePtr Item (
+        long index );
+    HRESULT Add (
+        struct IDocumentType * Item );
+    HRESULT Remove (
+        long index );
+    HRESULT RemoveAll ( );
+    IDocumentTypePtr CreateNew (
+        _bstr_t Name );
+
+    //
+    // Raw methods provided by interface
+    //
+
+      virtual HRESULT __stdcall get_Count (
+        /*[out,retval]*/ long * result ) = 0;
+      virtual HRESULT __stdcall raw_Item (
+        /*[in]*/ long index,
+        /*[out,retval]*/ struct IDocumentType * * Item ) = 0;
+      virtual HRESULT __stdcall raw_Add (
+        /*[in]*/ struct IDocumentType * Item ) = 0;
+      virtual HRESULT __stdcall raw_Remove (
+        /*[in]*/ long index ) = 0;
+      virtual HRESULT __stdcall raw_RemoveAll ( ) = 0;
+      virtual HRESULT __stdcall raw_CreateNew (
+        /*[in]*/ BSTR Name,
+        /*[out,retval]*/ struct IDocumentType * * Item ) = 0;
+};
+
+struct __declspec(uuid("61ae7eb7-168e-4c67-90de-b963a1301339"))
+IIndexingSettings : IDispatch
+{
+    //
+    // Property data
+    //
+
+    __declspec(property(get=GetDocumentTypes))
+    IDocumentTypesPtr DocumentTypes;
+    __declspec(property(get=GetDefaultDocumentType,put=PutDefaultDocumentType))
+    _bstr_t DefaultDocumentType;
+
+    //
+    // Wrapper methods for error-handling
+    //
+
+    IDocumentTypesPtr GetDocumentTypes ( );
+    _bstr_t GetDefaultDocumentType ( );
+    void PutDefaultDocumentType (
+        _bstr_t result );
+
+    //
+    // Raw methods provided by interface
+    //
+
+      virtual HRESULT __stdcall get_DocumentTypes (
+        /*[out,retval]*/ struct IDocumentTypes * * result ) = 0;
+      virtual HRESULT __stdcall get_DefaultDocumentType (
+        /*[out,retval]*/ BSTR * result ) = 0;
+      virtual HRESULT __stdcall put_DefaultDocumentType (
+        /*[in]*/ BSTR result ) = 0;
+};
+
+struct __declspec(uuid("bbdd103c-9d5a-43e0-bb4d-2955d6388214"))
+IWorkflow : IDispatch
+{
+    //
+    // Property data
+    //
+
+    __declspec(property(get=GetName))
+    _bstr_t Name;
+    __declspec(property(get=GetInputFolder))
+    _bstr_t InputFolder;
+    __declspec(property(get=GetExceptionsFolder))
+    _bstr_t ExceptionsFolder;
+    __declspec(property(get=GetExportParams))
+    IExportParamsPtr ExportParams;
+    __declspec(property(get=GetIndexingSettings))
+    IIndexingSettingsPtr IndexingSettings;
+
+    //
+    // Wrapper methods for error-handling
+    //
+
+    _bstr_t GetName ( );
+    _bstr_t GetInputFolder ( );
+    _bstr_t GetExceptionsFolder ( );
+    IExportParamsPtr GetExportParams ( );
+    IIndexingSettingsPtr GetIndexingSettings ( );
+
+    //
+    // Raw methods provided by interface
+    //
+
+      virtual HRESULT __stdcall get_Name (
+        /*[out,retval]*/ BSTR * result ) = 0;
+      virtual HRESULT __stdcall get_InputFolder (
+        /*[out,retval]*/ BSTR * result ) = 0;
+      virtual HRESULT __stdcall get_ExceptionsFolder (
+        /*[out,retval]*/ BSTR * result ) = 0;
+      virtual HRESULT __stdcall get_ExportParams (
+        /*[out,retval]*/ struct IExportParams * * result ) = 0;
+      virtual HRESULT __stdcall get_IndexingSettings (
+        /*[out,retval]*/ struct IIndexingSettings * * result ) = 0;
+};
+
+struct __declspec(uuid("1dfef592-a1ef-4e5c-8b98-93c1e108db7c"))
+IWorkflows : IDispatch
+{
+    //
+    // Property data
+    //
+
+    __declspec(property(get=GetCount))
+    long Count;
+
+    //
+    // Wrapper methods for error-handling
+    //
+
+    long GetCount ( );
+    IWorkflowPtr Item (
+        long index );
+
+    //
+    // Raw methods provided by interface
+    //
+
+      virtual HRESULT __stdcall get_Count (
+        /*[out,retval]*/ long * result ) = 0;
+      virtual HRESULT __stdcall raw_Item (
+        /*[in]*/ long index,
+        /*[out,retval]*/ struct IWorkflow * * Item ) = 0;
+};
+
+enum JobStateEnum
+{
+    JS_NoSuchJob = 0,
+    JS_Waiting = 1,
+    JS_WaitingPreOpening = 2,
+    JS_PausedPreOpening = 3,
+    JS_WaitingPreAssembly = 4,
+    JS_Paused_PreAssembly = 5,
+    JS_WaitingOpening = 6,
+    JS_PausedOpening = 7,
+    JS_Paused = 8,
+    JS_Processing = 9,
+    JS_Verification = 10,
+    JS_VerificationWait = 11,
+    JS_Indexing = 12,
+    JS_IndexingWait = 13,
+    JS_Processed = 14,
+    JS_ProcessedPaused = 15,
+    JS_Publishing = 16
+};
+
+struct __declspec(uuid("085369e4-adb5-4447-811a-516cb4f263e4"))
+IClient : IDispatch
+{
+    //
+    // Property data
+    //
+
+    __declspec(property(get=GetWorkflows))
+    IStringsCollectionPtr Workflows;
+    __declspec(property(get=GetWorkflowsSettings))
+    IWorkflowsPtr WorkflowsSettings;
+    __declspec(property(get=GetCustomModules))
+    IStringsCollectionPtr CustomModules;
+
+    //
+    // Wrapper methods for error-handling
+    //
+
+    HRESULT Connect (
+        _bstr_t serverName );
+    IStringsCollectionPtr GetWorkflows ( );
+    IXmlTicketPtr CreateXmlTicket (
+        _bstr_t workflowName );
+    IXmlResultPtr ProcessFile (
+        _bstr_t file,
+        _bstr_t workflowName,
+        _bstr_t pwd );
+    _bstr_t ProcessFileAsync (
+        _bstr_t file,
+        _bstr_t workflowName,
+        _bstr_t pwd );
+    IXmlResultPtr ProcessXmlTicket (
+        struct IXmlTicket * ticket,
+        _bstr_t workflowName );
+    _bstr_t ProcessXmlTicketAsync (
+        struct IXmlTicket * ticket,
+        _bstr_t workflowName );
+    VARIANT_BOOL IsListening (
+        _bstr_t workflow );
+    HRESULT StartListening (
+        _bstr_t workflow,
+        VARIANT_BOOL doStart );
+    IOutputFormatSettingsPtr CreateOutputFormatSettings (
+        enum OutputFileFormatEnum format );
+    IWorkflowsPtr GetWorkflowsSettings ( );
+    IStringsCollectionPtr GetCustomModules ( );
+    IDocumentAttributePtr CreateDocumentAttribute (
+        enum AttributeTypeEnum Type );
+    HRESULT GetJobState (
+        _bstr_t jobId,
+        enum JobStateEnum * State,
+        long * Progress );
+    HRESULT UpdateWorkflow (
+        struct IWorkflow * workflow );
+
+    //
+    // Raw methods provided by interface
+    //
+
+      virtual HRESULT __stdcall raw_Connect (
+        /*[in]*/ BSTR serverName ) = 0;
+      virtual HRESULT __stdcall get_Workflows (
+        /*[out,retval]*/ struct IStringsCollection * * result ) = 0;
+      virtual HRESULT __stdcall raw_CreateXmlTicket (
+        /*[in]*/ BSTR workflowName,
+        /*[out,retval]*/ struct IXmlTicket * * result ) = 0;
+      virtual HRESULT __stdcall raw_ProcessFile (
+        /*[in]*/ BSTR file,
+        /*[in]*/ BSTR workflowName,
+        /*[in]*/ BSTR pwd,
+        /*[out,retval]*/ struct IXmlResult * * result ) = 0;
+      virtual HRESULT __stdcall raw_ProcessFileAsync (
+        /*[in]*/ BSTR file,
+        /*[in]*/ BSTR workflowName,
+        /*[in]*/ BSTR pwd,
+        /*[out,retval]*/ BSTR * jobId ) = 0;
+      virtual HRESULT __stdcall raw_ProcessXmlTicket (
+        /*[in]*/ struct IXmlTicket * ticket,
+        /*[in]*/ BSTR workflowName,
+        /*[out,retval]*/ struct IXmlResult * * result ) = 0;
+      virtual HRESULT __stdcall raw_ProcessXmlTicketAsync (
+        /*[in]*/ struct IXmlTicket * ticket,
+        /*[in]*/ BSTR workflowName,
+        /*[out,retval]*/ BSTR * jobId ) = 0;
+      virtual HRESULT __stdcall raw_IsListening (
+        /*[in]*/ BSTR workflow,
+        /*[out,retval]*/ VARIANT_BOOL * result ) = 0;
+      virtual HRESULT __stdcall raw_StartListening (
+        /*[in]*/ BSTR workflow,
+        /*[in]*/ VARIANT_BOOL doStart ) = 0;
+      virtual HRESULT __stdcall raw_CreateOutputFormatSettings (
+        /*[in]*/ enum OutputFileFormatEnum format,
+        /*[out,retval]*/ struct IOutputFormatSettings * * result ) = 0;
+      virtual HRESULT __stdcall get_WorkflowsSettings (
+        /*[out,retval]*/ struct IWorkflows * * result ) = 0;
+      virtual HRESULT __stdcall get_CustomModules (
+        /*[out,retval]*/ struct IStringsCollection * * result ) = 0;
+      virtual HRESULT __stdcall raw_CreateDocumentAttribute (
+        /*[in]*/ enum AttributeTypeEnum Type,
+        /*[out,retval]*/ struct IDocumentAttribute * * result ) = 0;
+      virtual HRESULT __stdcall raw_GetJobState (
+        /*[in]*/ BSTR jobId,
+        /*[out]*/ enum JobStateEnum * State,
+        /*[out]*/ long * Progress ) = 0;
+      virtual HRESULT __stdcall raw_UpdateWorkflow (
+        /*[in]*/ struct IWorkflow * workflow ) = 0;
+};
+
+struct __declspec(uuid("59f7caed-943a-4976-b7cf-24094256acb6"))
+IClientEvents : IUnknown
+{
+    //
+    // Wrapper methods for error-handling
+    //
+
+    HRESULT OnJobComplete (
+        _bstr_t jobId,
+        struct IXmlResult * result );
+
+    //
+    // Raw methods provided by interface
+    //
+
+      virtual HRESULT __stdcall raw_OnJobComplete (
+        /*[in]*/ BSTR jobId,
+        /*[in]*/ struct IXmlResult * result ) = 0;
+};
+
+struct __declspec(uuid("1f4912c1-f93e-4f85-bcae-681550254429"))
+DIClientEvents : IDispatch
+{
+    //
+    // Wrapper methods for error-handling
+    //
+
+    // Methods:
+    HRESULT OnJobComplete (
+        _bstr_t jobId,
+        struct IXmlResult * result );
+};
+
+enum RTFSynthesisModeEnum
+{
+    RSM_PlainText = 0,
+    RSM_FormattedText = 1,
+    RSM_EditableCopy = 2,
+    RSM_ExactCopy = 3
+};
+
+struct __declspec(uuid("b18e9d19-8da3-4ba9-96e5-4493f5c1cb52"))
+IRTFExportSettings : IOutputFormatSettings
+{
+    //
+    // Property data
+    //
+
+    __declspec(property(get=GetRTFSynthesisMode,put=PutRTFSynthesisMode))
+    enum RTFSynthesisModeEnum RTFSynthesisMode;
+    __declspec(property(get=GetPaperWidth,put=PutPaperWidth))
+    long PaperWidth;
+    __declspec(property(get=GetPaperHeight,put=PutPaperHeight))
+    long PaperHeight;
+    __declspec(property(get=GetForceFixedPageSize,put=PutForceFixedPageSize))
+    VARIANT_BOOL ForceFixedPageSize;
+    __declspec(property(get=GetWritePictures,put=PutWritePictures))
+    VARIANT_BOOL WritePictures;
+    __declspec(property(get=GetHighlightErrorsWithBackgroundColor,put=PutHighlightErrorsWithBackgroundColor))
+    VARIANT_BOOL HighlightErrorsWithBackgroundColor;
+
+    //
+    // Wrapper methods for error-handling
+    //
+
+    enum RTFSynthesisModeEnum GetRTFSynthesisMode ( );
+    void PutRTFSynthesisMode (
+        enum RTFSynthesisModeEnum result );
+    long GetPaperWidth ( );
+    void PutPaperWidth (
+        long result );
+    long GetPaperHeight ( );
+    void PutPaperHeight (
+        long result );
+    VARIANT_BOOL GetForceFixedPageSize ( );
+    void PutForceFixedPageSize (
+        VARIANT_BOOL result );
+    VARIANT_BOOL GetWritePictures ( );
+    void PutWritePictures (
+        VARIANT_BOOL result );
+    VARIANT_BOOL GetHighlightErrorsWithBackgroundColor ( );
+    void PutHighlightErrorsWithBackgroundColor (
+        VARIANT_BOOL result );
+
+    //
+    // Raw methods provided by interface
+    //
+
+      virtual HRESULT __stdcall get_RTFSynthesisMode (
+        /*[out,retval]*/ enum RTFSynthesisModeEnum * result ) = 0;
+      virtual HRESULT __stdcall put_RTFSynthesisMode (
+        /*[in]*/ enum RTFSynthesisModeEnum result ) = 0;
+      virtual HRESULT __stdcall get_PaperWidth (
+        /*[out,retval]*/ long * result ) = 0;
+      virtual HRESULT __stdcall put_PaperWidth (
+        /*[in]*/ long result ) = 0;
+      virtual HRESULT __stdcall get_PaperHeight (
+        /*[out,retval]*/ long * result ) = 0;
+      virtual HRESULT __stdcall put_PaperHeight (
+        /*[in]*/ long result ) = 0;
+      virtual HRESULT __stdcall get_ForceFixedPageSize (
+        /*[out,retval]*/ VARIANT_BOOL * result ) = 0;
+      virtual HRESULT __stdcall put_ForceFixedPageSize (
+        /*[in]*/ VARIANT_BOOL result ) = 0;
+      virtual HRESULT __stdcall get_WritePictures (
+        /*[out,retval]*/ VARIANT_BOOL * result ) = 0;
+      virtual HRESULT __stdcall put_WritePictures (
+        /*[in]*/ VARIANT_BOOL result ) = 0;
+      virtual HRESULT __stdcall get_HighlightErrorsWithBackgroundColor (
+        /*[out,retval]*/ VARIANT_BOOL * result ) = 0;
+      virtual HRESULT __stdcall put_HighlightErrorsWithBackgroundColor (
+        /*[in]*/ VARIANT_BOOL result ) = 0;
+};
+
+enum CodePageEnum
+{
+    CP_Null = 0,
+    CP_Latin = 1252,
+    CP_Cyrillic = 1251,
+    CP_EasternEuropean = 1250,
+    CP_Baltic = 1257,
+    CP_Turkish = 1254,
+    CP_US_MSDOS = 437,
+    CP_LatinI_MSDOS = 850,
+    CP_Russian_MSDOS = 866,
+    CP_Baltic_MSDOS = 775,
+    CP_Turkish_IBM = 857,
+    CP_Slavic_MSDOS = 852,
+    CP_Greek = 1253,
+    CP_Greek_737 = 737,
+    CP_Greek_869 = 869,
+    CP_Latin_ISO = 28591,
+    CP_EasternEuropean_ISO = 28592,
+    CP_Turkish_ISO = 28593,
+    CP_Baltic_ISO = 28594,
+    CP_Cyrillic_ISO = 28595,
+    CP_Greek_ISO = 28597,
+    CP_KOI8 = 20866,
+    CP_Tatar = 5000,
+    CP_Tatar_MSDOS = 5001,
+    CP_Roman_Macintosh = 10000,
+    CP_Greek_Macintosh = 10006,
+    CP_Cyrillic_Macintosh = 10007,
+    CP_Ukrainian_Macintosh = 10017,
+    CP_Latin2_Macintosh = 10029,
+    CP_Icelandic_Macintosh = 10079,
+    CP_Turkish_Macintosh = 10081,
+    CP_Croatian_Macintosh = 10082,
+    CP_Armenian = 5002,
+    CP_Armenian_MSDOS = 5003,
+    CP_Armenian_Macintosh = 5004,
+    CP_Latin5_ISO = 28599,
+    CP_Cyrillic_MSDOS = 855,
+    CP_Bashkir = 5006
+};
+
+enum HTMLSynthesisModeEnum
+{
+    HSM_PlainText = 0,
+    HSM_FormattedStream = 1,
+    HSM_PageLayout = 2
+};
+
+enum TextEncodingTypeEnum
+{
+    TET_Simple = 0,
+    TET_UTF8 = 1,
+    TET_UTF16 = 2
+};
+
+struct __declspec(uuid("9e6bf226-c671-42a4-98b2-283bd7b1ab5e"))
+IHTMLExportSettings : IOutputFormatSettings
+{
+    //
+    // Property data
+    //
+
+    __declspec(property(get=GetCodePage,put=PutCodePage))
+    enum CodePageEnum CodePage;
+    __declspec(property(get=GetAllowCss,put=PutAllowCss))
+    VARIANT_BOOL AllowCss;
+    __declspec(property(get=GetHTMLSynthesisMode,put=PutHTMLSynthesisMode))
+    enum HTMLSynthesisModeEnum HTMLSynthesisMode;
+    __declspec(property(get=GetEncodingType,put=PutEncodingType))
+    enum TextEncodingTypeEnum EncodingType;
+    __declspec(property(get=GetWritePictures,put=PutWritePictures))
+    VARIANT_BOOL WritePictures;
+
+    //
+    // Wrapper methods for error-handling
+    //
+
+    enum CodePageEnum GetCodePage ( );
+    void PutCodePage (
+        enum CodePageEnum result );
+    VARIANT_BOOL GetAllowCss ( );
+    void PutAllowCss (
+        VARIANT_BOOL result );
+    enum HTMLSynthesisModeEnum GetHTMLSynthesisMode ( );
+    void PutHTMLSynthesisMode (
+        enum HTMLSynthesisModeEnum result );
+    enum TextEncodingTypeEnum GetEncodingType ( );
+    void PutEncodingType (
+        enum TextEncodingTypeEnum result );
+    VARIANT_BOOL GetWritePictures ( );
+    void PutWritePictures (
+        VARIANT_BOOL result );
+
+    //
+    // Raw methods provided by interface
+    //
+
+      virtual HRESULT __stdcall get_CodePage (
+        /*[out,retval]*/ enum CodePageEnum * result ) = 0;
+      virtual HRESULT __stdcall put_CodePage (
+        /*[in]*/ enum CodePageEnum result ) = 0;
+      virtual HRESULT __stdcall get_AllowCss (
+        /*[out,retval]*/ VARIANT_BOOL * result ) = 0;
+      virtual HRESULT __stdcall put_AllowCss (
+        /*[in]*/ VARIANT_BOOL result ) = 0;
+      virtual HRESULT __stdcall get_HTMLSynthesisMode (
+        /*[out,retval]*/ enum HTMLSynthesisModeEnum * result ) = 0;
+      virtual HRESULT __stdcall put_HTMLSynthesisMode (
+        /*[in]*/ enum HTMLSynthesisModeEnum result ) = 0;
+      virtual HRESULT __stdcall get_EncodingType (
+        /*[out,retval]*/ enum TextEncodingTypeEnum * result ) = 0;
+      virtual HRESULT __stdcall put_EncodingType (
+        /*[in]*/ enum TextEncodingTypeEnum result ) = 0;
+      virtual HRESULT __stdcall get_WritePictures (
+        /*[out,retval]*/ VARIANT_BOOL * result ) = 0;
+      virtual HRESULT __stdcall put_WritePictures (
+        /*[in]*/ VARIANT_BOOL result ) = 0;
+};
+
+struct __declspec(uuid("ab89d81b-07b1-40f3-b494-0e000d4d0aa1"))
+IXLExportSettings : IOutputFormatSettings
+{
+    //
+    // Property data
+    //
+
+    __declspec(property(get=GetConvertNumericValuesToNumbers,put=PutConvertNumericValuesToNumbers))
+    VARIANT_BOOL ConvertNumericValuesToNumbers;
+    __declspec(property(get=GetIgnoreTextOutsideTables,put=PutIgnoreTextOutsideTables))
+    VARIANT_BOOL IgnoreTextOutsideTables;
+
+    //
+    // Wrapper methods for error-handling
+    //
+
+    VARIANT_BOOL GetConvertNumericValuesToNumbers ( );
+    void PutConvertNumericValuesToNumbers (
+        VARIANT_BOOL result );
+    VARIANT_BOOL GetIgnoreTextOutsideTables ( );
+    void PutIgnoreTextOutsideTables (
+        VARIANT_BOOL result );
+
+    //
+    // Raw methods provided by interface
+    //
+
+      virtual HRESULT __stdcall get_ConvertNumericValuesToNumbers (
+        /*[out,retval]*/ VARIANT_BOOL * result ) = 0;
+      virtual HRESULT __stdcall put_ConvertNumericValuesToNumbers (
+        /*[in]*/ VARIANT_BOOL result ) = 0;
+      virtual HRESULT __stdcall get_IgnoreTextOutsideTables (
+        /*[out,retval]*/ VARIANT_BOOL * result ) = 0;
+      virtual HRESULT __stdcall put_IgnoreTextOutsideTables (
+        /*[in]*/ VARIANT_BOOL result ) = 0;
+};
+
+struct __declspec(uuid("aa009e14-a232-4c8b-8191-662f3a4f2cd3"))
+IXMLExportSettings : IOutputFormatSettings
+{
+    //
+    // Property data
+    //
+
+    __declspec(property(get=GetWriteCharAttributes,put=PutWriteCharAttributes))
+    VARIANT_BOOL WriteCharAttributes;
+    __declspec(property(get=GetWriteExtendedCharAttributes,put=PutWriteExtendedCharAttributes))
+    VARIANT_BOOL WriteExtendedCharAttributes;
+    __declspec(property(get=GetWriteCharactersFormatting,put=PutWriteCharactersFormatting))
+    VARIANT_BOOL WriteCharactersFormatting;
+    __declspec(property(get=GetWriteNonDeskewedCoordinates,put=PutWriteNonDeskewedCoordinates))
+    VARIANT_BOOL WriteNonDeskewedCoordinates;
+    __declspec(property(get=GetPagesPerFile,put=PutPagesPerFile))
+    long PagesPerFile;
+
+    //
+    // Wrapper methods for error-handling
+    //
+
+    VARIANT_BOOL GetWriteCharAttributes ( );
+    void PutWriteCharAttributes (
+        VARIANT_BOOL result );
+    VARIANT_BOOL GetWriteExtendedCharAttributes ( );
+    void PutWriteExtendedCharAttributes (
+        VARIANT_BOOL result );
+    VARIANT_BOOL GetWriteCharactersFormatting ( );
+    void PutWriteCharactersFormatting (
+        VARIANT_BOOL result );
+    VARIANT_BOOL GetWriteNonDeskewedCoordinates ( );
+    void PutWriteNonDeskewedCoordinates (
+        VARIANT_BOOL result );
+    long GetPagesPerFile ( );
+    void PutPagesPerFile (
+        long result );
+
+    //
+    // Raw methods provided by interface
+    //
+
+      virtual HRESULT __stdcall get_WriteCharAttributes (
+        /*[out,retval]*/ VARIANT_BOOL * result ) = 0;
+      virtual HRESULT __stdcall put_WriteCharAttributes (
+        /*[in]*/ VARIANT_BOOL result ) = 0;
+      virtual HRESULT __stdcall get_WriteExtendedCharAttributes (
+        /*[out,retval]*/ VARIANT_BOOL * result ) = 0;
+      virtual HRESULT __stdcall put_WriteExtendedCharAttributes (
+        /*[in]*/ VARIANT_BOOL result ) = 0;
+      virtual HRESULT __stdcall get_WriteCharactersFormatting (
+        /*[out,retval]*/ VARIANT_BOOL * result ) = 0;
+      virtual HRESULT __stdcall put_WriteCharactersFormatting (
+        /*[in]*/ VARIANT_BOOL result ) = 0;
+      virtual HRESULT __stdcall get_WriteNonDeskewedCoordinates (
+        /*[out,retval]*/ VARIANT_BOOL * result ) = 0;
+      virtual HRESULT __stdcall put_WriteNonDeskewedCoordinates (
+        /*[in]*/ VARIANT_BOOL result ) = 0;
+      virtual HRESULT __stdcall get_PagesPerFile (
+        /*[out,retval]*/ long * result ) = 0;
+      virtual HRESULT __stdcall put_PagesPerFile (
+        /*[in]*/ long result ) = 0;
+};
+
+enum TextCoordinatesParticularityEnum
+{
+    TCP_Lines = 0,
+    TCP_Words = 1
+};
+
+enum FontFormattingModeEnum
+{
+    FFM_Plain = 0,
+    FFM_Restricted = 1,
+    FFM_Full = 2
+};
+
+struct __declspec(uuid("aa009e14-a232-4c8b-8191-662f3a4f2cd4"))
+IAltoExportSettings : IOutputFormatSettings
+{
+    //
+    // Property data
+    //
+
+    __declspec(property(get=GetTextCoordinatesParticularity,put=PutTextCoordinatesParticularity))
+    enum TextCoordinatesParticularityEnum TextCoordinatesParticularity;
+    __declspec(property(get=GetFontFormattingMode,put=PutFontFormattingMode))
+    enum FontFormattingModeEnum FontFormattingMode;
+
+    //
+    // Wrapper methods for error-handling
+    //
+
+    enum TextCoordinatesParticularityEnum GetTextCoordinatesParticularity ( );
+    void PutTextCoordinatesParticularity (
+        enum TextCoordinatesParticularityEnum result );
+    enum FontFormattingModeEnum GetFontFormattingMode ( );
+    void PutFontFormattingMode (
+        enum FontFormattingModeEnum result );
+
+    //
+    // Raw methods provided by interface
+    //
+
+      virtual HRESULT __stdcall get_TextCoordinatesParticularity (
+        /*[out,retval]*/ enum TextCoordinatesParticularityEnum * result ) = 0;
+      virtual HRESULT __stdcall put_TextCoordinatesParticularity (
+        /*[in]*/ enum TextCoordinatesParticularityEnum result ) = 0;
+      virtual HRESULT __stdcall get_FontFormattingMode (
+        /*[out,retval]*/ enum FontFormattingModeEnum * result ) = 0;
+      virtual HRESULT __stdcall put_FontFormattingMode (
+        /*[in]*/ enum FontFormattingModeEnum result ) = 0;
+};
+
+enum ExportPictureFormatEnum
+{
+    EPF_Automatic = 0,
+    EPF_Ccitt4 = 1,
+    EPF_JpegColor = 2,
+    EPF_JpegGray = 3,
+    EPF_LzwColor = 4,
+    EPF_LzwGray = 5,
+    EPF_ZipColor = 6,
+    EPF_ZipGray = 7,
+    EPF_J2KColor = 8,
+    EPF_J2KGray = 9,
+    EPF_JBIG2 = 10,
+    EPF_PngColor = 11,
+    EPF_PngGray = 12,
+    EPF_PngBlackWhite = 13
+};
+
+struct __declspec(uuid("aa009e14-a232-4c8b-8191-662f3a4f2cd5"))
+IEpubExportSettings : IOutputFormatSettings
+{
+    //
+    // Property data
+    //
+
+    __declspec(property(get=GetThreatFirstPageAsCover,put=PutThreatFirstPageAsCover))
+    VARIANT_BOOL ThreatFirstPageAsCover;
+    __declspec(property(get=GetKeepPictures,put=PutKeepPictures))
+    VARIANT_BOOL KeepPictures;
+    __declspec(property(get=GetFontFormattingMode,put=PutFontFormattingMode))
+    enum FontFormattingModeEnum FontFormattingMode;
+    __declspec(property(get=GetPictureResolution,put=PutPictureResolution))
+    long PictureResolution;
+    __declspec(property(get=GetQuality,put=PutQuality))
+    long Quality;
+    __declspec(property(get=GetPictureFormat,put=PutPictureFormat))
+    enum ExportPictureFormatEnum PictureFormat;
+
+    //
+    // Wrapper methods for error-handling
+    //
+
+    VARIANT_BOOL GetThreatFirstPageAsCover ( );
+    void PutThreatFirstPageAsCover (
+        VARIANT_BOOL result );
+    VARIANT_BOOL GetKeepPictures ( );
+    void PutKeepPictures (
+        VARIANT_BOOL result );
+    enum FontFormattingModeEnum GetFontFormattingMode ( );
+    void PutFontFormattingMode (
+        enum FontFormattingModeEnum result );
+    long GetPictureResolution ( );
+    void PutPictureResolution (
+        long result );
+    long GetQuality ( );
+    void PutQuality (
+        long result );
+    enum ExportPictureFormatEnum GetPictureFormat ( );
+    void PutPictureFormat (
+        enum ExportPictureFormatEnum result );
+
+    //
+    // Raw methods provided by interface
+    //
+
+      virtual HRESULT __stdcall get_ThreatFirstPageAsCover (
+        /*[out,retval]*/ VARIANT_BOOL * result ) = 0;
+      virtual HRESULT __stdcall put_ThreatFirstPageAsCover (
+        /*[in]*/ VARIANT_BOOL result ) = 0;
+      virtual HRESULT __stdcall get_KeepPictures (
+        /*[out,retval]*/ VARIANT_BOOL * result ) = 0;
+      virtual HRESULT __stdcall put_KeepPictures (
+        /*[in]*/ VARIANT_BOOL result ) = 0;
+      virtual HRESULT __stdcall get_FontFormattingMode (
+        /*[out,retval]*/ enum FontFormattingModeEnum * result ) = 0;
+      virtual HRESULT __stdcall put_FontFormattingMode (
+        /*[in]*/ enum FontFormattingModeEnum result ) = 0;
+      virtual HRESULT __stdcall get_PictureResolution (
+        /*[out,retval]*/ long * result ) = 0;
+      virtual HRESULT __stdcall put_PictureResolution (
+        /*[in]*/ long result ) = 0;
+      virtual HRESULT __stdcall get_Quality (
+        /*[out,retval]*/ long * result ) = 0;
+      virtual HRESULT __stdcall put_Quality (
+        /*[in]*/ long result ) = 0;
+      virtual HRESULT __stdcall get_PictureFormat (
+        /*[out,retval]*/ enum ExportPictureFormatEnum * result ) = 0;
+      virtual HRESULT __stdcall put_PictureFormat (
+        /*[in]*/ enum ExportPictureFormatEnum result ) = 0;
+};
+
+struct __declspec(uuid("39c0683e-6c97-4d4e-b08a-09afd35e3650"))
+ITextExportSettings : IOutputFormatSettings
+{
+    //
+    // Property data
+    //
+
+    __declspec(property(get=GetCodePage,put=PutCodePage))
+    enum CodePageEnum CodePage;
+    __declspec(property(get=GetInsertEmptyLineBetweenParagraphs,put=PutInsertEmptyLineBetweenParagraphs))
+    VARIANT_BOOL InsertEmptyLineBetweenParagraphs;
+    __declspec(property(get=GetExportParagraphsAsOneLine,put=PutExportParagraphsAsOneLine))
+    VARIANT_BOOL ExportParagraphsAsOneLine;
+    __declspec(property(get=GetUsePageBreaks,put=PutUsePageBreaks))
+    VARIANT_BOOL UsePageBreaks;
+    __declspec(property(get=GetEncodingType,put=PutEncodingType))
+    enum TextEncodingTypeEnum EncodingType;
+    __declspec(property(get=GetKeepOriginalHeadersFooters,put=PutKeepOriginalHeadersFooters))
+    VARIANT_BOOL KeepOriginalHeadersFooters;
+
+    //
+    // Wrapper methods for error-handling
+    //
+
+    enum CodePageEnum GetCodePage ( );
+    void PutCodePage (
+        enum CodePageEnum result );
+    VARIANT_BOOL GetInsertEmptyLineBetweenParagraphs ( );
+    void PutInsertEmptyLineBetweenParagraphs (
+        VARIANT_BOOL result );
+    VARIANT_BOOL GetExportParagraphsAsOneLine ( );
+    void PutExportParagraphsAsOneLine (
+        VARIANT_BOOL result );
+    VARIANT_BOOL GetUsePageBreaks ( );
+    void PutUsePageBreaks (
+        VARIANT_BOOL result );
+    enum TextEncodingTypeEnum GetEncodingType ( );
+    void PutEncodingType (
+        enum TextEncodingTypeEnum result );
+    VARIANT_BOOL GetKeepOriginalHeadersFooters ( );
+    void PutKeepOriginalHeadersFooters (
+        VARIANT_BOOL result );
+
+    //
+    // Raw methods provided by interface
+    //
+
+      virtual HRESULT __stdcall get_CodePage (
+        /*[out,retval]*/ enum CodePageEnum * result ) = 0;
+      virtual HRESULT __stdcall put_CodePage (
+        /*[in]*/ enum CodePageEnum result ) = 0;
+      virtual HRESULT __stdcall get_InsertEmptyLineBetweenParagraphs (
+        /*[out,retval]*/ VARIANT_BOOL * result ) = 0;
+      virtual HRESULT __stdcall put_InsertEmptyLineBetweenParagraphs (
+        /*[in]*/ VARIANT_BOOL result ) = 0;
+      virtual HRESULT __stdcall get_ExportParagraphsAsOneLine (
+        /*[out,retval]*/ VARIANT_BOOL * result ) = 0;
+      virtual HRESULT __stdcall put_ExportParagraphsAsOneLine (
+        /*[in]*/ VARIANT_BOOL result ) = 0;
+      virtual HRESULT __stdcall get_UsePageBreaks (
+        /*[out,retval]*/ VARIANT_BOOL * result ) = 0;
+      virtual HRESULT __stdcall put_UsePageBreaks (
+        /*[in]*/ VARIANT_BOOL result ) = 0;
+      virtual HRESULT __stdcall get_EncodingType (
+        /*[out,retval]*/ enum TextEncodingTypeEnum * result ) = 0;
+      virtual HRESULT __stdcall put_EncodingType (
+        /*[in]*/ enum TextEncodingTypeEnum result ) = 0;
+      virtual HRESULT __stdcall get_KeepOriginalHeadersFooters (
+        /*[out,retval]*/ VARIANT_BOOL * result ) = 0;
+      virtual HRESULT __stdcall put_KeepOriginalHeadersFooters (
+        /*[in]*/ VARIANT_BOOL result ) = 0;
+};
+
+struct __declspec(uuid("c94ba81f-b6a5-47e1-8840-be9fd712121c"))
+ICSVExportSettings : IOutputFormatSettings
+{
+    //
+    // Property data
+    //
+
+    __declspec(property(get=GetCodePage,put=PutCodePage))
+    enum CodePageEnum CodePage;
+    __declspec(property(get=GetTabSeparator,put=PutTabSeparator))
+    _bstr_t TabSeparator;
+    __declspec(property(get=GetIgnoreTextOutsideTables,put=PutIgnoreTextOutsideTables))
+    VARIANT_BOOL IgnoreTextOutsideTables;
+    __declspec(property(get=GetUsePageBreaks,put=PutUsePageBreaks))
+    VARIANT_BOOL UsePageBreaks;
+    __declspec(property(get=GetEncodingType,put=PutEncodingType))
+    enum TextEncodingTypeEnum EncodingType;
+
+    //
+    // Wrapper methods for error-handling
+    //
+
+    enum CodePageEnum GetCodePage ( );
+    void PutCodePage (
+        enum CodePageEnum result );
+    _bstr_t GetTabSeparator ( );
+    void PutTabSeparator (
+        _bstr_t result );
+    VARIANT_BOOL GetIgnoreTextOutsideTables ( );
+    void PutIgnoreTextOutsideTables (
+        VARIANT_BOOL result );
+    VARIANT_BOOL GetUsePageBreaks ( );
+    void PutUsePageBreaks (
+        VARIANT_BOOL result );
+    enum TextEncodingTypeEnum GetEncodingType ( );
+    void PutEncodingType (
+        enum TextEncodingTypeEnum result );
+
+    //
+    // Raw methods provided by interface
+    //
+
+      virtual HRESULT __stdcall get_CodePage (
+        /*[out,retval]*/ enum CodePageEnum * result ) = 0;
+      virtual HRESULT __stdcall put_CodePage (
+        /*[in]*/ enum CodePageEnum result ) = 0;
+      virtual HRESULT __stdcall get_TabSeparator (
+        /*[out,retval]*/ BSTR * result ) = 0;
+      virtual HRESULT __stdcall put_TabSeparator (
+        /*[in]*/ BSTR result ) = 0;
+      virtual HRESULT __stdcall get_IgnoreTextOutsideTables (
+        /*[out,retval]*/ VARIANT_BOOL * result ) = 0;
+      virtual HRESULT __stdcall put_IgnoreTextOutsideTables (
+        /*[in]*/ VARIANT_BOOL result ) = 0;
+      virtual HRESULT __stdcall get_UsePageBreaks (
+        /*[out,retval]*/ VARIANT_BOOL * result ) = 0;
+      virtual HRESULT __stdcall put_UsePageBreaks (
+        /*[in]*/ VARIANT_BOOL result ) = 0;
+      virtual HRESULT __stdcall get_EncodingType (
+        /*[out,retval]*/ enum TextEncodingTypeEnum * result ) = 0;
+      virtual HRESULT __stdcall put_EncodingType (
+        /*[in]*/ enum TextEncodingTypeEnum result ) = 0;
+};
+
+enum PDFExportModeEnum
+{
+    PEM_TextOnly = 0,
+    PEM_TextOnImage = 1,
+    PEM_ImageOnText = 2,
+    PEM_ImageOnly = 3
+};
+
+struct __declspec(uuid("7493e704-0609-4034-a8a8-a3bda539d8b0"))
+IDocumentInfoItem : IDispatch
+{
+    //
+    // Property data
+    //
+
+    __declspec(property(get=GetName))
+    _bstr_t Name;
+    __declspec(property(get=Getvalue,put=Putvalue))
+    _bstr_t value;
+
+    //
+    // Wrapper methods for error-handling
+    //
+
+    _bstr_t GetName ( );
+    _bstr_t Getvalue ( );
+    void Putvalue (
+        _bstr_t result );
+
+    //
+    // Raw methods provided by interface
+    //
+
+      virtual HRESULT __stdcall get_Name (
+        /*[out,retval]*/ BSTR * result ) = 0;
+      virtual HRESULT __stdcall get_value (
+        /*[out,retval]*/ BSTR * result ) = 0;
+      virtual HRESULT __stdcall put_value (
+        /*[in]*/ BSTR result ) = 0;
+};
+
+struct __declspec(uuid("6136f178-6fd9-4a9e-8476-d047e81033b8"))
+IDocumentInfoItems : IDispatch
+{
+    //
+    // Property data
+    //
+
+    __declspec(property(get=GetCount))
+    long Count;
+    __declspec(property(get=GetItem))
+    IDocumentInfoItemPtr Item[];
+
+    //
+    // Wrapper methods for error-handling
+    //
+
+    long GetCount ( );
+    IDocumentInfoItemPtr GetItem (
+        long index );
+    HRESULT Add (
+        _bstr_t Name,
+        _bstr_t value );
+    HRESULT Remove (
+        long index );
+    HRESULT RemoveAll ( );
+
+    //
+    // Raw methods provided by interface
+    //
+
+      virtual HRESULT __stdcall get_Count (
+        /*[out,retval]*/ long * result ) = 0;
+      virtual HRESULT __stdcall get_Item (
+        /*[in]*/ long index,
+        /*[out,retval]*/ struct IDocumentInfoItem * * result ) = 0;
+      virtual HRESULT __stdcall raw_Add (
+        /*[in]*/ BSTR Name,
+        /*[in]*/ BSTR value ) = 0;
+      virtual HRESULT __stdcall raw_Remove (
+        /*[in]*/ long index ) = 0;
+      virtual HRESULT __stdcall raw_RemoveAll ( ) = 0;
+};
+
+struct __declspec(uuid("2554b5b2-2832-483b-ae09-f1836d6da573"))
+IHeaderAndFooterSettings : IDispatch
+{
+    //
+    // Property data
+    //
+
+    __declspec(property(get=GetLeftHeader,put=PutLeftHeader))
+    _bstr_t LeftHeader;
+    __declspec(property(get=GetCentralHeader,put=PutCentralHeader))
+    _bstr_t CentralHeader;
+    __declspec(property(get=GetRightHeader,put=PutRightHeader))
+    _bstr_t RightHeader;
+    __declspec(property(get=GetLeftFooter,put=PutLeftFooter))
+    _bstr_t LeftFooter;
+    __declspec(property(get=GetCentralFooter,put=PutCentralFooter))
+    _bstr_t CentralFooter;
+    __declspec(property(get=GetRightFooter,put=PutRightFooter))
+    _bstr_t RightFooter;
+    __declspec(property(get=GetFontName,put=PutFontName))
+    _bstr_t FontName;
+    __declspec(property(get=GetFontSize,put=PutFontSize))
+    long FontSize;
+    __declspec(property(get=GetIsBold,put=PutIsBold))
+    VARIANT_BOOL IsBold;
+    __declspec(property(get=GetIsItalic,put=PutIsItalic))
+    VARIANT_BOOL IsItalic;
+    __declspec(property(get=GetIsUnderlined,put=PutIsUnderlined))
+    VARIANT_BOOL IsUnderlined;
+    __declspec(property(get=GetTextColor,put=PutTextColor))
+    long TextColor;
+    __declspec(property(get=GetTopMargin,put=PutTopMargin))
+    double TopMargin;
+    __declspec(property(get=GetBottomMargin,put=PutBottomMargin))
+    double BottomMargin;
+    __declspec(property(get=GetLeftMargin,put=PutLeftMargin))
+    double LeftMargin;
+    __declspec(property(get=GetRightMargin,put=PutRightMargin))
+    double RightMargin;
+    __declspec(property(get=GetIsInInches,put=PutIsInInches))
+    VARIANT_BOOL IsInInches;
+    __declspec(property(get=GetStartingNumber,put=PutStartingNumber))
+    long StartingNumber;
+    __declspec(property(get=GetNumberOfDigits,put=PutNumberOfDigits))
+    long NumberOfDigits;
+
+    //
+    // Wrapper methods for error-handling
+    //
+
+    _bstr_t GetLeftHeader ( );
+    void PutLeftHeader (
+        _bstr_t result );
+    _bstr_t GetCentralHeader ( );
+    void PutCentralHeader (
+        _bstr_t result );
+    _bstr_t GetRightHeader ( );
+    void PutRightHeader (
+        _bstr_t result );
+    _bstr_t GetLeftFooter ( );
+    void PutLeftFooter (
+        _bstr_t result );
+    _bstr_t GetCentralFooter ( );
+    void PutCentralFooter (
+        _bstr_t result );
+    _bstr_t GetRightFooter ( );
+    void PutRightFooter (
+        _bstr_t result );
+    _bstr_t GetFontName ( );
+    void PutFontName (
+        _bstr_t result );
+    long GetFontSize ( );
+    void PutFontSize (
+        long result );
+    VARIANT_BOOL GetIsBold ( );
+    void PutIsBold (
+        VARIANT_BOOL result );
+    VARIANT_BOOL GetIsItalic ( );
+    void PutIsItalic (
+        VARIANT_BOOL result );
+    VARIANT_BOOL GetIsUnderlined ( );
+    void PutIsUnderlined (
+        VARIANT_BOOL result );
+    long GetTextColor ( );
+    void PutTextColor (
+        long result );
+    double GetTopMargin ( );
+    void PutTopMargin (
+        double result );
+    double GetBottomMargin ( );
+    void PutBottomMargin (
+        double result );
+    double GetLeftMargin ( );
+    void PutLeftMargin (
+        double result );
+    double GetRightMargin ( );
+    void PutRightMargin (
+        double result );
+    VARIANT_BOOL GetIsInInches ( );
+    void PutIsInInches (
+        VARIANT_BOOL result );
+    long GetStartingNumber ( );
+    void PutStartingNumber (
+        long result );
+    long GetNumberOfDigits ( );
+    void PutNumberOfDigits (
+        long result );
+
+    //
+    // Raw methods provided by interface
+    //
+
+      virtual HRESULT __stdcall get_LeftHeader (
+        /*[out,retval]*/ BSTR * result ) = 0;
+      virtual HRESULT __stdcall put_LeftHeader (
+        /*[in]*/ BSTR result ) = 0;
+      virtual HRESULT __stdcall get_CentralHeader (
+        /*[out,retval]*/ BSTR * result ) = 0;
+      virtual HRESULT __stdcall put_CentralHeader (
+        /*[in]*/ BSTR result ) = 0;
+      virtual HRESULT __stdcall get_RightHeader (
+        /*[out,retval]*/ BSTR * result ) = 0;
+      virtual HRESULT __stdcall put_RightHeader (
+        /*[in]*/ BSTR result ) = 0;
+      virtual HRESULT __stdcall get_LeftFooter (
+        /*[out,retval]*/ BSTR * result ) = 0;
+      virtual HRESULT __stdcall put_LeftFooter (
+        /*[in]*/ BSTR result ) = 0;
+      virtual HRESULT __stdcall get_CentralFooter (
+        /*[out,retval]*/ BSTR * result ) = 0;
+      virtual HRESULT __stdcall put_CentralFooter (
+        /*[in]*/ BSTR result ) = 0;
+      virtual HRESULT __stdcall get_RightFooter (
+        /*[out,retval]*/ BSTR * result ) = 0;
+      virtual HRESULT __stdcall put_RightFooter (
+        /*[in]*/ BSTR result ) = 0;
+      virtual HRESULT __stdcall get_FontName (
+        /*[out,retval]*/ BSTR * result ) = 0;
+      virtual HRESULT __stdcall put_FontName (
+        /*[in]*/ BSTR result ) = 0;
+      virtual HRESULT __stdcall get_FontSize (
+        /*[out,retval]*/ long * result ) = 0;
+      virtual HRESULT __stdcall put_FontSize (
+        /*[in]*/ long result ) = 0;
+      virtual HRESULT __stdcall get_IsBold (
+        /*[out,retval]*/ VARIANT_BOOL * result ) = 0;
+      virtual HRESULT __stdcall put_IsBold (
+        /*[in]*/ VARIANT_BOOL result ) = 0;
+      virtual HRESULT __stdcall get_IsItalic (
+        /*[out,retval]*/ VARIANT_BOOL * result ) = 0;
+      virtual HRESULT __stdcall put_IsItalic (
+        /*[in]*/ VARIANT_BOOL result ) = 0;
+      virtual HRESULT __stdcall get_IsUnderlined (
+        /*[out,retval]*/ VARIANT_BOOL * result ) = 0;
+      virtual HRESULT __stdcall put_IsUnderlined (
+        /*[in]*/ VARIANT_BOOL result ) = 0;
+      virtual HRESULT __stdcall get_TextColor (
+        /*[out,retval]*/ long * result ) = 0;
+      virtual HRESULT __stdcall put_TextColor (
+        /*[in]*/ long result ) = 0;
+      virtual HRESULT __stdcall get_TopMargin (
+        /*[out,retval]*/ double * result ) = 0;
+      virtual HRESULT __stdcall put_TopMargin (
+        /*[in]*/ double result ) = 0;
+      virtual HRESULT __stdcall get_BottomMargin (
+        /*[out,retval]*/ double * result ) = 0;
+      virtual HRESULT __stdcall put_BottomMargin (
+        /*[in]*/ double result ) = 0;
+      virtual HRESULT __stdcall get_LeftMargin (
+        /*[out,retval]*/ double * result ) = 0;
+      virtual HRESULT __stdcall put_LeftMargin (
+        /*[in]*/ double result ) = 0;
+      virtual HRESULT __stdcall get_RightMargin (
+        /*[out,retval]*/ double * result ) = 0;
+      virtual HRESULT __stdcall put_RightMargin (
+        /*[in]*/ double result ) = 0;
+      virtual HRESULT __stdcall get_IsInInches (
+        /*[out,retval]*/ VARIANT_BOOL * result ) = 0;
+      virtual HRESULT __stdcall put_IsInInches (
+        /*[in]*/ VARIANT_BOOL result ) = 0;
+      virtual HRESULT __stdcall get_StartingNumber (
+        /*[out,retval]*/ long * result ) = 0;
+      virtual HRESULT __stdcall put_StartingNumber (
+        /*[in]*/ long result ) = 0;
+      virtual HRESULT __stdcall get_NumberOfDigits (
+        /*[out,retval]*/ long * result ) = 0;
+      virtual HRESULT __stdcall put_NumberOfDigits (
+        /*[in]*/ long result ) = 0;
+};
+
+enum PDFVersionEnum
+{
+    PVN_Auto = 0,
+    PVN_Version13 = 1,
+    PVN_Version14 = 2,
+    PVN_Version15 = 3,
+    PVN_Version16 = 4,
+    PVN_Version17 = 5
+};
+
+struct __declspec(uuid("7153dd95-2e7a-43c7-b19f-5daaead155ae"))
+IPDFAExportSettings : IOutputFormatSettings
+{
+    //
+    // Property data
+    //
+
+    __declspec(property(get=GetPDFExportMode,put=PutPDFExportMode))
+    enum PDFExportModeEnum PDFExportMode;
+    __declspec(property(get=GetPictureResolution,put=PutPictureResolution))
+    long PictureResolution;
+    __declspec(property(get=GetQuality,put=PutQuality))
+    long Quality;
+    __declspec(property(get=GetWrite1ACompliant,put=PutWrite1ACompliant))
+    VARIANT_BOOL Write1ACompliant;
+    __declspec(property(get=GetOverwriteMetadata,put=PutOverwriteMetadata))
+    VARIANT_BOOL OverwriteMetadata;
+    __declspec(property(get=GetTitle,put=PutTitle))
+    _bstr_t Title;
+    __declspec(property(get=GetAuthor,put=PutAuthor))
+    _bstr_t Author;
+    __declspec(property(get=GetProducer,put=PutProducer))
+    _bstr_t Producer;
+    __declspec(property(get=GetSubject,put=PutSubject))
+    _bstr_t Subject;
+    __declspec(property(get=GetKeywords,put=PutKeywords))
+    _bstr_t Keywords;
+    __declspec(property(get=GetDocumentInfo))
+    IDocumentInfoItemsPtr DocumentInfo;
+    __declspec(property(get=GetHeaderAndFooter))
+    IHeaderAndFooterSettingsPtr HeaderAndFooter;
+    __declspec(property(get=GetPictureFormat,put=PutPictureFormat))
+    enum ExportPictureFormatEnum PictureFormat;
+    __declspec(property(get=GetUseOriginalPaperSize,put=PutUseOriginalPaperSize))
+    VARIANT_BOOL UseOriginalPaperSize;
+    __declspec(property(get=GetPaperWidth,put=PutPaperWidth))
+    long PaperWidth;
+    __declspec(property(get=GetPaperHeight,put=PutPaperHeight))
+    long PaperHeight;
+    __declspec(property(get=GetPDFVersion,put=PutPDFVersion))
+    enum PDFVersionEnum PDFVersion;
+    __declspec(property(get=GetKeepOriginalHeadersFooters,put=PutKeepOriginalHeadersFooters))
+    VARIANT_BOOL KeepOriginalHeadersFooters;
+
+    //
+    // Wrapper methods for error-handling
+    //
+
+    enum PDFExportModeEnum GetPDFExportMode ( );
+    void PutPDFExportMode (
+        enum PDFExportModeEnum result );
+    long GetPictureResolution ( );
+    void PutPictureResolution (
+        long result );
+    long GetQuality ( );
+    void PutQuality (
+        long result );
+    VARIANT_BOOL GetWrite1ACompliant ( );
+    void PutWrite1ACompliant (
+        VARIANT_BOOL result );
+    VARIANT_BOOL GetOverwriteMetadata ( );
+    void PutOverwriteMetadata (
+        VARIANT_BOOL result );
+    _bstr_t GetTitle ( );
+    void PutTitle (
+        _bstr_t result );
+    _bstr_t GetAuthor ( );
+    void PutAuthor (
+        _bstr_t result );
+    _bstr_t GetProducer ( );
+    void PutProducer (
+        _bstr_t result );
+    _bstr_t GetSubject ( );
+    void PutSubject (
+        _bstr_t result );
+    _bstr_t GetKeywords ( );
+    void PutKeywords (
+        _bstr_t result );
+    IDocumentInfoItemsPtr GetDocumentInfo ( );
+    IHeaderAndFooterSettingsPtr GetHeaderAndFooter ( );
+    enum ExportPictureFormatEnum GetPictureFormat ( );
+    void PutPictureFormat (
+        enum ExportPictureFormatEnum result );
+    VARIANT_BOOL GetUseOriginalPaperSize ( );
+    void PutUseOriginalPaperSize (
+        VARIANT_BOOL result );
+    long GetPaperWidth ( );
+    void PutPaperWidth (
+        long result );
+    long GetPaperHeight ( );
+    void PutPaperHeight (
+        long result );
+    enum PDFVersionEnum GetPDFVersion ( );
+    void PutPDFVersion (
+        enum PDFVersionEnum result );
+    VARIANT_BOOL GetKeepOriginalHeadersFooters ( );
+    void PutKeepOriginalHeadersFooters (
+        VARIANT_BOOL result );
+
+    //
+    // Raw methods provided by interface
+    //
+
+      virtual HRESULT __stdcall get_PDFExportMode (
+        /*[out,retval]*/ enum PDFExportModeEnum * result ) = 0;
+      virtual HRESULT __stdcall put_PDFExportMode (
+        /*[in]*/ enum PDFExportModeEnum result ) = 0;
+      virtual HRESULT __stdcall get_PictureResolution (
+        /*[out,retval]*/ long * result ) = 0;
+      virtual HRESULT __stdcall put_PictureResolution (
+        /*[in]*/ long result ) = 0;
+      virtual HRESULT __stdcall get_Quality (
+        /*[out,retval]*/ long * result ) = 0;
+      virtual HRESULT __stdcall put_Quality (
+        /*[in]*/ long result ) = 0;
+      virtual HRESULT __stdcall get_Write1ACompliant (
+        /*[out,retval]*/ VARIANT_BOOL * result ) = 0;
+      virtual HRESULT __stdcall put_Write1ACompliant (
+        /*[in]*/ VARIANT_BOOL result ) = 0;
+      virtual HRESULT __stdcall get_OverwriteMetadata (
+        /*[out,retval]*/ VARIANT_BOOL * result ) = 0;
+      virtual HRESULT __stdcall put_OverwriteMetadata (
+        /*[in]*/ VARIANT_BOOL result ) = 0;
+      virtual HRESULT __stdcall get_Title (
+        /*[out,retval]*/ BSTR * result ) = 0;
+      virtual HRESULT __stdcall put_Title (
+        /*[in]*/ BSTR result ) = 0;
+      virtual HRESULT __stdcall get_Author (
+        /*[out,retval]*/ BSTR * result ) = 0;
+      virtual HRESULT __stdcall put_Author (
+        /*[in]*/ BSTR result ) = 0;
+      virtual HRESULT __stdcall get_Producer (
+        /*[out,retval]*/ BSTR * result ) = 0;
+      virtual HRESULT __stdcall put_Producer (
+        /*[in]*/ BSTR result ) = 0;
+      virtual HRESULT __stdcall get_Subject (
+        /*[out,retval]*/ BSTR * result ) = 0;
+      virtual HRESULT __stdcall put_Subject (
+        /*[in]*/ BSTR result ) = 0;
+      virtual HRESULT __stdcall get_Keywords (
+        /*[out,retval]*/ BSTR * result ) = 0;
+      virtual HRESULT __stdcall put_Keywords (
+        /*[in]*/ BSTR result ) = 0;
+      virtual HRESULT __stdcall get_DocumentInfo (
+        /*[out,retval]*/ struct IDocumentInfoItems * * result ) = 0;
+      virtual HRESULT __stdcall get_HeaderAndFooter (
+        /*[out,retval]*/ struct IHeaderAndFooterSettings * * result ) = 0;
+      virtual HRESULT __stdcall get_PictureFormat (
+        /*[out,retval]*/ enum ExportPictureFormatEnum * result ) = 0;
+      virtual HRESULT __stdcall put_PictureFormat (
+        /*[in]*/ enum ExportPictureFormatEnum result ) = 0;
+      virtual HRESULT __stdcall get_UseOriginalPaperSize (
+        /*[out,retval]*/ VARIANT_BOOL * result ) = 0;
+      virtual HRESULT __stdcall put_UseOriginalPaperSize (
+        /*[in]*/ VARIANT_BOOL result ) = 0;
+      virtual HRESULT __stdcall get_PaperWidth (
+        /*[out,retval]*/ long * result ) = 0;
+      virtual HRESULT __stdcall put_PaperWidth (
+        /*[in]*/ long result ) = 0;
+      virtual HRESULT __stdcall get_PaperHeight (
+        /*[out,retval]*/ long * result ) = 0;
+      virtual HRESULT __stdcall put_PaperHeight (
+        /*[in]*/ long result ) = 0;
+      virtual HRESULT __stdcall get_PDFVersion (
+        /*[out,retval]*/ enum PDFVersionEnum * result ) = 0;
+      virtual HRESULT __stdcall put_PDFVersion (
+        /*[in]*/ enum PDFVersionEnum result ) = 0;
+      virtual HRESULT __stdcall get_KeepOriginalHeadersFooters (
+        /*[out,retval]*/ VARIANT_BOOL * result ) = 0;
+      virtual HRESULT __stdcall put_KeepOriginalHeadersFooters (
+        /*[in]*/ VARIANT_BOOL result ) = 0;
+};
+
+enum PDFEncryptionLevelEnum
+{
+    PEL_Low = 0,
+    PEL_High = 1,
+    PEL_HighAES = 2
+};
+
+struct __declspec(uuid("de724596-680b-4b1f-8b23-f136b0077d20"))
+IPDFEncryptionInfo : IDispatch
+{
+    //
+    // Property data
+    //
+
+    __declspec(property(get=GetUserPassword,put=PutUserPassword))
+    _bstr_t UserPassword;
+    __declspec(property(get=GetOwnerPassword,put=PutOwnerPassword))
+    _bstr_t OwnerPassword;
+    __declspec(property(get=GetEncryptionLevel,put=PutEncryptionLevel))
+    enum PDFEncryptionLevelEnum EncryptionLevel;
+    __declspec(property(get=GetAllowPrinting,put=PutAllowPrinting))
+    VARIANT_BOOL AllowPrinting;
+    __declspec(property(get=GetAllowPrintingExt,put=PutAllowPrintingExt))
+    VARIANT_BOOL AllowPrintingExt;
+    __declspec(property(get=GetAllowModifyingContent,put=PutAllowModifyingContent))
+    VARIANT_BOOL AllowModifyingContent;
+    __declspec(property(get=GetAllowExtractingTextAndGraphics,put=PutAllowExtractingTextAndGraphics))
+    VARIANT_BOOL AllowExtractingTextAndGraphics;
+    __declspec(property(get=GetAllowAddingTextAnnotations,put=PutAllowAddingTextAnnotations))
+    VARIANT_BOOL AllowAddingTextAnnotations;
+    __declspec(property(get=GetAllowFillingFormFields,put=PutAllowFillingFormFields))
+    VARIANT_BOOL AllowFillingFormFields;
+    __declspec(property(get=GetAllowExtractingTextAndGraphicsExt,put=PutAllowExtractingTextAndGraphicsExt))
+    VARIANT_BOOL AllowExtractingTextAndGraphicsExt;
+    __declspec(property(get=GetAllowDocumentAssembling,put=PutAllowDocumentAssembling))
+    VARIANT_BOOL AllowDocumentAssembling;
+
+    //
+    // Wrapper methods for error-handling
+    //
+
+    _bstr_t GetUserPassword ( );
+    void PutUserPassword (
+        _bstr_t result );
+    _bstr_t GetOwnerPassword ( );
+    void PutOwnerPassword (
+        _bstr_t result );
+    enum PDFEncryptionLevelEnum GetEncryptionLevel ( );
+    void PutEncryptionLevel (
+        enum PDFEncryptionLevelEnum result );
+    VARIANT_BOOL GetAllowPrinting ( );
+    void PutAllowPrinting (
+        VARIANT_BOOL result );
+    VARIANT_BOOL GetAllowPrintingExt ( );
+    void PutAllowPrintingExt (
+        VARIANT_BOOL result );
+    VARIANT_BOOL GetAllowModifyingContent ( );
+    void PutAllowModifyingContent (
+        VARIANT_BOOL result );
+    VARIANT_BOOL GetAllowExtractingTextAndGraphics ( );
+    void PutAllowExtractingTextAndGraphics (
+        VARIANT_BOOL result );
+    VARIANT_BOOL GetAllowAddingTextAnnotations ( );
+    void PutAllowAddingTextAnnotations (
+        VARIANT_BOOL result );
+    VARIANT_BOOL GetAllowFillingFormFields ( );
+    void PutAllowFillingFormFields (
+        VARIANT_BOOL result );
+    VARIANT_BOOL GetAllowExtractingTextAndGraphicsExt ( );
+    void PutAllowExtractingTextAndGraphicsExt (
+        VARIANT_BOOL result );
+    VARIANT_BOOL GetAllowDocumentAssembling ( );
+    void PutAllowDocumentAssembling (
+        VARIANT_BOOL result );
+
+    //
+    // Raw methods provided by interface
+    //
+
+      virtual HRESULT __stdcall get_UserPassword (
+        /*[out,retval]*/ BSTR * result ) = 0;
+      virtual HRESULT __stdcall put_UserPassword (
+        /*[in]*/ BSTR result ) = 0;
+      virtual HRESULT __stdcall get_OwnerPassword (
+        /*[out,retval]*/ BSTR * result ) = 0;
+      virtual HRESULT __stdcall put_OwnerPassword (
+        /*[in]*/ BSTR result ) = 0;
+      virtual HRESULT __stdcall get_EncryptionLevel (
+        /*[out,retval]*/ enum PDFEncryptionLevelEnum * result ) = 0;
+      virtual HRESULT __stdcall put_EncryptionLevel (
+        /*[in]*/ enum PDFEncryptionLevelEnum result ) = 0;
+      virtual HRESULT __stdcall get_AllowPrinting (
+        /*[out,retval]*/ VARIANT_BOOL * result ) = 0;
+      virtual HRESULT __stdcall put_AllowPrinting (
+        /*[in]*/ VARIANT_BOOL result ) = 0;
+      virtual HRESULT __stdcall get_AllowPrintingExt (
+        /*[out,retval]*/ VARIANT_BOOL * result ) = 0;
+      virtual HRESULT __stdcall put_AllowPrintingExt (
+        /*[in]*/ VARIANT_BOOL result ) = 0;
+      virtual HRESULT __stdcall get_AllowModifyingContent (
+        /*[out,retval]*/ VARIANT_BOOL * result ) = 0;
+      virtual HRESULT __stdcall put_AllowModifyingContent (
+        /*[in]*/ VARIANT_BOOL result ) = 0;
+      virtual HRESULT __stdcall get_AllowExtractingTextAndGraphics (
+        /*[out,retval]*/ VARIANT_BOOL * result ) = 0;
+      virtual HRESULT __stdcall put_AllowExtractingTextAndGraphics (
+        /*[in]*/ VARIANT_BOOL result ) = 0;
+      virtual HRESULT __stdcall get_AllowAddingTextAnnotations (
+        /*[out,retval]*/ VARIANT_BOOL * result ) = 0;
+      virtual HRESULT __stdcall put_AllowAddingTextAnnotations (
+        /*[in]*/ VARIANT_BOOL result ) = 0;
+      virtual HRESULT __stdcall get_AllowFillingFormFields (
+        /*[out,retval]*/ VARIANT_BOOL * result ) = 0;
+      virtual HRESULT __stdcall put_AllowFillingFormFields (
+        /*[in]*/ VARIANT_BOOL result ) = 0;
+      virtual HRESULT __stdcall get_AllowExtractingTextAndGraphicsExt (
+        /*[out,retval]*/ VARIANT_BOOL * result ) = 0;
+      virtual HRESULT __stdcall put_AllowExtractingTextAndGraphicsExt (
+        /*[in]*/ VARIANT_BOOL result ) = 0;
+      virtual HRESULT __stdcall get_AllowDocumentAssembling (
+        /*[out,retval]*/ VARIANT_BOOL * result ) = 0;
+      virtual HRESULT __stdcall put_AllowDocumentAssembling (
+        /*[in]*/ VARIANT_BOOL result ) = 0;
+};
+
+struct __declspec(uuid("f0018a78-1a59-46d3-ab14-61d6a3c5d1b7"))
+IPDFExportSettings : IOutputFormatSettings
+{
+    //
+    // Property data
+    //
+
+    __declspec(property(get=GetPDFExportMode,put=PutPDFExportMode))
+    enum PDFExportModeEnum PDFExportMode;
+    __declspec(property(get=GetPictureResolution,put=PutPictureResolution))
+    long PictureResolution;
+    __declspec(property(get=GetQuality,put=PutQuality))
+    long Quality;
+    __declspec(property(get=GetWriteTaggedPdf,put=PutWriteTaggedPdf))
+    VARIANT_BOOL WriteTaggedPdf;
+    __declspec(property(get=GetUseImprovedCompression,put=PutUseImprovedCompression))
+    VARIANT_BOOL UseImprovedCompression;
+    __declspec(property(get=GetOverwriteMetadata,put=PutOverwriteMetadata))
+    VARIANT_BOOL OverwriteMetadata;
+    __declspec(property(get=GetTitle,put=PutTitle))
+    _bstr_t Title;
+    __declspec(property(get=GetAuthor,put=PutAuthor))
+    _bstr_t Author;
+    __declspec(property(get=GetProducer,put=PutProducer))
+    _bstr_t Producer;
+    __declspec(property(get=GetSubject,put=PutSubject))
+    _bstr_t Subject;
+    __declspec(property(get=GetKeywords,put=PutKeywords))
+    _bstr_t Keywords;
+    __declspec(property(get=GetIsEncryptionRequested,put=PutIsEncryptionRequested))
+    VARIANT_BOOL IsEncryptionRequested;
+    __declspec(property(get=GetEncryptionInfo))
+    IPDFEncryptionInfoPtr EncryptionInfo;
+    __declspec(property(get=GetReplaceUncertainWordsWithImages,put=PutReplaceUncertainWordsWithImages))
+    VARIANT_BOOL ReplaceUncertainWordsWithImages;
+    __declspec(property(get=GetDocumentInfo))
+    IDocumentInfoItemsPtr DocumentInfo;
+    __declspec(property(get=GetHeaderAndFooter))
+    IHeaderAndFooterSettingsPtr HeaderAndFooter;
+    __declspec(property(get=GetPictureFormat,put=PutPictureFormat))
+    enum ExportPictureFormatEnum PictureFormat;
+    __declspec(property(get=GetUseOriginalPaperSize,put=PutUseOriginalPaperSize))
+    VARIANT_BOOL UseOriginalPaperSize;
+    __declspec(property(get=GetPaperWidth,put=PutPaperWidth))
+    long PaperWidth;
+    __declspec(property(get=GetPaperHeight,put=PutPaperHeight))
+    long PaperHeight;
+    __declspec(property(get=GetPDFVersion,put=PutPDFVersion))
+    enum PDFVersionEnum PDFVersion;
+    __declspec(property(get=GetKeepOriginalHeadersFooters,put=PutKeepOriginalHeadersFooters))
+    VARIANT_BOOL KeepOriginalHeadersFooters;
+
+    //
+    // Wrapper methods for error-handling
+    //
+
+    enum PDFExportModeEnum GetPDFExportMode ( );
+    void PutPDFExportMode (
+        enum PDFExportModeEnum result );
+    long GetPictureResolution ( );
+    void PutPictureResolution (
+        long result );
+    long GetQuality ( );
+    void PutQuality (
+        long result );
+    VARIANT_BOOL GetWriteTaggedPdf ( );
+    void PutWriteTaggedPdf (
+        VARIANT_BOOL result );
+    VARIANT_BOOL GetUseImprovedCompression ( );
+    void PutUseImprovedCompression (
+        VARIANT_BOOL result );
+    VARIANT_BOOL GetOverwriteMetadata ( );
+    void PutOverwriteMetadata (
+        VARIANT_BOOL result );
+    _bstr_t GetTitle ( );
+    void PutTitle (
+        _bstr_t result );
+    _bstr_t GetAuthor ( );
+    void PutAuthor (
+        _bstr_t result );
+    _bstr_t GetProducer ( );
+    void PutProducer (
+        _bstr_t result );
+    _bstr_t GetSubject ( );
+    void PutSubject (
+        _bstr_t result );
+    _bstr_t GetKeywords ( );
+    void PutKeywords (
+        _bstr_t result );
+    VARIANT_BOOL GetIsEncryptionRequested ( );
+    void PutIsEncryptionRequested (
+        VARIANT_BOOL result );
+    IPDFEncryptionInfoPtr GetEncryptionInfo ( );
+    VARIANT_BOOL GetReplaceUncertainWordsWithImages ( );
+    void PutReplaceUncertainWordsWithImages (
+        VARIANT_BOOL result );
+    IDocumentInfoItemsPtr GetDocumentInfo ( );
+    IHeaderAndFooterSettingsPtr GetHeaderAndFooter ( );
+    enum ExportPictureFormatEnum GetPictureFormat ( );
+    void PutPictureFormat (
+        enum ExportPictureFormatEnum result );
+    VARIANT_BOOL GetUseOriginalPaperSize ( );
+    void PutUseOriginalPaperSize (
+        VARIANT_BOOL result );
+    long GetPaperWidth ( );
+    void PutPaperWidth (
+        long result );
+    long GetPaperHeight ( );
+    void PutPaperHeight (
+        long result );
+    enum PDFVersionEnum GetPDFVersion ( );
+    void PutPDFVersion (
+        enum PDFVersionEnum result );
+    VARIANT_BOOL GetKeepOriginalHeadersFooters ( );
+    void PutKeepOriginalHeadersFooters (
+        VARIANT_BOOL result );
+
+    //
+    // Raw methods provided by interface
+    //
+
+      virtual HRESULT __stdcall get_PDFExportMode (
+        /*[out,retval]*/ enum PDFExportModeEnum * result ) = 0;
+      virtual HRESULT __stdcall put_PDFExportMode (
+        /*[in]*/ enum PDFExportModeEnum result ) = 0;
+      virtual HRESULT __stdcall get_PictureResolution (
+        /*[out,retval]*/ long * result ) = 0;
+      virtual HRESULT __stdcall put_PictureResolution (
+        /*[in]*/ long result ) = 0;
+      virtual HRESULT __stdcall get_Quality (
+        /*[out,retval]*/ long * result ) = 0;
+      virtual HRESULT __stdcall put_Quality (
+        /*[in]*/ long result ) = 0;
+      virtual HRESULT __stdcall get_WriteTaggedPdf (
+        /*[out,retval]*/ VARIANT_BOOL * result ) = 0;
+      virtual HRESULT __stdcall put_WriteTaggedPdf (
+        /*[in]*/ VARIANT_BOOL result ) = 0;
+      virtual HRESULT __stdcall get_UseImprovedCompression (
+        /*[out,retval]*/ VARIANT_BOOL * result ) = 0;
+      virtual HRESULT __stdcall put_UseImprovedCompression (
+        /*[in]*/ VARIANT_BOOL result ) = 0;
+      virtual HRESULT __stdcall get_OverwriteMetadata (
+        /*[out,retval]*/ VARIANT_BOOL * result ) = 0;
+      virtual HRESULT __stdcall put_OverwriteMetadata (
+        /*[in]*/ VARIANT_BOOL result ) = 0;
+      virtual HRESULT __stdcall get_Title (
+        /*[out,retval]*/ BSTR * result ) = 0;
+      virtual HRESULT __stdcall put_Title (
+        /*[in]*/ BSTR result ) = 0;
+      virtual HRESULT __stdcall get_Author (
+        /*[out,retval]*/ BSTR * result ) = 0;
+      virtual HRESULT __stdcall put_Author (
+        /*[in]*/ BSTR result ) = 0;
+      virtual HRESULT __stdcall get_Producer (
+        /*[out,retval]*/ BSTR * result ) = 0;
+      virtual HRESULT __stdcall put_Producer (
+        /*[in]*/ BSTR result ) = 0;
+      virtual HRESULT __stdcall get_Subject (
+        /*[out,retval]*/ BSTR * result ) = 0;
+      virtual HRESULT __stdcall put_Subject (
+        /*[in]*/ BSTR result ) = 0;
+      virtual HRESULT __stdcall get_Keywords (
+        /*[out,retval]*/ BSTR * result ) = 0;
+      virtual HRESULT __stdcall put_Keywords (
+        /*[in]*/ BSTR result ) = 0;
+      virtual HRESULT __stdcall get_IsEncryptionRequested (
+        /*[out,retval]*/ VARIANT_BOOL * result ) = 0;
+      virtual HRESULT __stdcall put_IsEncryptionRequested (
+        /*[in]*/ VARIANT_BOOL result ) = 0;
+      virtual HRESULT __stdcall get_EncryptionInfo (
+        /*[out,retval]*/ struct IPDFEncryptionInfo * * result ) = 0;
+      virtual HRESULT __stdcall get_ReplaceUncertainWordsWithImages (
+        /*[out,retval]*/ VARIANT_BOOL * result ) = 0;
+      virtual HRESULT __stdcall put_ReplaceUncertainWordsWithImages (
+        /*[in]*/ VARIANT_BOOL result ) = 0;
+      virtual HRESULT __stdcall get_DocumentInfo (
+        /*[out,retval]*/ struct IDocumentInfoItems * * result ) = 0;
+      virtual HRESULT __stdcall get_HeaderAndFooter (
+        /*[out,retval]*/ struct IHeaderAndFooterSettings * * result ) = 0;
+      virtual HRESULT __stdcall get_PictureFormat (
+        /*[out,retval]*/ enum ExportPictureFormatEnum * result ) = 0;
+      virtual HRESULT __stdcall put_PictureFormat (
+        /*[in]*/ enum ExportPictureFormatEnum result ) = 0;
+      virtual HRESULT __stdcall get_UseOriginalPaperSize (
+        /*[out,retval]*/ VARIANT_BOOL * result ) = 0;
+      virtual HRESULT __stdcall put_UseOriginalPaperSize (
+        /*[in]*/ VARIANT_BOOL result ) = 0;
+      virtual HRESULT __stdcall get_PaperWidth (
+        /*[out,retval]*/ long * result ) = 0;
+      virtual HRESULT __stdcall put_PaperWidth (
+        /*[in]*/ long result ) = 0;
+      virtual HRESULT __stdcall get_PaperHeight (
+        /*[out,retval]*/ long * result ) = 0;
+      virtual HRESULT __stdcall put_PaperHeight (
+        /*[in]*/ long result ) = 0;
+      virtual HRESULT __stdcall get_PDFVersion (
+        /*[out,retval]*/ enum PDFVersionEnum * result ) = 0;
+      virtual HRESULT __stdcall put_PDFVersion (
+        /*[in]*/ enum PDFVersionEnum result ) = 0;
+      virtual HRESULT __stdcall get_KeepOriginalHeadersFooters (
+        /*[out,retval]*/ VARIANT_BOOL * result ) = 0;
+      virtual HRESULT __stdcall put_KeepOriginalHeadersFooters (
+        /*[in]*/ VARIANT_BOOL result ) = 0;
+};
+
+enum ImageCompressionTypeEnum
+{
+    ICT_Uncompressed = 0,
+    ICT_Zip = 1,
+    ICT_Group3 = 2,
+    ICT_Group4 = 3,
+    ICT_PackBits = 4,
+    ICT_Jpeg = 5,
+    ICT_Lzw = 6
+};
+
+enum ImageColorModeEnum
+{
+    ICM_AsIs = 0,
+    ICM_Color = 1,
+    ICM_Gray = 2,
+    ICM_BlackAndWhite = 3
+};
+
+enum CodePageTypeEnum
+{
+    CPT_ANSI = 0,
+    CPT_OEM = 1,
+    CPT_Macintosh = 2,
+    CPT_ISO = 3
+};
+
+enum HTMLFormatModeEnum
+{
+    HFM_Format32 = 0,
+    HFM_TwoFormats32_40 = 1,
+    HFM_Format40 = 2
+};
+
+struct __declspec(uuid("578bf47c-4a64-4edc-87b1-d7292d9728f0"))
+IDOCXExportSettings : IOutputFormatSettings
+{
+    //
+    // Property data
+    //
+
+    __declspec(property(get=GetRTFSynthesisMode,put=PutRTFSynthesisMode))
+    enum RTFSynthesisModeEnum RTFSynthesisMode;
+    __declspec(property(get=GetPaperWidth,put=PutPaperWidth))
+    long PaperWidth;
+    __declspec(property(get=GetPaperHeight,put=PutPaperHeight))
+    long PaperHeight;
+    __declspec(property(get=GetForceFixedPageSize,put=PutForceFixedPageSize))
+    VARIANT_BOOL ForceFixedPageSize;
+    __declspec(property(get=GetWritePictures,put=PutWritePictures))
+    VARIANT_BOOL WritePictures;
+    __declspec(property(get=GetHighlightErrorsWithBackgroundColor,put=PutHighlightErrorsWithBackgroundColor))
+    VARIANT_BOOL HighlightErrorsWithBackgroundColor;
+
+    //
+    // Wrapper methods for error-handling
+    //
+
+    enum RTFSynthesisModeEnum GetRTFSynthesisMode ( );
+    void PutRTFSynthesisMode (
+        enum RTFSynthesisModeEnum result );
+    long GetPaperWidth ( );
+    void PutPaperWidth (
+        long result );
+    long GetPaperHeight ( );
+    void PutPaperHeight (
+        long result );
+    VARIANT_BOOL GetForceFixedPageSize ( );
+    void PutForceFixedPageSize (
+        VARIANT_BOOL result );
+    VARIANT_BOOL GetWritePictures ( );
+    void PutWritePictures (
+        VARIANT_BOOL result );
+    VARIANT_BOOL GetHighlightErrorsWithBackgroundColor ( );
+    void PutHighlightErrorsWithBackgroundColor (
+        VARIANT_BOOL result );
+
+    //
+    // Raw methods provided by interface
+    //
+
+      virtual HRESULT __stdcall get_RTFSynthesisMode (
+        /*[out,retval]*/ enum RTFSynthesisModeEnum * result ) = 0;
+      virtual HRESULT __stdcall put_RTFSynthesisMode (
+        /*[in]*/ enum RTFSynthesisModeEnum result ) = 0;
+      virtual HRESULT __stdcall get_PaperWidth (
+        /*[out,retval]*/ long * result ) = 0;
+      virtual HRESULT __stdcall put_PaperWidth (
+        /*[in]*/ long result ) = 0;
+      virtual HRESULT __stdcall get_PaperHeight (
+        /*[out,retval]*/ long * result ) = 0;
+      virtual HRESULT __stdcall put_PaperHeight (
+        /*[in]*/ long result ) = 0;
+      virtual HRESULT __stdcall get_ForceFixedPageSize (
+        /*[out,retval]*/ VARIANT_BOOL * result ) = 0;
+      virtual HRESULT __stdcall put_ForceFixedPageSize (
+        /*[in]*/ VARIANT_BOOL result ) = 0;
+      virtual HRESULT __stdcall get_WritePictures (
+        /*[out,retval]*/ VARIANT_BOOL * result ) = 0;
+      virtual HRESULT __stdcall put_WritePictures (
+        /*[in]*/ VARIANT_BOOL result ) = 0;
+      virtual HRESULT __stdcall get_HighlightErrorsWithBackgroundColor (
+        /*[out,retval]*/ VARIANT_BOOL * result ) = 0;
+      virtual HRESULT __stdcall put_HighlightErrorsWithBackgroundColor (
+        /*[in]*/ VARIANT_BOOL result ) = 0;
+};
+
+struct __declspec(uuid("65829b00-34ae-495f-b84e-7f769fc9c6a6"))
+IMSWordExportSettings : IOutputFormatSettings
+{
+    //
+    // Property data
+    //
+
+    __declspec(property(get=GetRTFSynthesisMode,put=PutRTFSynthesisMode))
+    enum RTFSynthesisModeEnum RTFSynthesisMode;
+    __declspec(property(get=GetPaperWidth,put=PutPaperWidth))
+    long PaperWidth;
+    __declspec(property(get=GetPaperHeight,put=PutPaperHeight))
+    long PaperHeight;
+    __declspec(property(get=GetForceFixedPageSize,put=PutForceFixedPageSize))
+    VARIANT_BOOL ForceFixedPageSize;
+    __declspec(property(get=GetWritePictures,put=PutWritePictures))
+    VARIANT_BOOL WritePictures;
+    __declspec(property(get=GetHighlightErrorsWithBackgroundColor,put=PutHighlightErrorsWithBackgroundColor))
+    VARIANT_BOOL HighlightErrorsWithBackgroundColor;
+
+    //
+    // Wrapper methods for error-handling
+    //
+
+    enum RTFSynthesisModeEnum GetRTFSynthesisMode ( );
+    void PutRTFSynthesisMode (
+        enum RTFSynthesisModeEnum result );
+    long GetPaperWidth ( );
+    void PutPaperWidth (
+        long result );
+    long GetPaperHeight ( );
+    void PutPaperHeight (
+        long result );
+    VARIANT_BOOL GetForceFixedPageSize ( );
+    void PutForceFixedPageSize (
+        VARIANT_BOOL result );
+    VARIANT_BOOL GetWritePictures ( );
+    void PutWritePictures (
+        VARIANT_BOOL result );
+    VARIANT_BOOL GetHighlightErrorsWithBackgroundColor ( );
+    void PutHighlightErrorsWithBackgroundColor (
+        VARIANT_BOOL result );
+
+    //
+    // Raw methods provided by interface
+    //
+
+      virtual HRESULT __stdcall get_RTFSynthesisMode (
+        /*[out,retval]*/ enum RTFSynthesisModeEnum * result ) = 0;
+      virtual HRESULT __stdcall put_RTFSynthesisMode (
+        /*[in]*/ enum RTFSynthesisModeEnum result ) = 0;
+      virtual HRESULT __stdcall get_PaperWidth (
+        /*[out,retval]*/ long * result ) = 0;
+      virtual HRESULT __stdcall put_PaperWidth (
+        /*[in]*/ long result ) = 0;
+      virtual HRESULT __stdcall get_PaperHeight (
+        /*[out,retval]*/ long * result ) = 0;
+      virtual HRESULT __stdcall put_PaperHeight (
+        /*[in]*/ long result ) = 0;
+      virtual HRESULT __stdcall get_ForceFixedPageSize (
+        /*[out,retval]*/ VARIANT_BOOL * result ) = 0;
+      virtual HRESULT __stdcall put_ForceFixedPageSize (
+        /*[in]*/ VARIANT_BOOL result ) = 0;
+      virtual HRESULT __stdcall get_WritePictures (
+        /*[out,retval]*/ VARIANT_BOOL * result ) = 0;
+      virtual HRESULT __stdcall put_WritePictures (
+        /*[in]*/ VARIANT_BOOL result ) = 0;
+      virtual HRESULT __stdcall get_HighlightErrorsWithBackgroundColor (
+        /*[out,retval]*/ VARIANT_BOOL * result ) = 0;
+      virtual HRESULT __stdcall put_HighlightErrorsWithBackgroundColor (
+        /*[in]*/ VARIANT_BOOL result ) = 0;
+};
+
+struct __declspec(uuid("ef4dd90c-d83e-4565-8685-82fd96f2f4fc"))
+IXLSXExportSettings : IOutputFormatSettings
+{
+    //
+    // Property data
+    //
+
+    __declspec(property(get=GetConvertNumericValuesToNumbers,put=PutConvertNumericValuesToNumbers))
+    VARIANT_BOOL ConvertNumericValuesToNumbers;
+    __declspec(property(get=GetIgnoreTextOutsideTables,put=PutIgnoreTextOutsideTables))
+    VARIANT_BOOL IgnoreTextOutsideTables;
+
+    //
+    // Wrapper methods for error-handling
+    //
+
+    VARIANT_BOOL GetConvertNumericValuesToNumbers ( );
+    void PutConvertNumericValuesToNumbers (
+        VARIANT_BOOL result );
+    VARIANT_BOOL GetIgnoreTextOutsideTables ( );
+    void PutIgnoreTextOutsideTables (
+        VARIANT_BOOL result );
+
+    //
+    // Raw methods provided by interface
+    //
+
+      virtual HRESULT __stdcall get_ConvertNumericValuesToNumbers (
+        /*[out,retval]*/ VARIANT_BOOL * result ) = 0;
+      virtual HRESULT __stdcall put_ConvertNumericValuesToNumbers (
+        /*[in]*/ VARIANT_BOOL result ) = 0;
+      virtual HRESULT __stdcall get_IgnoreTextOutsideTables (
+        /*[out,retval]*/ VARIANT_BOOL * result ) = 0;
+      virtual HRESULT __stdcall put_IgnoreTextOutsideTables (
+        /*[in]*/ VARIANT_BOOL result ) = 0;
+};
+
+struct __declspec(uuid("f52adcab-471c-437e-a749-8e3f22c6369d"))
+IInternalFormatExportSettings : IOutputFormatSettings
+{};
+
+struct __declspec(uuid("bb01ea0e-fef2-4e66-9f94-96d16ab718d8"))
+INoConversionExportSettings : IOutputFormatSettings
+{};
+
+struct __declspec(uuid("099fe048-275e-4683-8ac6-f8a369cd4b4b"))
+ITiffExportSettings : IOutputFormatSettings
+{
+    //
+    // Property data
+    //
+
+    __declspec(property(get=GetCompression,put=PutCompression))
+    enum ImageCompressionTypeEnum Compression;
+    __declspec(property(get=GetResolution,put=PutResolution))
+    long Resolution;
+    __declspec(property(get=GetColorMode,put=PutColorMode))
+    enum ImageColorModeEnum ColorMode;
+
+    //
+    // Wrapper methods for error-handling
+    //
+
+    enum ImageCompressionTypeEnum GetCompression ( );
+    void PutCompression (
+        enum ImageCompressionTypeEnum result );
+    long GetResolution ( );
+    void PutResolution (
+        long result );
+    enum ImageColorModeEnum GetColorMode ( );
+    void PutColorMode (
+        enum ImageColorModeEnum result );
+
+    //
+    // Raw methods provided by interface
+    //
+
+      virtual HRESULT __stdcall get_Compression (
+        /*[out,retval]*/ enum ImageCompressionTypeEnum * result ) = 0;
+      virtual HRESULT __stdcall put_Compression (
+        /*[in]*/ enum ImageCompressionTypeEnum result ) = 0;
+      virtual HRESULT __stdcall get_Resolution (
+        /*[out,retval]*/ long * result ) = 0;
+      virtual HRESULT __stdcall put_Resolution (
+        /*[in]*/ long result ) = 0;
+      virtual HRESULT __stdcall get_ColorMode (
+        /*[out,retval]*/ enum ImageColorModeEnum * result ) = 0;
+      virtual HRESULT __stdcall put_ColorMode (
+        /*[in]*/ enum ImageColorModeEnum result ) = 0;
+};
+
+struct __declspec(uuid("16c0fb8f-d375-4996-8848-255333d2c8e6"))
+IJpegExportSettings : IOutputFormatSettings
+{
+    //
+    // Property data
+    //
+
+    __declspec(property(get=GetQuality,put=PutQuality))
+    long Quality;
+    __declspec(property(get=GetResolution,put=PutResolution))
+    long Resolution;
+    __declspec(property(get=GetColorMode,put=PutColorMode))
+    enum ImageColorModeEnum ColorMode;
+
+    //
+    // Wrapper methods for error-handling
+    //
+
+    long GetQuality ( );
+    void PutQuality (
+        long result );
+    long GetResolution ( );
+    void PutResolution (
+        long result );
+    enum ImageColorModeEnum GetColorMode ( );
+    void PutColorMode (
+        enum ImageColorModeEnum result );
+
+    //
+    // Raw methods provided by interface
+    //
+
+      virtual HRESULT __stdcall get_Quality (
+        /*[out,retval]*/ long * result ) = 0;
+      virtual HRESULT __stdcall put_Quality (
+        /*[in]*/ long result ) = 0;
+      virtual HRESULT __stdcall get_Resolution (
+        /*[out,retval]*/ long * result ) = 0;
+      virtual HRESULT __stdcall put_Resolution (
+        /*[in]*/ long result ) = 0;
+      virtual HRESULT __stdcall get_ColorMode (
+        /*[out,retval]*/ enum ImageColorModeEnum * result ) = 0;
+      virtual HRESULT __stdcall put_ColorMode (
+        /*[in]*/ enum ImageColorModeEnum result ) = 0;
+};
+
+struct __declspec(uuid("3b318fae-baf6-4e66-b6f9-eb47644384c0"))
+IJpeg2kExportSettings : IOutputFormatSettings
+{
+    //
+    // Property data
+    //
+
+    __declspec(property(get=GetQuality,put=PutQuality))
+    long Quality;
+    __declspec(property(get=GetResolution,put=PutResolution))
+    long Resolution;
+    __declspec(property(get=GetColorMode,put=PutColorMode))
+    enum ImageColorModeEnum ColorMode;
+
+    //
+    // Wrapper methods for error-handling
+    //
+
+    long GetQuality ( );
+    void PutQuality (
+        long result );
+    long GetResolution ( );
+    void PutResolution (
+        long result );
+    enum ImageColorModeEnum GetColorMode ( );
+    void PutColorMode (
+        enum ImageColorModeEnum result );
+
+    //
+    // Raw methods provided by interface
+    //
+
+      virtual HRESULT __stdcall get_Quality (
+        /*[out,retval]*/ long * result ) = 0;
+      virtual HRESULT __stdcall put_Quality (
+        /*[in]*/ long result ) = 0;
+      virtual HRESULT __stdcall get_Resolution (
+        /*[out,retval]*/ long * result ) = 0;
+      virtual HRESULT __stdcall put_Resolution (
+        /*[in]*/ long result ) = 0;
+      virtual HRESULT __stdcall get_ColorMode (
+        /*[out,retval]*/ enum ImageColorModeEnum * result ) = 0;
+      virtual HRESULT __stdcall put_ColorMode (
+        /*[in]*/ enum ImageColorModeEnum result ) = 0;
+};
+
+struct __declspec(uuid("29aed799-01fa-45bf-911e-3e2664443077"))
+IJBig2ExportSettings : IOutputFormatSettings
+{
+    //
+    // Property data
+    //
+
+    __declspec(property(get=GetResolution,put=PutResolution))
+    long Resolution;
+
+    //
+    // Wrapper methods for error-handling
+    //
+
+    long GetResolution ( );
+    void PutResolution (
+        long result );
+
+    //
+    // Raw methods provided by interface
+    //
+
+      virtual HRESULT __stdcall get_Resolution (
+        /*[out,retval]*/ long * result ) = 0;
+      virtual HRESULT __stdcall put_Resolution (
+        /*[in]*/ long result ) = 0;
+};
+
+struct __declspec(uuid("b5c89eba-6e49-45f2-b54e-c3bb722ec4df"))
+RTFExportSettings;
+    // [ default ] interface IRTFExportSettings
+
+struct __declspec(uuid("121100a7-9c80-483c-bfb2-c807fc9e58b5"))
+MSWordExportSettings;
+    // [ default ] interface IMSWordExportSettings
+    // interface IOutputFormatSettings
+
+struct __declspec(uuid("488f4a72-05b2-4c55-a1a7-ee6a07ebd17e"))
+DOCXExportSettings;
+    // [ default ] interface IDOCXExportSettings
+    // interface IOutputFormatSettings
+
+struct __declspec(uuid("1ad6603d-2fad-43b2-a4ec-0b12eac6514e"))
+HTMLExportSettings;
+    // [ default ] interface IHTMLExportSettings
+    // interface IOutputFormatSettings
+
+struct __declspec(uuid("cdf789ac-8bf8-4d49-b9fe-87216e7fdfc6"))
+XLSXExportSettings;
+    // [ default ] interface IXLSXExportSettings
+    // interface IOutputFormatSettings
+
+struct __declspec(uuid("8864cc5a-3a61-43d3-869a-9fcfe746faad"))
+XLExportSettings;
+    // [ default ] interface IXLExportSettings
+    // interface IOutputFormatSettings
+
+struct __declspec(uuid("8505a41a-f113-43f2-bab7-cd8dfca3e9d0"))
+XMLExportSettings;
+    // [ default ] interface IXMLExportSettings
+    // interface IOutputFormatSettings
+
+struct __declspec(uuid("e7884ac3-ecff-4317-ad62-26342a5ff537"))
+AltoExportSettings;
+    // [ default ] interface IAltoExportSettings
+    // interface IOutputFormatSettings
+
+struct __declspec(uuid("e7884ac3-ecff-4317-ad62-26342a5ff538"))
+EpubExportSettings;
+    // [ default ] interface IEpubExportSettings
+    // interface IOutputFormatSettings
+
+struct __declspec(uuid("201ee4a7-ec64-4225-ac79-3373c842aee2"))
+TextExportSettings;
+    // [ default ] interface ITextExportSettings
+    // interface IOutputFormatSettings
+
+struct __declspec(uuid("64ee3fea-2c53-44bc-bf1a-5b3ae143d08e"))
+CSVExportSettings;
+    // [ default ] interface ICSVExportSettings
+    // interface IOutputFormatSettings
+
+struct __declspec(uuid("38ef0f9a-d793-4338-8926-1e93088061c8"))
+InternalFormatExportSettings;
+    // [ default ] interface IInternalFormatExportSettings
+    // interface IOutputFormatSettings
+
+struct __declspec(uuid("8b875f55-0717-4842-92f1-4e1b8a9d7a55"))
+NoConversionExportSettings;
+    // [ default ] interface INoConversionExportSettings
+    // interface IOutputFormatSettings
+
+struct __declspec(uuid("ea3f9637-7d84-410d-a282-58f468ec1cc7"))
+PDFExportSettings;
+    // [ default ] interface IPDFExportSettings
+    // interface IOutputFormatSettings
+
+struct __declspec(uuid("1ae28cb7-5d36-485c-9b03-78e18bee7d0b"))
+TiffExportSettings;
+    // [ default ] interface ITiffExportSettings
+    // interface IOutputFormatSettings
+
+struct __declspec(uuid("54c2cf99-5fd1-41ba-b245-b60a88042df3"))
+JpegExportSettings;
+    // [ default ] interface IJpegExportSettings
+    // interface IOutputFormatSettings
+
+struct __declspec(uuid("a6e84fca-a9c3-4265-bb02-1a5d42e97d5a"))
+Jpeg2kExportSettings;
+    // [ default ] interface IJpeg2kExportSettings
+    // interface IOutputFormatSettings
+
+struct __declspec(uuid("ed67e898-754f-4a07-9cad-5f93d9830a5c"))
+JBig2ExportSettings;
+    // [ default ] interface IJBig2ExportSettings
+    // interface IOutputFormatSettings
+
+struct __declspec(uuid("2ddb84ec-1118-4dd0-8fee-f15138617e56"))
+PDFAExportSettings;
+    // [ default ] interface IPDFAExportSettings
+    // interface IOutputFormatSettings
+
+struct __declspec(uuid("448c2584-861d-4444-8c68-aa53607adefb"))
+IEnumerationIndexingField : IIndexingField
+{
+    //
+    // Property data
+    //
+
+    __declspec(property(get=GetPossibleValues))
+    IStringsCollectionPtr PossibleValues;
+
+    //
+    // Wrapper methods for error-handling
+    //
+
+    IStringsCollectionPtr GetPossibleValues ( );
+
+    //
+    // Raw methods provided by interface
+    //
+
+      virtual HRESULT __stdcall get_PossibleValues (
+        /*[out,retval]*/ struct IStringsCollection * * result ) = 0;
+};
+
+struct __declspec(uuid("2a917c5e-19df-405e-b006-8d9e2414d209"))
+IBooleanIndexingField : IIndexingField
+{};
+
+struct __declspec(uuid("a4fddf27-18ed-42cd-bea2-afd758d51241"))
+ISingleLineIndexingField : IIndexingField
+{};
+
+struct __declspec(uuid("7fd68a6b-8c83-48b2-bd57-fce46194eb1e"))
+IMultipleLinesIndexingField : IIndexingField
+{};
+
+struct __declspec(uuid("cf769410-83ce-4fd7-8827-f7001d2adc9c"))
+IRegularExpressionIndexingField : IIndexingField
+{
+    //
+    // Property data
+    //
+
+    __declspec(property(get=GetExpression,put=PutExpression))
+    _bstr_t Expression;
+
+    //
+    // Wrapper methods for error-handling
+    //
+
+    _bstr_t GetExpression ( );
+    void PutExpression (
+        _bstr_t result );
+
+    //
+    // Raw methods provided by interface
+    //
+
+      virtual HRESULT __stdcall get_Expression (
+        /*[out,retval]*/ BSTR * result ) = 0;
+      virtual HRESULT __stdcall put_Expression (
+        /*[in]*/ BSTR result ) = 0;
+};
+
+enum TextTypeEnum
+{
+    TT_Normal = 1,
+    TT_Typewriter = 2,
+    TT_Matrix = 4,
+    TT_OCR_A = 8,
+    TT_OCR_B = 16,
+    TT_MICR_E13B = 32,
+    TT_Gothic = 64,
+    TT_Fax = 128
+};
+
+enum XMLResultPublishingMethodEnum
+{
+    XRPM_NoXMLResult = 0,
+    XRPM_XMLResultToFolder = 1,
+    XRPM_XMLResultToMail = 2,
+    XRPM_XMLResultViaHTTP = 3
+};
+
+struct __declspec(uuid("73057928-5f5a-47be-9ebd-545beb752481"))
+IObjectsCollection : IDispatch
+{
+    //
+    // Property data
+    //
+
+    __declspec(property(get=GetCount))
+    long Count;
+    __declspec(property(get=Get_NewEnum))
+    IUnknownPtr _NewEnum;
+
+    //
+    // Wrapper methods for error-handling
+    //
+
+    IUnknownPtr Get_NewEnum ( );
+    long GetCount ( );
+    IUnknownPtr Item (
+        long index );
+    HRESULT Add (
+        IUnknown * value );
+    HRESULT Remove (
+        long index );
+    HRESULT RemoveAll ( );
+
+    //
+    // Raw methods provided by interface
+    //
+
+      virtual HRESULT __stdcall get__NewEnum (
+        /*[out,retval]*/ IUnknown * * result ) = 0;
+      virtual HRESULT __stdcall get_Count (
+        /*[out,retval]*/ long * result ) = 0;
+      virtual HRESULT __stdcall raw_Item (
+        /*[in]*/ long index,
+        /*[out,retval]*/ IUnknown * * Item ) = 0;
+      virtual HRESULT __stdcall raw_Add (
+        /*[in]*/ IUnknown * value ) = 0;
+      virtual HRESULT __stdcall raw_Remove (
+        /*[in]*/ long index ) = 0;
+      virtual HRESULT __stdcall raw_RemoveAll ( ) = 0;
+};
+
+struct __declspec(uuid("f300306b-c79e-45b4-a724-42eceee19f81"))
+IBooleanAttribute : IDocumentAttribute
+{
+    //
+    // Property data
+    //
+
+    __declspec(property(get=Getvalue,put=Putvalue))
+    VARIANT_BOOL value;
+
+    //
+    // Wrapper methods for error-handling
+    //
+
+    VARIANT_BOOL Getvalue ( );
+    void Putvalue (
+        VARIANT_BOOL result );
+
+    //
+    // Raw methods provided by interface
+    //
+
+      virtual HRESULT __stdcall get_value (
+        /*[out,retval]*/ VARIANT_BOOL * result ) = 0;
+      virtual HRESULT __stdcall put_value (
+        /*[in]*/ VARIANT_BOOL result ) = 0;
+};
+
+struct __declspec(uuid("4f1f0248-3948-4b9d-90be-d41c0c0c5271"))
+IEnumerationAttribute : IDocumentAttribute
+{
+    //
+    // Property data
+    //
+
+    __declspec(property(get=Getvalue,put=Putvalue))
+    _bstr_t value;
+
+    //
+    // Wrapper methods for error-handling
+    //
+
+    _bstr_t Getvalue ( );
+    void Putvalue (
+        _bstr_t result );
+
+    //
+    // Raw methods provided by interface
+    //
+
+      virtual HRESULT __stdcall get_value (
+        /*[out,retval]*/ BSTR * result ) = 0;
+      virtual HRESULT __stdcall put_value (
+        /*[in]*/ BSTR result ) = 0;
+};
+
+struct __declspec(uuid("2109d9dc-b74f-47e1-b97e-fb3eab8c235e"))
+ISingleLineAttribute : IDocumentAttribute
+{
+    //
+    // Property data
+    //
+
+    __declspec(property(get=Getvalue,put=Putvalue))
+    _bstr_t value;
+
+    //
+    // Wrapper methods for error-handling
+    //
+
+    _bstr_t Getvalue ( );
+    void Putvalue (
+        _bstr_t result );
+
+    //
+    // Raw methods provided by interface
+    //
+
+      virtual HRESULT __stdcall get_value (
+        /*[out,retval]*/ BSTR * result ) = 0;
+      virtual HRESULT __stdcall put_value (
+        /*[in]*/ BSTR result ) = 0;
+};
+
+struct __declspec(uuid("d44ee6f6-7a37-4cfc-953f-cee1ca3410c9"))
+IMultipleLinesAttribute : IDocumentAttribute
+{
+    //
+    // Property data
+    //
+
+    __declspec(property(get=Getvalue))
+    IStringsCollectionPtr value;
+
+    //
+    // Wrapper methods for error-handling
+    //
+
+    IStringsCollectionPtr Getvalue ( );
+
+    //
+    // Raw methods provided by interface
+    //
+
+      virtual HRESULT __stdcall get_value (
+        /*[out,retval]*/ struct IStringsCollection * * result ) = 0;
+};
+
+struct __declspec(uuid("28038c7d-a5db-49d3-8110-3c2a8f32b1bd"))
+IRegularExpressionAttribute : IDocumentAttribute
+{
+    //
+    // Property data
+    //
+
+    __declspec(property(get=Getvalue,put=Putvalue))
+    _bstr_t value;
+
+    //
+    // Wrapper methods for error-handling
+    //
+
+    _bstr_t Getvalue ( );
+    void Putvalue (
+        _bstr_t result );
+
+    //
+    // Raw methods provided by interface
+    //
+
+      virtual HRESULT __stdcall get_value (
+        /*[out,retval]*/ BSTR * result ) = 0;
+      virtual HRESULT __stdcall put_value (
+        /*[in]*/ BSTR result ) = 0;
+};
+
+struct __declspec(uuid("e46c9628-86cf-4fdb-a0c8-05eb57219eb9"))
+Client;
+    // [ default ] interface IClient
+    // [ default, source ] dispinterface DIClientEvents
+    // [ source ] interface IClientEvents
+
+struct __declspec(uuid("02af92ad-cc74-46a6-a0c4-32276f106d64"))
+XmlTicket;
+    // [ default ] interface IXmlTicket
+
+struct __declspec(uuid("5c6f207d-b112-4736-9735-df974446282f"))
+XmlResult;
+    // [ default ] interface IXmlResult
+
+struct __declspec(uuid("3cfeca04-a5b8-48c0-9792-5e83642c6dae"))
+InputFile;
+    // [ default ] interface IInputFile
+
+struct __declspec(uuid("3cfeca04-a5b8-48c0-9792-5e83642c6daf"))
+JobDocument;
+    // [ default ] interface IJobDocument
+
+struct __declspec(uuid("eef63e88-f8a1-4cd7-ad9c-426b0c2ed1c5"))
+StringsCollection;
+    // [ default ] interface IStringsCollection
+
+//
+// Wrapper method implementations
+//
+
+#include "c:\users\etyurin\documents\visual studio 2013\projectscpp\clientrecognition\clientrecognition\debug\ocrserverclient3.tli"
+
+#pragma pack(pop)
