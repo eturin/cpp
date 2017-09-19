@@ -9,13 +9,14 @@
 template<typename T>
 class MyQueue{
 private:
-	//служебный тип
+	//служебные типы
+	enum Status{ Terminated=-1, Free, Lock };
 	struct Node{
 		//свойства
 		T val;
 		Node *next;
 		//конструкторы
-		Node(T val) :val(val), next(nullptr){}
+		Node(T & val) :val(val), next(nullptr){}
 		//деструктор
 		~Node(){
 			delete next;
@@ -25,38 +26,50 @@ private:
 	//свойства
 	struct Node * head;   //голова очереди
 	struct Node * tail;   //хвост  очереди
-	std::mutex mtx;               //средство синхронизации
-	std::condition_variable cond; //средство пробуждения ожидающих
-	char status;          // 0 - свободен
-	                      // 1 - захвачен
-	                      //-1 - прервать работу
+	std::size_t   cnt;    //кол-во элементов в очереди
+	std::mutex mtx;                      //средство синхронизации
+	std::condition_variable cond_writer; //средство пробуждения ожидающих писателей
+	std::condition_variable cond_reader; //средство пробуждения ожидающих писателей
+	Status status;          
 
 	//запрещенные операции
 	MyQueue(const MyQueue &);
 	MyQueue & operator=(const MyQueue &);
+	//методы
+	bool isEmpty() const{
+		return head == nullptr;
+	}
 public:
 	//конструкторы
-	MyQueue() :head(nullptr), tail(nullptr), status(0){};
+	MyQueue() :head(nullptr), tail(nullptr), status(Free),cnt(0){};
 
 	//деструктор
-	~MyQueue(){
-		delete head;
+	~MyQueue(){	
+		//если удалять большой список просто через delete head, то переполняется стек вызовов, т.к. из каждого деструктора (Node) вызывается следующий деструктор (Node)
+		while (head!=nullptr){
+			Node * tmp = head;
+			head = head->next;
+			tmp->next = nullptr;
+			delete tmp;
+			--cnt;
+		}
+		
 		head = tail = nullptr;
 	}
 
 	//методы
-	bool Push(T val){
+	bool Push(T & val){
 		//захватываем блокировку и ждем освобождения ресурса
 		std::unique_lock<std::mutex> ul(mtx); //сразу блокируется		
-		while (status == 1)
-			cond.wait(ul);
+		while (status == Lock)
+			cond_writer.wait(ul);
 
-		if (status == -1){
+		if (status == Terminated){
 			ul.unlock(); //отпускаем блокировку (нотификация не требуется, т.к. процесс вызвавший прекращение работы нотфицировал всех)
 			throw std::logic_error("Queue is terminated.");
 		}else{
 			//захватываем ресурс
-			status = 1;
+			status = Lock;
 			ul.unlock();
 
 			try{
@@ -64,12 +77,15 @@ public:
 					tail = head = new Node(val);
 				else
 					tail = tail->next = new Node(val);
+				++cnt;
 			}catch (...){
 				//памяти нет?
 			}
 			//отпускаем ресурс и нотифицируем одного ожидающего
-			status = 0;	
-			cond.notify_one();
+			status = Free;	
+			
+			cond_reader.notify_one(); //сообщаем одному читателю, что он может читать
+			cond_writer.notify_one(); //сообщаем одному писателю, что он может писать
 		}
 		return true;
 	}
@@ -77,21 +93,20 @@ public:
 		//захватываем блокировку и ждем освобождения ресурса
 		std::unique_lock<std::mutex> ul(mtx); //сразу блокируется		
 		do{
-			while (status == 1)
-				cond.wait(ul);
+			while (status == Lock)
+				cond_reader.wait(ul);
 
-			if (status == -1){
+			if (status == Terminated){
 				//отпускаем блокировку (нотификация не требуется, т.к. процесс вызвавший прекращение работы нотфицировал всех)
 				ul.unlock(); 
 				throw std::logic_error("Queue is terminated.");
 			}else if (isEmpty()){
-				//очередь еще пуста, отпускаем блокировку, нотифицируем следующего ожидающего и снова захватываем				
-				ul.unlock();
-				cond.notify_one();				
-				ul.lock();
+				//очередь еще пуста, отпускаем блокировку, нотифицируем следующего ожидающего и снова захватываем								
+				cond_writer.notify_one();								
+				cond_reader.wait(ul);
 			}else{
 				//захватываем ресурс
-				status = 1;
+				status = Lock;
 				ul.unlock();
 				break;
 			}
@@ -103,10 +118,17 @@ public:
 		head = head->next;
 		tmp->next = nullptr;
 		delete tmp;		
-
-		//отпускаем ресурс и нотифицируем одного ожидающего
-		status = 0;
-		cond.notify_one();
+		--cnt;		
+		bool okReader = !isEmpty();
+		
+		//отпускаем ресурс 
+		status = Free;
+		
+		//нотифицируем ожидающющих
+		if (okReader) 
+			cond_reader.notify_one(); //сообщаем одному читателю, что он может читать, если в очереди есть элементы (чтоб читатели не грели процессор)
+		
+		cond_writer.notify_one(); //сообщаем одному писателю, что он может писать 
 			
 		return ret;
 		
@@ -114,24 +136,22 @@ public:
 	void Terminate(){
 		//захватываем блокировку и ждем освобождения ресурса
 		std::unique_lock<std::mutex> ul(mtx); //сразу блокируется		
-		while (status == 1)
-			cond.wait(ul);
+		while (status == Lock)	; //ждем с захваченной блокировкой
 
-		if (status == -1){
+		if (status == Terminated){
 			ul.unlock(); //отпускаем блокировку (нотификация не требуется, т.к. процесс вызвавший прекращение работы нотфицировал всех)
 			throw std::logic_error("Queue is terminated.");
 		}else{
 			//устанавливаем признак прекращения и отпускаем блокировку
-			status = -1;
+			status = Terminated;
 			ul.unlock();
 
 			//нотифицируем всех
-			cond.notify_all();
+			cond_writer.notify_all();
+			cond_reader.notify_all();
 		}
 	}
-	bool isEmpty() const{
-		return head == nullptr;
-	}
+	
 };
 
 

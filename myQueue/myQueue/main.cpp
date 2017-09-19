@@ -1,8 +1,9 @@
 #include "MyQueue.hpp"
 #include <thread>
 
-static const int N = 10;
-static const int LEN = 20;
+static const int N = 100;
+static const int CNT_WRITER = 1;
+static const int CNT_READER = 10;
 
 int main(){
 	MyQueue<int> *qu = new MyQueue<int>();
@@ -12,29 +13,37 @@ int main(){
 	//MyQueue<int> qu2=std::move(*qu);
 
 	//запускаем потоки
-	std::thread * m_th[LEN];
-	for (unsigned i = 0; i<LEN; ++i)
+	std::thread * m_th[CNT_WRITER + CNT_READER] = {0};
+	
+	for (unsigned i = 0; i<CNT_WRITER; ++i)
 		m_th[i] = new std::thread(
 		[&qu](){
-			//в цикле наполнение и освобождение очереди
+			//писатели
 			try{
-				while (true){
+				//while (true){
 					//наполнение
-					for (unsigned j = 0; j < N; ++j)
-						qu->Push(j);
-
-					try{
-						//извлечение
-						for (unsigned j = 0; j < N + 1; ++j)
-							qu->Pop();
-					}catch (std::logic_error &e){
-						std::cout << e.what() << std::endl;
-					}
-				}
+					for (int j = 0; j < N; ++j)
+						qu->Push(j);					
+				//}
 			}catch (std::logic_error &e){
 				std::cout << e.what() << std::endl;
 			}
 	    });
+
+	for (unsigned i = CNT_WRITER; i<CNT_WRITER+CNT_READER; ++i)
+		m_th[i] = new std::thread(
+		[&qu](){
+		//читатели
+		try{
+			while (true){
+				//извлечение
+				for (unsigned j = 0; j < N; ++j)
+					std::cout<<qu->Pop()<<std::endl;				
+			}
+		}catch (std::logic_error &e){
+			std::cout << e.what() << std::endl;
+		}
+	});
 	
 
 	Sleep(10000);
@@ -42,12 +51,13 @@ int main(){
 	qu->Terminate();
 
 	//присоединяем потоки назад
-	for (unsigned i = 0; i<LEN; ++i){
+	for (unsigned i = 0; i<CNT_WRITER + CNT_READER; ++i){
 		m_th[i]->join();
 		delete m_th[i];
 	}
 
 	//освобождение
+
 	delete qu;
 
 	std::system("pause");
