@@ -1,0 +1,6 @@
+LIBRARY      CognasTM1
+
+EXPORTS
+  GetExtensionVersion
+  HttpExtensionProc
+  TerminateExtension
