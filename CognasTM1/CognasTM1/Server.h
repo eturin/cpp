@@ -12,29 +12,43 @@ private:
 	TM1V hServer     = nullptr;       //дескриптор сервера в пуле API
 	TM1V vServerName = nullptr;       //имя сервера в пуле API
 	//методы
-	TM1_INDEX getLastError(TM1V val, bool isShow = false)const;
+	TM1_INDEX getLastError(std::ostringstream &sout, TM1V val, bool isShow = false)const noexcept;
 public:
 	//конструктор
-	Server(AdminServer &Server);
-
+	Server(const AdminServer &Server);
+	//запрещаем конструкторы копирования и переноса
+	Server(const Server &) = delete;
+	Server(Server &&) = delete;
+	//запрещаем операторы
+	Server & operator=(const Server &) = delete;
+	Server & operator=(Server &&) = delete;
 	//деструктор
-	~Server();
+	~Server() noexcept;
 
-	//методы
-	char * getServerName()const;	
-	bool connect(char *ServerName, TM1_INDEX ServerNameLen=0, char *UserName = nullptr, TM1_INDEX UserNameLen=0, char *Password = nullptr, TM1_INDEX PasswordLen=0);
+	//получение имени сервера (освобождение не требуется)
+	const char * getServerName()const noexcept;
+	//проверка соединения
+	bool isConnected() noexcept;
+	//подключение
+	bool connect(const char *ServerName, TM1_INDEX ServerNameLen=0, const char *UserName = nullptr, TM1_INDEX UserNameLen=0, const char *Password = nullptr, TM1_INDEX PasswordLen=0);
+	//отключение
 	bool disConnect();
-	bool isConnected();
-	TM1U gethUser()const;
-	TM1V gethServer()const;
+	//получение дескриптора сессии
+	TM1U gethUser()const noexcept;
+	//получение дескриптора сервера
+	TM1V gethServer()const noexcept;
+	//получение дескриптора пула
+	TM1P gethPool()const noexcept;
 
-	//кол-во кубов
+
+	//получение кол-ва кубов
 	TM1_INDEX getCountCubes() const;
-	//вывести спиок кубов
-	void showCubes()const;
-	//кол-во измерений куба
+	//показать кубы
+	std::string showCubes()const;
+	//получение кол-ва измерений сервера
 	TM1_INDEX getCountDimensions() const;
-	void showDimensions() const;
+	//показать измерения
+	std::string showDimensions() const;
 };
 
 

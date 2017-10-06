@@ -2,6 +2,8 @@
 
 #define WINVER 0x0601 /*API Windows 7*/
 #include <Windows.h>
+#include <wchar.h>
+
 #include <HttpExt.h>
 
 //#include <stdio.h>
@@ -10,6 +12,77 @@
 #include "Context.h"
 
 /*для отладки нужно цеплять w3wp.exe*/
+
+#include <windows.h>
+
+// 65001 is utf-8.
+wchar_t *CodePageToUnicode(int codePage, const char *src)
+{
+	if (!src) return 0;
+	int srcLen = strlen(src);
+	if (!srcLen)
+	{
+		wchar_t *w = new wchar_t[1];
+		w[0] = 0;
+		return w;
+	}
+
+	int requiredSize = MultiByteToWideChar(codePage,
+		0,
+		src, srcLen, 0, 0);
+
+	if (!requiredSize)
+	{
+		return 0;
+	}
+
+	wchar_t *w = new wchar_t[requiredSize + 1];
+	w[requiredSize] = 0;
+
+	int retval = MultiByteToWideChar(codePage,
+		0,
+		src, srcLen, w, requiredSize);
+	if (!retval)
+	{
+		delete[] w;
+		return 0;
+	}
+
+	return w;
+}
+
+
+
+char * UnicodeToCodePage(int codePage, const wchar_t *src)
+{
+	if (!src) return 0;
+	int srcLen = wcslen(src);
+	if (!srcLen)
+	{
+		char *x = new char[1];
+		x[0] = '\0';
+		return x;
+	}
+
+	int requiredSize = WideCharToMultiByte(codePage,0,src, srcLen, 0, 0, 0, 0);
+
+	if (!requiredSize)
+	{
+		return 0;
+	}
+
+	char *x = new char[requiredSize + 1];
+	x[requiredSize] = 0;
+
+	int retval = WideCharToMultiByte(codePage,0,src, srcLen, x, requiredSize, 0, 0);
+	if (!retval)
+	{
+		delete[] x;
+		return 0;
+	}
+
+	return x;
+}
 
 BOOL WINAPI GetExtensionVersion(HSE_VERSION_INFO *pVersion) {	
 	pVersion->dwExtensionVersion = MAKELONG(HSE_VERSION_MINOR, HSE_VERSION_MAJOR);
@@ -20,29 +93,44 @@ BOOL WINAPI GetExtensionVersion(HSE_VERSION_INFO *pVersion) {
 }
 
 DWORD WINAPI HttpExtensionProc(EXTENSION_CONTROL_BLOCK *pECB) {
-	std::string response = "Content - Type: text / html\r\n\r\n";
+	std::string response = "Content-Type: text/html; charset=utf-8\r\n\r\n";
 	if (std::strcmp(pECB->lpszMethod, "POST") == 0) {
 		//извлекаем содержание запроса
 		CHAR * buf = new CHAR[pECB->cbTotalBytes+1];
 		std::memset(buf, 0, pECB->cbTotalBytes + 1);
-		std::strcat(buf, (CHAR*)pECB->lpbData);
+		std::strncat(buf, (CHAR*)pECB->lpbData, pECB->cbTotalBytes);
+		buf[pECB->cbTotalBytes] = '\0';
 		DWORD len = pECB->cbTotalBytes - std::strlen(buf);
 		//дочитываем остальные данные
-		pECB->ReadClient(pECB->ConnID, buf, &len);
+		pECB->ReadClient(pECB->ConnID, buf+ pECB->cbTotalBytes, &len);
+		//декодируем
+		wchar_t *wText2 = CodePageToUnicode(65001, buf);
+		delete[] buf;
+		char *ansiText = UnicodeToCodePage(1251, wText2);
+		delete[] wText2;
 		//парсим				
 		try {
-			Context context(R"(C:\Users\etyurin\Documents\Visual Studio 2015\Projects\CognasTM1\Debug\j.json)",
-				            true,
+			Context context(ansiText,
+				            false,
 				            R"(C:\Users\etyurin\Documents\Visual Studio 2015\Projects\CognasTM1\Debug\ssl\tm1ca_v2.pem)");			
 			response += "OK";
 		}catch (std::exception &e) {
-			response+=e.what();
+			const char * buf = e.what();
+			//декодируем
+			wchar_t *wText = CodePageToUnicode(1251, buf);
+			char *utf8Text = UnicodeToCodePage(65001, wText);			
+			delete[] wText;
+			response+= utf8Text;
+			delete[] utf8Text;
 
 		}
+			
 		//освобождаем ресурсы
-		delete[] buf;	
+		delete[] ansiText;
+		
+		
 	}else {
-		response += R"({
+		const char * buf = R"({
 	"adminServer":"as-msk-a0134",
 	"server":"S2018",
 	"login":"admin",
@@ -82,10 +170,7 @@ DWORD WINAPI HttpExtensionProc(EXTENSION_CONTROL_BLOCK *pECB) {
 	],
 	
 	"set":[
-		{"cubeName":"BDDS",
-		"key":{
-			"ссылка":"0x80D200155D84569D11E4B79B46B08970"			
-		},
+		{"cubeName":"BDDS",		
 		"val":[
 				{"1":"0x11111111111111111111111111111111",
 				 "2":"С4-0091362/1",
@@ -105,6 +190,12 @@ DWORD WINAPI HttpExtensionProc(EXTENSION_CONTROL_BLOCK *pECB) {
 		}
 	]
 })";
+		//декодируем
+		wchar_t *wText = CodePageToUnicode(1251, buf);
+		char *utf8Text = UnicodeToCodePage(65001, wText);
+		delete[] wText;
+		response += utf8Text;
+		delete[] utf8Text;
 	}
 
 	//отправляем клиенту

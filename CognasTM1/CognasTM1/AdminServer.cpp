@@ -1,8 +1,10 @@
 #define  _CRT_SECURE_NO_WARNINGS
 #include "AdminServer.h"
 #include <cstring>
+#include <sstream>
 
-AdminServer::AdminServer(char * AdminHost, char * pathToSert){
+
+AdminServer::AdminServer(const char * AdminHost, const char * pathToSert) noexcept {
 	if (AdminHost == nullptr)
 		throw std::exception("AdminHost не может быть nullptr");
 	
@@ -12,16 +14,16 @@ AdminServer::AdminServer(char * AdminHost, char * pathToSert){
 
 	//устанавливаем сертификат соединению (должен лежать в папке SSL, р€дом с dll или exe)
 	if(pathToSert!=nullptr)
-		TM1SystemSetAdminSSLCertAuthority(hUser, pathToSert);
+		TM1SystemSetAdminSSLCertAuthority(hUser, const_cast<char*>(pathToSert));
 
 	//вызов TM1SystemAdminHostSet дл€ установки AdminServer, к которому будем подключатьс€
-	TM1SystemAdminHostSet(hUser, AdminHost);
+	TM1SystemAdminHostSet(hUser, const_cast<char*>(AdminHost));
 
 	//создаем пулы значений 
 	hPool = TM1ValPoolCreate(hUser);
 }
 
-AdminServer::~AdminServer(){
+AdminServer::~AdminServer() noexcept {
 	//дл€ каждого пула следует вызывать этот метод
 	TM1ValPoolDestroy(hPool); 
 	hPool = nullptr;
@@ -33,41 +35,42 @@ AdminServer::~AdminServer(){
 	TM1APIFinalize();		
 }
 
-TM1U AdminServer::gethUser()const{
+TM1U AdminServer::gethUser()const noexcept {
 	return hUser;
 }
 
-int AdminServer::getVersion()const{
+int AdminServer::getVersion()const noexcept {
 	return TM1SystemVersionGet(); //ok
 }
 
 //получение имени AdminHost из API
-char * AdminServer::getAdminServer()const{	
+const char * AdminServer::getAdminServer()const noexcept {
 	return TM1SystemAdminHostGet(hUser); //ok
 }
 
-TM1_INDEX AdminServer::getCountServers()const{
+TM1_INDEX AdminServer::getCountServers()const noexcept {
 	//получение(обновление) информации с Admin-сервера
 	TM1SystemServerReload(hUser); //ok
 		
 	return TM1SystemServerNof(hUser);//ok
 }
 
-void AdminServer::showServers()const{
-	std::cout << "¬ерси€  TM1    - " << getVersion() 
-		    << "\nAdmin-сервер   - " << getAdminServer()<<std::endl;
-	int cnt = getCountServers();
-	std::cout << "¬сего серверов - " << cnt << std::endl;
+std::string AdminServer::showServers()const noexcept {
+	std::ostringstream sout;
+	TM1_INDEX cnt = getCountServers();
 	for (TM1_INDEX i = 0; i < cnt; ++i){	
 		char * strServerName = TM1SystemServerName(hUser, i+1);//ok
+		if (strServerName == nullptr)
+			continue;
 		TM1V hServer = TM1SystemServerHandle(hUser, strServerName);//!!!расход пам€ти!!!
 		if (hServer)
-			std::cout << "    [CONNECTED] " << strServerName << std::endl;
+			sout << "    [CONNECTED] " << strServerName << std::endl;
 		else
-			std::cout << "[NOT CONNECTED] " << strServerName << std::endl;
+			sout << "[NOT CONNECTED] " << strServerName << std::endl;
 	}
+	return sout.str();
 }
 
-TM1_INDEX AdminServer::getLastError(TM1V val, bool isShow)const{	
-	return ::getLastError(hUser,val,isShow);
+TM1_INDEX AdminServer::getLastError(std::ostringstream &sout, TM1V val, bool isShow)const noexcept {
+	return ::getLastError(sout, hUser,val,isShow);
 }

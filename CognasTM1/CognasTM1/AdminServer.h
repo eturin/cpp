@@ -2,6 +2,7 @@
 #define ADMINSERVER_H
 
 #include "Common.h"
+#include <string>
 
 class AdminServer{
 private:		
@@ -9,29 +10,30 @@ private:
 	TM1P hPool = nullptr;       //дескриптор пула значений
 	
 	//методы
-	TM1_INDEX getLastError(TM1V val, bool isShow=false)const;
+	TM1_INDEX getLastError(std::ostringstream &sout, TM1V val, bool isShow=false)const noexcept;
 public:
 	//конструкторы
-	AdminServer(char * AdminHost, char * pathToSert = nullptr);
+	AdminServer(const char * AdminHost, const char * pathToSert = nullptr) noexcept;
+	//запрещаем конструкторы копирования и переноса
 	AdminServer(const AdminServer &) = delete;
-	//операторы
+	AdminServer(AdminServer &&)      = delete;
+	//запрещаем операторы
 	AdminServer & operator=(const AdminServer &) = delete;
+	AdminServer & operator=(AdminServer &&) = delete;
 	//деструкторы
-	~AdminServer();
+	~AdminServer() noexcept;
 
-	//методы	
-	TM1U gethUser()const;
+	//получение дескриптора сессии
+	TM1U gethUser()const noexcept;
 
-	//версия TM1
-	int getVersion() const;
-	//имя админ сервера (освобождение не требуется)
-	char * getAdminServer() const;
-	//кол-во баз данных
-	TM1_INDEX getCountServers() const;
+	//получение версии TM1 API
+	int getVersion() const noexcept;
+	//получение имени админ-сервера (освобождение не требуется)
+	const char * getAdminServer() const noexcept;
+	//получение кол-ва зарегистрированных серверов
+	TM1_INDEX getCountServers() const noexcept;
 	//вывести список баз данных
-	void showServers()const;
-	
-
+	std::string showServers()const noexcept;
 };
 
 
