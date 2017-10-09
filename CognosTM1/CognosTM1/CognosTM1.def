@@ -1,0 +1,6 @@
+LIBRARY      CognosTM1
+
+EXPORTS
+  GetExtensionVersion
+  HttpExtensionProc
+  TerminateExtension

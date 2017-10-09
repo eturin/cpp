@@ -1,0 +1,109 @@
+﻿  Server.cpp
+  mainDLL.cpp
+c:\users\etyurin\documents\visual studio 2017\projects\cognostm1\cognostm1\maindll.cpp(35): warning C4267: инициализация: преобразование из "size_t" в "DWORD"; возможна потеря данных
+  main.cpp
+  Dimension.cpp
+  Cube.cpp
+c:\users\etyurin\documents\visual studio 2017\projects\cognostm1\cognostm1\cube.cpp(48): warning C4267: инициализация: преобразование из "size_t" в "TM1_INDEX"; возможна потеря данных
+c:\users\etyurin\documents\visual studio 2017\projects\cognostm1\cognostm1\cube.cpp(156): warning C4267: аргумент: преобразование из "size_t" в "TM1_INDEX"; возможна потеря данных
+c:\users\etyurin\documents\visual studio 2017\projects\cognostm1\cognostm1\cube.cpp(175): warning C4267: аргумент: преобразование из "size_t" в "TM1_INDEX"; возможна потеря данных
+c:\users\etyurin\documents\visual studio 2017\projects\cognostm1\cognostm1\cube.cpp(207): warning C4267: аргумент: преобразование из "size_t" в "TM1_INDEX"; возможна потеря данных
+  Context.cpp
+c:\users\etyurin\documents\visual studio 2017\projects\cognostm1\cognostm1\context.cpp(21): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
+c:\users\etyurin\documents\visual studio 2017\projects\cognostm1\cognostm1\context.cpp(109): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
+c:\users\etyurin\documents\visual studio 2017\projects\cognostm1\cognostm1\context.cpp(75): warning C4101: e: неиспользованная локальная переменная
+c:\users\etyurin\documents\visual studio 2017\projects\cognostm1\cognostm1\context.cpp(98): warning C4101: e: неиспользованная локальная переменная
+  Common.cpp
+c:\users\etyurin\documents\visual studio 2017\projects\cognostm1\cognostm1\common.cpp(6): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
+c:\users\etyurin\documents\visual studio 2017\projects\cognostm1\cognostm1\common.cpp(47): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
+  AdminServer.cpp
+c:\users\etyurin\documents\visual studio 2017\projects\cognostm1\cognostm1\adminserver.cpp(9): warning C4297: AdminServer::AdminServer: ожидается, что функция не будет выдавать исключения, но она это делает
+  c:\users\etyurin\documents\visual studio 2017\projects\cognostm1\cognostm1\adminserver.cpp(9): note: для функции указан атрибут __declspec(nothrow), throw(), noexcept(true) или noexcept
+  Создание кода...
+AdminServer.obj : error LNK2019: ссылка на неразрешенный внешний символ __imp_TM1APIInitialize в функции "public: __cdecl AdminServer::AdminServer(char const *,char const *)" (??0AdminServer@@QEAA@PEBD0@Z)
+AdminServer.obj : error LNK2019: ссылка на неразрешенный внешний символ __imp_TM1APIFinalize в функции "public: __cdecl AdminServer::~AdminServer(void)" (??1AdminServer@@QEAA@XZ)
+AdminServer.obj : error LNK2019: ссылка на неразрешенный внешний символ __imp_TM1SystemAdminHostGet в функции "public: char const * __cdecl AdminServer::getAdminServer(void)const " (?getAdminServer@AdminServer@@QEBAPEBDXZ)
+AdminServer.obj : error LNK2019: ссылка на неразрешенный внешний символ __imp_TM1SystemAdminHostSet в функции "public: __cdecl AdminServer::AdminServer(char const *,char const *)" (??0AdminServer@@QEAA@PEBD0@Z)
+AdminServer.obj : error LNK2019: ссылка на неразрешенный внешний символ __imp_TM1SystemSetAdminSSLCertAuthority в функции "public: __cdecl AdminServer::AdminServer(char const *,char const *)" (??0AdminServer@@QEAA@PEBD0@Z)
+AdminServer.obj : error LNK2019: ссылка на неразрешенный внешний символ __imp_TM1SystemClose в функции "public: __cdecl AdminServer::~AdminServer(void)" (??1AdminServer@@QEAA@XZ)
+AdminServer.obj : error LNK2019: ссылка на неразрешенный внешний символ __imp_TM1SystemOpen в функции "public: __cdecl AdminServer::AdminServer(char const *,char const *)" (??0AdminServer@@QEAA@PEBD0@Z)
+AdminServer.obj : error LNK2019: ссылка на неразрешенный внешний символ __imp_TM1SystemServerHandle в функции "public: class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > __cdecl AdminServer::showServers(void)const " (?showServers@AdminServer@@QEBA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ)
+Server.obj : error LNK2001: неразрешенный внешний символ "__imp_TM1SystemServerHandle"
+AdminServer.obj : error LNK2019: ссылка на неразрешенный внешний символ __imp_TM1SystemServerName в функции "public: class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > __cdecl AdminServer::showServers(void)const " (?showServers@AdminServer@@QEBA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ)
+AdminServer.obj : error LNK2019: ссылка на неразрешенный внешний символ __imp_TM1SystemServerNof в функции "public: unsigned long __cdecl AdminServer::getCountServers(void)const " (?getCountServers@AdminServer@@QEBAKXZ)
+AdminServer.obj : error LNK2019: ссылка на неразрешенный внешний символ __imp_TM1SystemServerReload в функции "public: unsigned long __cdecl AdminServer::getCountServers(void)const " (?getCountServers@AdminServer@@QEBAKXZ)
+AdminServer.obj : error LNK2019: ссылка на неразрешенный внешний символ __imp_TM1SystemVersionGet в функции "public: int __cdecl AdminServer::getVersion(void)const " (?getVersion@AdminServer@@QEBAHXZ)
+AdminServer.obj : error LNK2019: ссылка на неразрешенный внешний символ __imp_TM1ValPoolCreate в функции "public: __cdecl AdminServer::AdminServer(char const *,char const *)" (??0AdminServer@@QEAA@PEBD0@Z)
+Server.obj : error LNK2001: неразрешенный внешний символ "__imp_TM1ValPoolCreate"
+AdminServer.obj : error LNK2019: ссылка на неразрешенный внешний символ __imp_TM1ValPoolDestroy в функции "public: __cdecl AdminServer::~AdminServer(void)" (??1AdminServer@@QEAA@XZ)
+Server.obj : error LNK2001: неразрешенный внешний символ "__imp_TM1ValPoolDestroy"
+Common.obj : error LNK2019: ссылка на неразрешенный внешний символ __imp_TM1ObjectDelete в функции "bool __cdecl deleteObject(void *,void *,unsigned long *)" (?deleteObject@@YA_NPEAX0PEAK@Z)
+Common.obj : error LNK2019: ссылка на неразрешенный внешний символ __imp_TM1ObjectDuplicate в функции "unsigned long * __cdecl duplicateObject(void *,void *,unsigned long *)" (?duplicateObject@@YAPEAKPEAX0PEAK@Z)
+Common.obj : error LNK2019: ссылка на неразрешенный внешний символ __imp_TM1ObjectListCountGet в функции "unsigned long __cdecl getCountObjects(void *,void *,unsigned long *,unsigned long *)" (?getCountObjects@@YAKPEAX0PEAK1@Z)
+Common.obj : error LNK2019: ссылка на неразрешенный внешний символ __imp_TM1ObjectListHandleByIndexGet в функции "unsigned long * __cdecl getObjectByIndex(void *,void *,unsigned long *,unsigned long *,unsigned long)" (?getObjectByIndex@@YAPEAKPEAX0PEAK1K@Z)
+Common.obj : error LNK2019: ссылка на неразрешенный внешний символ __imp_TM1ObjectListHandleByNameGet в функции "unsigned long * __cdecl getObjectByName(void *,void *,unsigned long *,unsigned long *,unsigned long *)" (?getObjectByName@@YAPEAKPEAX0PEAK11@Z)
+Common.obj : error LNK2019: ссылка на неразрешенный внешний символ __imp_TM1ObjectPropertyGet в функции "unsigned long * __cdecl getObjectProperty(void *,void *,unsigned long *,unsigned long *)" (?getObjectProperty@@YAPEAKPEAX0PEAK1@Z)
+Common.obj : error LNK2019: ссылка на неразрешенный внешний символ __imp_TM1ObjectPropertySet в функции "bool __cdecl setObjectProperty(void *,void *,unsigned long *,unsigned long *,unsigned long *)" (?setObjectProperty@@YA_NPEAX0PEAK11@Z)
+Common.obj : error LNK2019: ссылка на неразрешенный внешний символ __imp_TM1ObjectRegister в функции "unsigned long * __cdecl registerObject(void *,void *,unsigned long *,unsigned long *,unsigned long *)" (?registerObject@@YAPEAKPEAX0PEAK11@Z)
+Common.obj : error LNK2019: ссылка на неразрешенный внешний символ __imp_TM1ValArray в функции "unsigned long * __cdecl makeArray(void *,void *,unsigned long,unsigned long * *)" (?makeArray@@YAPEAKPEAX0KPEAPEAK@Z)
+Common.obj : error LNK2019: ссылка на неразрешенный внешний символ __imp_TM1ValBoolGet в функции "bool __cdecl deleteObject(void *,void *,unsigned long *)" (?deleteObject@@YA_NPEAX0PEAK@Z)
+Cube.obj : error LNK2001: неразрешенный внешний символ "__imp_TM1ValBoolGet"
+Dimension.obj : error LNK2001: неразрешенный внешний символ "__imp_TM1ValBoolGet"
+Server.obj : error LNK2001: неразрешенный внешний символ "__imp_TM1ValBoolGet"
+Common.obj : error LNK2019: ссылка на неразрешенный внешний символ __imp_TM1ValErrorCode в функции "unsigned long __cdecl getLastError(class std::basic_ostringstream<char,struct std::char_traits<char>,class std::allocator<char> > &,void *,unsigned long *,bool)" (?getLastError@@YAKAEAV?$basic_ostringstream@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PEAXPEAK_N@Z)
+Common.obj : error LNK2019: ссылка на неразрешенный внешний символ __imp_TM1ValErrorString в функции "unsigned long __cdecl getLastError(class std::basic_ostringstream<char,struct std::char_traits<char>,class std::allocator<char> > &,void *,unsigned long *,bool)" (?getLastError@@YAKAEAV?$basic_ostringstream@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PEAXPEAK_N@Z)
+Common.obj : error LNK2019: ссылка на неразрешенный внешний символ __imp_TM1ValIndex в функции "unsigned long * __cdecl getObjectByIndex(void *,void *,unsigned long *,unsigned long *,unsigned long)" (?getObjectByIndex@@YAPEAKPEAX0PEAK1K@Z)
+Common.obj : error LNK2019: ссылка на неразрешенный внешний символ __imp_TM1ValIndexGet в функции "unsigned long __cdecl getCountObjects(void *,void *,unsigned long *,unsigned long *)" (?getCountObjects@@YAKPEAX0PEAK1@Z)
+Common.obj : error LNK2019: ссылка на неразрешенный внешний символ __imp_TM1ValReal в функции "unsigned long * __cdecl getObjectByName(void *,void *,unsigned long *,unsigned long *,double,unsigned long * &)" (?getObjectByName@@YAPEAKPEAX0PEAK1NAEAPEAK@Z)
+Cube.obj : error LNK2001: неразрешенный внешний символ "__imp_TM1ValReal"
+Common.obj : error LNK2019: ссылка на неразрешенный внешний символ __imp_TM1ValString в функции "unsigned long * __cdecl getObjectByName(void *,void *,unsigned long *,unsigned long *,char const *,unsigned long * &,unsigned long)" (?getObjectByName@@YAPEAKPEAX0PEAK1PEBDAEAPEAKK@Z)
+Cube.obj : error LNK2001: неразрешенный внешний символ "__imp_TM1ValString"
+Dimension.obj : error LNK2001: неразрешенный внешний символ "__imp_TM1ValString"
+Server.obj : error LNK2001: неразрешенный внешний символ "__imp_TM1ValString"
+Common.obj : error LNK2019: ссылка на неразрешенный внешний символ __imp_TM1ValStringGet в функции "unsigned long * __cdecl getObjectByName(void *,void *,unsigned long *,unsigned long *,unsigned long *)" (?getObjectByName@@YAPEAKPEAX0PEAK11@Z)
+Cube.obj : error LNK2001: неразрешенный внешний символ "__imp_TM1ValStringGet"
+Dimension.obj : error LNK2001: неразрешенный внешний символ "__imp_TM1ValStringGet"
+Server.obj : error LNK2001: неразрешенный внешний символ "__imp_TM1ValStringGet"
+Common.obj : error LNK2019: ссылка на неразрешенный внешний символ __imp_TM1ValType в функции "bool __cdecl deleteObject(void *,void *,unsigned long *)" (?deleteObject@@YA_NPEAX0PEAK@Z)
+Cube.obj : error LNK2001: неразрешенный внешний символ "__imp_TM1ValType"
+Dimension.obj : error LNK2001: неразрешенный внешний символ "__imp_TM1ValType"
+Server.obj : error LNK2001: неразрешенный внешний символ "__imp_TM1ValType"
+Common.obj : error LNK2019: ссылка на неразрешенный внешний символ __imp_TM1ValTypeBool в функции "unsigned long * __cdecl makeArray(void *,void *,unsigned long,unsigned long * *)" (?makeArray@@YAPEAKPEAX0KPEAPEAK@Z)
+Cube.obj : error LNK2001: неразрешенный внешний символ "__imp_TM1ValTypeBool"
+Dimension.obj : error LNK2001: неразрешенный внешний символ "__imp_TM1ValTypeBool"
+Server.obj : error LNK2001: неразрешенный внешний символ "__imp_TM1ValTypeBool"
+Common.obj : error LNK2019: ссылка на неразрешенный внешний символ __imp_TM1ValTypeError в функции "bool __cdecl deleteObject(void *,void *,unsigned long *)" (?deleteObject@@YA_NPEAX0PEAK@Z)
+Cube.obj : error LNK2001: неразрешенный внешний символ "__imp_TM1ValTypeError"
+Dimension.obj : error LNK2001: неразрешенный внешний символ "__imp_TM1ValTypeError"
+Server.obj : error LNK2001: неразрешенный внешний символ "__imp_TM1ValTypeError"
+Common.obj : error LNK2019: ссылка на неразрешенный внешний символ __imp_TM1ObjectName в функции "class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > __cdecl showObjects(void *,void *,unsigned long *,unsigned long *,char const *)" (?showObjects@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PEAX0PEAK1PEBD@Z)
+Dimension.obj : error LNK2001: неразрешенный внешний символ "__imp_TM1ObjectName"
+Cube.obj : error LNK2019: ссылка на неразрешенный внешний символ __imp_TM1CubeCellValueGet в функции "public: unsigned long * __cdecl Cube::getCellValue(class std::vector<class Dimension *,class std::allocator<class Dimension *> > const &)const " (?getCellValue@Cube@@QEBAPEAKAEBV?$vector@PEAVDimension@@V?$allocator@PEAVDimension@@@std@@@std@@@Z)
+Cube.obj : error LNK2019: ссылка на неразрешенный внешний символ __imp_TM1CubeCellValueSet в функции "public: unsigned long * __cdecl Cube::setCellValue(class std::vector<class Dimension *,class std::allocator<class Dimension *> > const &,double)const " (?setCellValue@Cube@@QEBAPEAKAEBV?$vector@PEAVDimension@@V?$allocator@PEAVDimension@@@std@@@std@@N@Z)
+Cube.obj : error LNK2019: ссылка на неразрешенный внешний символ __imp_TM1CubeCreate в функции "public: bool __cdecl Cube::makeNew(void)" (?makeNew@Cube@@QEAA_NXZ)
+Cube.obj : error LNK2019: ссылка на неразрешенный внешний символ __imp_TM1ValArraySet в функции "public: unsigned long * __cdecl Cube::getCellValue(class std::vector<class Dimension *,class std::allocator<class Dimension *> > const &)const " (?getCellValue@Cube@@QEBAPEAKAEBV?$vector@PEAVDimension@@V?$allocator@PEAVDimension@@@std@@@std@@@Z)
+Cube.obj : error LNK2019: ссылка на неразрешенный внешний символ __imp_TM1ServerDimensions в функции "public: bool __cdecl Cube::makeNew(void)" (?makeNew@Cube@@QEAA_NXZ)
+Dimension.obj : error LNK2001: неразрешенный внешний символ "__imp_TM1ServerDimensions"
+Server.obj : error LNK2001: неразрешенный внешний символ "__imp_TM1ServerDimensions"
+Cube.obj : error LNK2019: ссылка на неразрешенный внешний символ __imp_TM1ServerCubes в функции "public: __cdecl Cube::Cube(class Server const &,char const *,unsigned long)" (??0Cube@@QEAA@AEBVServer@@PEBDK@Z)
+Dimension.obj : error LNK2001: неразрешенный внешний символ "__imp_TM1ServerCubes"
+Server.obj : error LNK2001: неразрешенный внешний символ "__imp_TM1ServerCubes"
+Cube.obj : error LNK2019: ссылка на неразрешенный внешний символ __imp_TM1CubeDimensions в функции "public: unsigned long __cdecl Cube::getCountDimensions(void)const " (?getCountDimensions@Cube@@QEBAKXZ)
+Dimension.obj : error LNK2001: неразрешенный внешний символ "__imp_TM1CubeDimensions"
+Cube.obj : error LNK2019: ссылка на неразрешенный внешний символ __imp_TM1CubeRule в функции "public: unsigned long * __cdecl Cube::getRule(void)" (?getRule@Cube@@QEAAPEAKXZ)
+Cube.obj : error LNK2019: ссылка на неразрешенный внешний символ __imp_TM1CubeViews в функции "public: unsigned long __cdecl Cube::getCountViews(void)const " (?getCountViews@Cube@@QEBAKXZ)
+Dimension.obj : error LNK2019: ссылка на неразрешенный внешний символ __imp_TM1DimensionCheck в функции "public: bool __cdecl Dimension::check(void)const " (?check@Dimension@@QEBA_NXZ)
+Dimension.obj : error LNK2019: ссылка на неразрешенный внешний символ __imp_TM1DimensionCreateEmpty в функции "public: void __cdecl Dimension::makeNew(void)" (?makeNew@Dimension@@QEAAXXZ)
+Dimension.obj : error LNK2019: ссылка на неразрешенный внешний символ __imp_TM1DimensionElementInsert в функции "public: bool __cdecl Dimension::addElement(char const *,unsigned long)" (?addElement@Dimension@@QEAA_NPEBDK@Z)
+Dimension.obj : error LNK2019: ссылка на неразрешенный внешний символ __imp_TM1DimensionUpdate в функции "public: bool __cdecl Dimension::registerDimension(char const *,unsigned long)" (?registerDimension@Dimension@@QEAA_NPEBDK@Z)
+Dimension.obj : error LNK2019: ссылка на неразрешенный внешний символ __imp_TM1ValObjectCanRead в функции "public: bool __cdecl Dimension::isRead(void)const " (?isRead@Dimension@@QEBA_NXZ)
+Dimension.obj : error LNK2019: ссылка на неразрешенный внешний символ __imp_TM1ValObjectCanWrite в функции "public: bool __cdecl Dimension::isWrite(void)const " (?isWrite@Dimension@@QEBA_NXZ)
+Dimension.obj : error LNK2019: ссылка на неразрешенный внешний символ __imp_TM1ObjectNull в функции "public: bool __cdecl Dimension::addElement(char const *,unsigned long)" (?addElement@Dimension@@QEAA_NPEBDK@Z)
+Dimension.obj : error LNK2019: ссылка на неразрешенный внешний символ __imp_TM1TypeElementSimple в функции "public: bool __cdecl Dimension::addElement(char const *,unsigned long)" (?addElement@Dimension@@QEAA_NPEBDK@Z)
+Dimension.obj : error LNK2019: ссылка на неразрешенный внешний символ __imp_TM1DimensionElements в функции "public: unsigned long __cdecl Dimension::getCountElements(void)const " (?getCountElements@Dimension@@QEBAKXZ)
+Dimension.obj : error LNK2019: ссылка на неразрешенный внешний символ __imp_TM1DimensionSubsets в функции "public: unsigned long __cdecl Dimension::getCountSubsets(void)const " (?getCountSubsets@Dimension@@QEBAKXZ)
+Server.obj : error LNK2019: ссылка на неразрешенный внешний символ __imp_TM1SystemServerConnect в функции "public: bool __cdecl Server::connect(char const *,unsigned long,char const *,unsigned long,char const *,unsigned long)" (?connect@Server@@QEAA_NPEBDK0K0K@Z)
+Server.obj : error LNK2019: ссылка на неразрешенный внешний символ __imp_TM1SystemServerConnectIntegratedLogin в функции "public: bool __cdecl Server::connect(char const *,unsigned long,char const *,unsigned long,char const *,unsigned long)" (?connect@Server@@QEAA_NPEBDK0K0K@Z)
+Server.obj : error LNK2019: ссылка на неразрешенный внешний символ __imp_TM1SystemServerDisconnect в функции "public: bool __cdecl Server::disConnect(void)" (?disConnect@Server@@QEAA_NXZ)
+tm1api.lib : warning LNK4272: тип компьютера библиотеки "x86" конфликтует с типом целевого компьютера "x64"
+C:\Users\etyurin\Documents\Visual Studio 2017\Projects\CognosTM1\x64\Debug\CognosTM1.exe : fatal error LNK1120: неразрешенных внешних элементов: 57
