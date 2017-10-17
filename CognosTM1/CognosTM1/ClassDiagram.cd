@@ -1,0 +1,214 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="AdminServer">
+    <Position X="0.5" Y="0.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAABAAIAgAAAAAAAAAAAAABAAQQAAAAAwAAAAAIA=</HashCode>
+      <FileName>AdminServer.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Context">
+    <Position X="12" Y="0.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>ASAABBAAIgAAAAQxQAAAgABBMCBjAACAAAIAAAQAACI=</HashCode>
+      <FileName>Context.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Cube">
+    <Position X="6" Y="0.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAgAB0AIAQAAAEAQAAAAMAIEKASAijgYAgQIAAAIY=</HashCode>
+      <FileName>Cube.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Dimension">
+    <Position X="8.75" Y="0.5" Width="3" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAEQSIAaAAjAAAgAIAECCBAAQAQABQEwA4AAIIo=</HashCode>
+      <FileName>Dimension.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Server">
+    <Position X="3.25" Y="0.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAGBAAIAAAAIAgAAAQAAAAAAAQAiAQIQgYgAAAIA=</HashCode>
+      <FileName>Server.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="TM1_OBJECT" Collapsed="true">
+    <Position X="12" Y="13.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAQAAAAAAAAQAAAAAAAAAAAAAgAAABAAAAAAAAA=</HashCode>
+      <FileName>TM1API.H</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Typedef Name="SecurityMode" Collapsed="true">
+    <Position X="10.25" Y="12.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>TM1API.H</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="TM1AuditQueryFilterTypes" Collapsed="true">
+    <Position X="4.5" Y="10.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>TM1API.H</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="TM1AuditQueryOwnerTypes" Collapsed="true">
+    <Position X="8.5" Y="12.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>TM1API.H</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="TM1AuditQueryEventTypes" Collapsed="true">
+    <Position X="2.5" Y="10.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>TM1API.H</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="TM1PickListTypes" Collapsed="true">
+    <Position X="6.5" Y="12.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>TM1API.H</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="CHAR" Collapsed="true">
+    <Position X="12" Y="11.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>TM1API.H</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="UCHAR" Collapsed="true">
+    <Position X="12" Y="12.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>TM1API.H</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="TM1_REAL" Collapsed="true">
+    <Position X="15.5" Y="12" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>TM1API.H</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="TM1_UTF16_T" Collapsed="true">
+    <Position X="15.5" Y="12.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>TM1API.H</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="TM1_UTF8_T" Collapsed="true">
+    <Position X="12" Y="10.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>TM1API.H</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="TM1_BYTE_T" Collapsed="true">
+    <Position X="15.5" Y="11.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>TM1API.H</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="TM1_INDEX" Collapsed="true">
+    <Position X="0.5" Y="10.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>TM1API.H</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="TM1_BOOL" Collapsed="true">
+    <Position X="13.75" Y="11.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>TM1API.H</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="TM1V" Collapsed="true">
+    <Position X="0.5" Y="12.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>TM1API.H</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="TM1U" Collapsed="true">
+    <Position X="15.5" Y="10.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>TM1API.H</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="TM1P" Collapsed="true">
+    <Position X="13.75" Y="10.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>TM1API.H</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="TM1_HOOK" Collapsed="true">
+    <Position X="13.75" Y="12.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>TM1API.H</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="TM1_HOOK_W" Collapsed="true">
+    <Position X="13.75" Y="12" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>TM1API.H</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="TM1_HOOK_UTF8" Collapsed="true">
+    <Position X="12" Y="12" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>TM1API.H</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Enum Name="__unnamed_enum_000f_1" Collapsed="true">
+    <Position X="10.25" Y="10.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAAAIAABIAAAAAAAAAAAAAAAAECAAAAAAAAg=</HashCode>
+      <FileName>TM1API.H</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="__unnamed_enum_000f_2" Collapsed="true">
+    <Position X="4.5" Y="12.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAIAAgAAAAAAACAAAAAAIAAAIAAAAAACCAAAA=</HashCode>
+      <FileName>TM1API.H</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="__unnamed_enum_000f_3" Collapsed="true">
+    <Position X="8.5" Y="10.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAIAAAAAAQAA=</HashCode>
+      <FileName>TM1API.H</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="__unnamed_enum_000f_4" Collapsed="true">
+    <Position X="2.5" Y="12.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAgAAICAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>TM1API.H</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="__unnamed_enum_000f_5" Collapsed="true">
+    <Position X="6.5" Y="10.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgIAAAAEAAABAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>TM1API.H</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

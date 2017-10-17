@@ -13,7 +13,7 @@ private:
 	TM1_INDEX getLastError(std::ostringstream &sout, TM1V val, bool isShow=false)const noexcept;
 public:
 	//конструкторы
-	AdminServer(const char * AdminHost, const char * pathToSert = nullptr) noexcept;
+	AdminServer(const char * AdminHost, const char * pathToSert = nullptr);
 	//запрещаем конструкторы копирования и переноса
 	AdminServer(const AdminServer &) = delete;
 	AdminServer(AdminServer &&)      = delete;

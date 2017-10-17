@@ -4,7 +4,7 @@
 #include <sstream>
 
 
-AdminServer::AdminServer(const char * AdminHost, const char * pathToSert) noexcept {
+AdminServer::AdminServer(const char * AdminHost, const char * pathToSert) {
 	if (AdminHost == nullptr)
 		throw std::exception("AdminHost не может быть nullptr");
 	

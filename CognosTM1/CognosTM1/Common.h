@@ -1,14 +1,20 @@
 #ifndef COMMON_H
 #define COMMON_H
 
+#define WINVER 0x0601 /*API Windows 7*/
 #include <Windows.h>
 #include <clocale>
-#include "Tm1api.h" //предварительно требуется Windows.h
+
+
+#include "myTm1api.h" //предварительно требуется Windows.h
+
 #include <iostream>
 #include <sstream>
 #include <cstring>
 
 #define NAME_LEN 128 //максиммальная длина наименования
+BOOL initDLL();
+BOOL releasDLL();
 
 wchar_t *CodePageToUnicode(int codePage, const char *src);
 char * UnicodeToCodePage(int codePage, const wchar_t *src);

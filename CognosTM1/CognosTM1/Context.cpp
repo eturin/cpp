@@ -2,23 +2,55 @@
 
 #include "Context.h"
 
+char* strError[] = { "No error.",
+				  "The document is empty.",
+				  "The document root must not follow by other values.",
+				  "Invalid value.",
+				  "Missing a name for object member.",
+				  "Missing a colon after a name of object member.",
+				  "Missing a comma or '}' after an object member.",
+				  "Missing a comma or ']' after an array element.",
+				  "Incorrect hex digit after \\u escape in string.",
+				  "The surrogate pair in string is invalid.",
+				  "Invalid escape character in string.",
+				  "Missing a closing quotation mark in string.",
+				  "Invalid encoding in string.",
+				  "Number too big to be stored in double.",
+				  "Miss fraction part in number.",
+				  "Miss exponent in number.",
+				  "Parsing was terminated.",
+				  "Unspecific syntax error." };
+
 Context::Context(char * str, bool isFile, char * strSerPath):strSerPath(strSerPath){
 	rapidjson::Reader reader;
 	if (isFile){
 		std::ifstream fin(str);
 		if (fin.is_open()){
 			rapidjson::IStreamWrapper isw(fin);
-			reader.Parse(isw, *this);			
-			fin.close();			
+			reader.Parse(isw, *this);
+			fin.close();
+			if (reader.HasParseError()) {
+				std::stringstream sout;
+				sout << "Ошибка парсинга json:\n\t[" << reader.GetParseErrorCode() << "] на смещение - " << reader.GetErrorOffset();
+				throw std::exception(sout.str().c_str());
+			}
 		}
 	}else{
 		rapidjson::StringStream ss(str);
 		reader.Parse(ss, *this);
+		if (reader.HasParseError()) {
+			std::size_t offset = reader.GetErrorOffset();
+			std::stringstream sout;
+			sout << "Ошибка парсинга json:\n\t[" << reader.GetParseErrorCode() << "] "<< strError[reader.GetParseErrorCode()] 
+				<<":\n\t на смещение - " << offset << " между "
+				<< "<.. "+std::string(str, offset>20 ? offset-20 : 0,20)+"> и <"<<std::string(str+offset,20)<<" ..>";
+			throw std::exception(sout.str().c_str());
+		}
 	}
 }
 
 Context::~Context(){
-	for (int i = 0, len = useDimensions.size(); i < len; ++i)
+	for (std::size_t i = 0, len = useDimensions.size(); i < len; ++i)
 		delete useDimensions[i];
 
 	delete dimension, cube ,server, adminServer;
@@ -106,7 +138,7 @@ bool Context::String(const char* str, rapidjson::SizeType length, bool copy) {
 			|| server->connect(const_cast<char*>(strServer.c_str()), 0, const_cast<char*>(strLogin.c_str()), 0, const_cast<char*>(strPwd.c_str()), 0)) {
 			delete cube;
 			cube = new Cube(*server, const_cast<char*>(str), length);
-			for (int i = 0, len = useDimensions.size(); i < len;++i)
+			for (std::size_t i = 0, len = useDimensions.size(); i < len;++i)
 				delete useDimensions[i];
 			useDimensions.resize(cube->getCountDimensions());
 		}else

@@ -1,19 +1,33 @@
 #define _CRT_SECURE_NO_WARNINGS
 
-#define WINVER 0x0601 /*API Windows 7*/
-#include <Windows.h>
+
 #include <wchar.h>
-
 #include <HttpExt.h>
-
-//#include <stdio.h>
-#include <cstring>
 
 #include "Context.h"
 
 /*для отладки нужно цеплять w3wp.exe*/
 
-#include <windows.h>
+//точка входа в dll
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpReserved){
+	BOOL isOk = 1;
+	switch (fdwReason) {
+	case DLL_PROCESS_ATTACH: //новый процесс имеет доступ к DLL
+		isOk = initDLL();
+		break;
+	case DLL_THREAD_ATTACH:  //новый поток получает доступ к DLL
+
+		break;
+	case DLL_THREAD_DETACH:  //поток(последний?) отсоединяется от DLL
+
+		break;
+	case DLL_PROCESS_DETACH: //процесс(один из потоков?) отсоединяется от DLL
+
+		break;
+	}
+
+	return isOk;
+}
 
 
 BOOL WINAPI GetExtensionVersion(HSE_VERSION_INFO *pVersion) {	
@@ -32,9 +46,19 @@ DWORD WINAPI HttpExtensionProc(EXTENSION_CONTROL_BLOCK *pECB) {
 		std::memset(buf, 0, pECB->cbTotalBytes + 1);
 		std::strncat(buf, (CHAR*)pECB->lpbData, pECB->cbTotalBytes);
 		buf[pECB->cbTotalBytes] = '\0';
-		DWORD len = pECB->cbTotalBytes - std::strlen(buf);
+		
 		//дочитываем остальные данные
-		pECB->ReadClient(pECB->ConnID, buf+ pECB->cbTotalBytes, &len);
+		DWORD total = pECB->cbTotalBytes - (DWORD)std::strlen(buf);
+		char * b = buf+ pECB->cbTotalBytes- total;
+		while (total) {
+			DWORD len = total;
+			if(!pECB->ReadClient(pECB->ConnID, b, &len))
+				break; //ошибка чтения
+			total -= len;
+			b += len;
+		}
+
+		
 		//декодируем
 		wchar_t *wText2 = CodePageToUnicode(65001, buf);
 		delete[] buf;
@@ -43,23 +67,21 @@ DWORD WINAPI HttpExtensionProc(EXTENSION_CONTROL_BLOCK *pECB) {
 		//парсим				
 		try {
 			Context context(ansiText,
-				            false,
-				            R"(C:\Users\etyurin\Documents\Visual Studio 2015\Projects\CognasTM1\Debug\ssl\tm1ca_v2.pem)");			
+				false,
+				R"(C:\Users\etyurin\Documents\Visual Studio 2017\Projects\CognosTM1\Debug\ssl\tm1ca_v2.pem)");
 			response += "OK";
 		}catch (std::exception &e) {
 			const char * buf = e.what();
 			//декодируем
 			wchar_t *wText = CodePageToUnicode(1251, buf);
-			char *utf8Text = UnicodeToCodePage(65001, wText);			
+			char *utf8Text = UnicodeToCodePage(65001, wText);
 			delete[] wText;
-			response+= utf8Text;
+			response += utf8Text;
 			delete[] utf8Text;
-
 		}
-			
+
 		//освобождаем ресурсы
 		delete[] ansiText;
-		
 		
 	}else {
 		const char * buf = R"({
@@ -200,5 +222,5 @@ DWORD WINAPI HttpExtensionProc(EXTENSION_CONTROL_BLOCK *pECB) {
 
 BOOL  WINAPI   TerminateExtension(DWORD dwFlags) {
 	
-	return true;
+	return releasDLL();
 }

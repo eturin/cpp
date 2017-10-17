@@ -62,6 +62,9 @@
     <ClInclude Include="TM1API.H">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
+    <ClInclude Include="myTM1API.H">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="CognosTM1.def">
@@ -73,6 +76,7 @@
     <None Include="tm1api.dll" />
     <None Include="tm1lib.dll" />
     <None Include="TM1ULibDll.dll" />
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="tm1api.lib" />

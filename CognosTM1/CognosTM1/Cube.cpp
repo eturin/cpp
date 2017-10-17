@@ -45,7 +45,7 @@ bool Cube::exist() noexcept {
 
 bool Cube::makeNew() {
 	//должно быть не менее 2-х измерений
-	TM1_INDEX cnt = Dimensions.size();
+	TM1_INDEX cnt = (TM1_INDEX)Dimensions.size();
 	if (cnt >= 2) {
 		//создаем массив измерений создаваемого куба
 		TM1V tmp[20] = { 0 };
@@ -153,7 +153,7 @@ TM1V Cube::getRule(){
 TM1V Cube::getCellValue(const std::vector<Dimension*> & Dimensions)const{
 	//выделяем место в пуле под значение
 	TM1V tmp[20] = { 0 };
-	TM1V vArrayElements = makeArray(hUser, hPool, Dimensions.size(), tmp);
+	TM1V vArrayElements = makeArray(hUser, hPool, (TM1_INDEX)Dimensions.size(), tmp);
 	
 	//заполнение массива
 	for (TM1_INDEX i=0, cnt = getCountDimensions(); i < cnt; ++i)
@@ -172,10 +172,11 @@ TM1V Cube::getCellValue(const std::vector<Dimension*> & Dimensions)const{
 TM1V Cube::setCellValue(const std::vector<Dimension*> & Dimensions, double val)const{
 	//выделяем место в пуле под значение
 	TM1V tmp[20] = { 0 };
-	TM1V vArrayElements = makeArray(hUser, hPool, Dimensions.size(), tmp);
+	TM1V vArrayElements = makeArray(hUser, hPool, (TM1_INDEX)Dimensions.size(), tmp);
 	
 	//заполнение массива
-	for (TM1_INDEX i=0, cnt = getCountDimensions(); i < cnt; ++i)
+	TM1_INDEX cnt = getCountDimensions();
+	for (TM1_INDEX i=0; i < cnt; ++i)
 		if(Dimensions[i]!=nullptr)
 			TM1ValArraySet(vArrayElements, Dimensions[i]->gethElement(), i+1);
 		
@@ -194,7 +195,13 @@ TM1V Cube::setCellValue(const std::vector<Dimension*> & Dimensions, double val)c
 			return hNewVal;
 	}else if (TM1ValType(hUser, hNewVal) == TM1ValTypeError()){
 		std::ostringstream sout;
-		sout << "Не удалось установить значение ячейки:\n\t";
+		sout << "В кубе "<<getCubeName()<<" не удалось установить значение ячейки: ";
+		for (TM1_INDEX i = 0; i < cnt; ++i)
+			if (Dimensions[i] != nullptr) {
+				sout << Dimensions[i]->getElementVal() << " ";
+			}else
+				sout << "null ";
+		sout << val<<"\n\t";
 		getLastError(sout, hNewVal, true);
 		throw std::exception(sout.str().c_str());
 	}
@@ -204,10 +211,11 @@ TM1V Cube::setCellValue(const std::vector<Dimension*> & Dimensions, double val)c
 TM1V Cube::setCellValue(const std::vector<Dimension*> & Dimensions, const char * val)const {
 	//выделяем место в пуле под значение
 	TM1V tmp[20] = { 0 };
-	TM1V vArrayElements = makeArray(hUser, hPool, Dimensions.size(), tmp);
+	TM1V vArrayElements = makeArray(hUser, hPool, (TM1_INDEX)Dimensions.size(), tmp);
 	
 	//заполнение массива
-	for (TM1_INDEX i = 0, cnt = getCountDimensions(); i < cnt; ++i)
+	TM1_INDEX cnt = getCountDimensions();
+	for (TM1_INDEX i = 0; i < cnt; ++i)
 		if (Dimensions[i] != nullptr)
 			TM1ValArraySet(vArrayElements, Dimensions[i]->gethElement(), i + 1);
 	
@@ -227,7 +235,13 @@ TM1V Cube::setCellValue(const std::vector<Dimension*> & Dimensions, const char *
 			return hNewVal;
 	}else if (TM1ValType(hUser, hNewVal) == TM1ValTypeError()) {
 		std::ostringstream sout;
-		sout << "Не удалось установить значение ячейки:\n\t";
+		sout << "В кубе " << getCubeName() << " не удалось установить значение ячейки: ";
+		for (TM1_INDEX i = 0; i < cnt; ++i)
+			if (Dimensions[i] != nullptr) 
+				sout << Dimensions[i]->getElementVal() << " ";
+			else
+				sout << "null ";
+		sout << val << "\n\t";
 		getLastError(sout, hNewVal, true);
 		throw std::exception(sout.str().c_str());
 	}
