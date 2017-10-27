@@ -21,10 +21,10 @@ public:
 	AdminServer & operator=(const AdminServer &) = delete;
 	AdminServer & operator=(AdminServer &&) = delete;
 	//деструкторы
-	~AdminServer() noexcept;
+	virtual ~AdminServer() noexcept;
 
 	//получение дескриптора сессии
-	TM1U gethUser()const noexcept;
+	inline TM1U gethUser()const noexcept {return hUser;}
 
 	//получение версии TM1 API
 	int getVersion() const noexcept;

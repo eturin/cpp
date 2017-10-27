@@ -35,10 +35,6 @@ AdminServer::~AdminServer() noexcept {
 	TM1APIFinalize();		
 }
 
-TM1U AdminServer::gethUser()const noexcept {
-	return hUser;
-}
-
 int AdminServer::getVersion()const noexcept {
 	return TM1SystemVersionGet(); //ok
 }
@@ -72,5 +68,5 @@ std::string AdminServer::showServers()const noexcept {
 }
 
 TM1_INDEX AdminServer::getLastError(std::ostringstream &sout, TM1V val, bool isShow)const noexcept {
-	return ::getLastError(sout, hUser,val,isShow);
+	return utilities::getLastError(sout, hUser,val,isShow);
 }

@@ -2,23 +2,19 @@
 #define DIMENSION_H
 
 #include "Common.h"
+#include "Object.h"
+
 #include "Server.h"
 #include "Cube.h"
 
 
-class Dimension{
+class Dimension: public Object{
 private:
 	//свойства
-	const Server &server;
-	TM1U hUser          = nullptr;  //TM1 API session handle
-	TM1P hPool          = nullptr;  //дескриптор пула значений
-	TM1V hDimension     = nullptr;  //дескриптор измерения в пуле API
-	TM1V hNewDimension  = nullptr;  //дескриптор создаваемого измерения в пуле API
-	mutable TM1V vDimensionName = nullptr;  //имя измерения в пуле API
+	const Server &server;	
 	TM1V hElement       = nullptr;  //дескриптор элемента в пуле API
 	TM1V vElement       = nullptr;  //значение элемента в пуле API
-	//методы
-	TM1_INDEX getLastError(std::ostringstream &sout, TM1V val, bool isShow = false)const noexcept;
+	
 public:
 	//создание экземпляра на основе опубликованного измерения по имени
 	Dimension(const Cube &cube, const char * DimensionName, TM1_INDEX DimensionNameLen = 0);
@@ -27,57 +23,67 @@ public:
 	//создание экземпляра для нового измерения или измерения опубликованного на сервере
 	Dimension(const Server &server, const char * DimensionName, TM1_INDEX DimensionNameLen = 0) noexcept;
 	//запрещаем конструкторы
-	Dimension(const Dimension &) = delete;
-	Dimension(Dimension &&) = delete;
+	Dimension(const Dimension &)             = delete;
+	Dimension(Dimension &&)                  = delete;
 	//запрещаем операторы
 	Dimension & operator=(const Dimension &) = delete;
-	Dimension & operator=(Dimension &&) = delete;
-	//деструктор
-	~Dimension() noexcept;
-
-	//получение имени измерения
-	const char * getDimensionName()const;
-	//удаление опубликованного измерения
-	bool deleteDimension() noexcept;
-	
-	//проверака доступности для чтения
-	bool isRead()const noexcept;
-	//проверака доступности для записи
-	bool isWrite()const noexcept;
+	Dimension & operator=(Dimension &&)      = delete;
+					
 	//проверка опубликовано-ли измерение
-	bool exist() noexcept;
+	virtual bool exist() noexcept override;
 	//создание пустого измерения
-	void makeNew() noexcept;
-	//копирование на основе опубликованного измерения
-	bool makeDuplicate();
+	inline void makeNew() noexcept {
+		hNewObject = TM1DimensionCreateEmpty(hPool, server.gethObject());
+	}
+	
 	//добавление элемента в состав измерения
-	bool addElement(const char * ElementName, TM1_INDEX ElementNameLen = 0);
+	bool addElement(const char * ElementName, TM1_INDEX ElementNameLen = 0);	
 	//проверка корректности измерения
 	bool check()const;
 	//публикация измерения
 	bool registerDimension(const char * DimensionName = nullptr, TM1_INDEX DimensionNameLen = 0);
 	
-	bool  setElementVal(const char * strVal);
-	bool  setElementVal(double val);
-	char *getElementVal()const noexcept;
-	TM1V  gethElement()const noexcept;
+	bool  setElementVal(const char * strVal, TM1_INDEX strValLen = 0);
+	bool  setElementVal(double val);	
+	inline TM1V  gethElement()const noexcept { return hElement; }
 
 	//получение кол-ва подмножеств
-	TM1_INDEX getCountSubsets()const;
+	inline TM1_INDEX getCountSubsets()const {
+		return getListCount(TM1DimensionSubsets());
+	}
 	//получение строки с именами подмножеств
-	std::string showSubsets()const;
+	inline std::string showSubsets()const {
+		return std::move(showList(TM1DimensionSubsets()));
+	}
 	//получение подмножества по индексу
-	TM1V getSubsetByIndex(TM1_INDEX i)const noexcept;
+	inline TM1V getSubsetByIndex(TM1_INDEX i)const {
+		return getListItemByIndex(i, TM1DimensionSubsets());
+	}
 	//получение подмножества по имени
-	TM1V getSubsetByName(const char *NameSubset)const noexcept;
+	inline TM1V getSubsetByName(const char *NameSubset, TM1_INDEX NameSubsetLen=0)const {
+		TM1V vName;
+		return getListItemByName(TM1DimensionSubsets(), NameSubset, vName, NameSubsetLen);
+	}
 
 	//это возможные значения измерения
-	TM1_INDEX getCountElements()const;
-	std::string showElements()const;
-	TM1V getElementByIndex(TM1_INDEX i)const noexcept;
-	TM1V getElementByName(const char *NameElement)const noexcept;
-
-	TM1V gethDimension()const noexcept;
+	inline TM1_INDEX getCountElements()const {
+		return getListCount(TM1DimensionElements());
+	}
+	//получение строки с именами элементов
+	inline std::string showElements()const {
+		return std::move(showList(TM1DimensionElements()));
+	}
+	//получение элемента по индексу
+	inline TM1V getElementByIndex(TM1_INDEX i)const {
+		return getListItemByIndex(i, TM1DimensionElements());
+	}
+	//получение элемента по имени
+	inline TM1V getElementByName(const char *NameElement, TM1_INDEX NameElementLen=0)const {
+		TM1V vName;
+		return getListItemByName(TM1DimensionElements(), NameElement, vName, NameElementLen);
+	}
+		
+	inline const Server & getServer() const noexcept { return server; }
 };
 
 #endif

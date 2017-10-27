@@ -10,6 +10,8 @@
 #include "Server.h"
 #include "Cube.h"
 #include "Dimension.h"
+#include "Subset.h"
+#include "View.h"
 
 #include "rapidjson/reader.h"
 #include "rapidjson/istreamwrapper.h"
@@ -17,19 +19,18 @@
 
 class Context{
 private:
-	char        * strSerPath  = nullptr; //путь к файлу сертификата
+	const char * strSerPath;                              //путь к файлу сертификата
 	
-	AdminServer * adminServer = nullptr; //текущий админ-сервер
-	Server      * server      = nullptr; //текущий сервер
+	std::unique_ptr<AdminServer> upAdminServer;           //текущий админ-сервер
+	std::unique_ptr<Server>      upServer;                //текущий сервер
 	
-	Cube		* cube        = nullptr;    //текущий куб
-	std::vector<Dimension *> useDimensions; //текущие измерения 
+	std::unique_ptr<Cube>        upCube;                  //текущий куб
+	std::vector<std::unique_ptr<Dimension>> useDimensions;//текущие измерения 
 
-	Dimension   * dimension   = nullptr;    //текущее измерение
-	
-	
+	std::unique_ptr<Dimension>   upDimension;             //текущее измерение
+	std::unique_ptr<Subset>      upSubset;                //текущее подмножество
+		
 	std::string strKey   ; //текущий ключ	
-
 	std::string strServer; //имя текущего сервера
 	std::string strLogin ; //имя текущего пользователя
 	std::string strPwd   ; //пароль текущего пользователя
@@ -39,9 +40,9 @@ private:
 	
 
 public:
-	Context(char * str, bool isFile, char * strSerPath);
+	Context(char * str, bool isFile = false, const char * strSerPath = nullptr);
 	//деструктор
-	~Context();
+	~Context() = default;
 
 	//найден ключ
 	bool Key(const char* str, rapidjson::SizeType length, bool copy);

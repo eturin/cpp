@@ -127,6 +127,8 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mainDLL.cpp" />
     <ClCompile Include="Server.cpp" />
+    <ClCompile Include="Subset.cpp" />
+    <ClCompile Include="View.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AdminServer.h" />
@@ -135,8 +137,10 @@
     <ClInclude Include="Cube.h" />
     <ClInclude Include="Dimension.h" />
     <ClInclude Include="myTM1API.H" />
+    <ClInclude Include="Object.h" />
     <ClInclude Include="Server.h" />
-    <ClInclude Include="TM1API.H" />
+    <ClInclude Include="Subset.h" />
+    <ClInclude Include="View.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
