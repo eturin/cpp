@@ -2,9 +2,9 @@
 #include "Dimension.h"
 #include "Subset.h"
 
-Dimension::Dimension(const Cube &cube, const char * DimensionName, TM1_INDEX DimensionNameLen):Object(cube),server(cube.getServer()){
+Dimension::Dimension(const Cube &cube, const char * DimensionName, TM1_INDEX DimensionNameLen, bool isPublic):Object(cube),server(cube.getServer()){
 	//получаем дескриптор измерения
-	hObject = utilities::getObjectByName(hUser, hPool, cube.gethObject(), TM1CubeDimensions(), DimensionName, vName, DimensionNameLen);
+	hObject = utilities::getObjectByName(hUser, hPool, cube.gethObject(), TM1CubeDimensions(), DimensionName, vName, DimensionNameLen, isPublic);
 	if (hObject == nullptr){
 		this->~Dimension();
 		std::ostringstream sout;
@@ -12,10 +12,10 @@ Dimension::Dimension(const Cube &cube, const char * DimensionName, TM1_INDEX Dim
 		throw std::exception(sout.str().c_str());
 	}	
 }
-Dimension::Dimension(const Cube &cube, TM1_INDEX i) :Object(cube), server(cube.getServer()) {
+Dimension::Dimension(const Cube &cube, TM1_INDEX i, bool isPublic) :Object(cube), server(cube.getServer()) {
 	//получаем дескриптор измерения
 	if (0 < i && i <= cube.getCountDimensions()) 
-		hObject = utilities::getObjectByIndex(hUser, hPool, cube.gethObject(), TM1CubeDimensions(), i);
+		hObject = utilities::getObjectByIndex(hUser, hPool, cube.gethObject(), TM1CubeDimensions(), i, isPublic);
 	else{
 		this->~Dimension();
 		std::ostringstream sout;
@@ -23,14 +23,14 @@ Dimension::Dimension(const Cube &cube, TM1_INDEX i) :Object(cube), server(cube.g
 		throw std::exception(sout.str().c_str());
 	}	
 }
-Dimension::Dimension(const Server & server, const char * DimensionName, TM1_INDEX DimensionNameLen) noexcept :Object(server), server(server)  {
+Dimension::Dimension(const Server & server, const char * DimensionName, TM1_INDEX DimensionNameLen, bool isPublic) noexcept :Object(server), server(server)  {
 	//получаем дескриптор измерения
-	hObject = utilities::getObjectByName(hUser, hPool, server.gethObject(), TM1ServerDimensions(), DimensionName, vName, DimensionNameLen);
+	hObject = utilities::getObjectByName(hUser, hPool, server.gethObject(), TM1ServerDimensions(), DimensionName, vName, DimensionNameLen, isPublic);
 }
 
-bool Dimension::exist() noexcept {
+bool Dimension::exist(bool isPublic) noexcept {
 	if (vName != nullptr)
-		hObject = utilities::getObjectByName(hUser, hPool, server.gethObject(), TM1CubeDimensions(), vName);
+		hObject = utilities::getObjectByName(hUser, hPool, server.gethObject(), TM1CubeDimensions(), vName, isPublic);
 	return hObject != nullptr;
 }
 
@@ -72,7 +72,7 @@ bool Dimension::check()const {
 	return true;	
 }
 
-bool Dimension::registerDimension(const char * DimensionName, TM1_INDEX DimensionNameLen) {
+bool Dimension::registerDimension(bool isPublic, const char * DimensionName, TM1_INDEX DimensionNameLen) {
 	if (hNewObject == nullptr)
 		throw std::exception("Новый объект изменения не инициализирован.");
 	else if (hObject != nullptr
@@ -89,10 +89,10 @@ bool Dimension::registerDimension(const char * DimensionName, TM1_INDEX Dimensio
 		this->hObject = hObject;
 		return true;
 	}else if (DimensionName != nullptr) {
-		TM1V hObject = utilities::registerObject(hUser, hPool, server.gethObject(), hNewObject, DimensionName, vName, DimensionNameLen);
+		TM1V hObject = utilities::registerObject(hUser, hPool, server.gethObject(), hNewObject, isPublic, DimensionName, vName, DimensionNameLen);
 		this->hObject = hObject;
 	}else if (vName != nullptr) {
-		TM1V hObject = utilities::registerObject(hUser, hPool, server.gethObject(), hNewObject, vName);
+		TM1V hObject = utilities::registerObject(hUser, hPool, server.gethObject(), hNewObject, isPublic, vName);
 		this->hObject = hObject;
 	}
 		

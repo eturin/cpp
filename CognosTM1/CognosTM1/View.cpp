@@ -1,16 +1,16 @@
 #include "View.h"
 #include "Cube.h"
 
-View::View(const Cube &cube, const char * ViewName, TM1_INDEX ViewNameLen):Object(cube),cube(cube) {
+View::View(const Cube &cube, const char * ViewName, TM1_INDEX ViewNameLen, bool isMDX, bool isPublic):Object(cube),cube(cube), vType(isMDX ? TM1ValIndex(hPool, 357) : TM1CubeViews()){
 	//получаем дескриптор измерения
-	if(ViewName!=nullptr)
-		hObject = utilities::getObjectByName(hUser, hPool, cube.gethObject(), TM1CubeViews(), ViewName, vName, ViewNameLen);
+	if (ViewName != nullptr)
+		hObject = utilities::getObjectByName(hUser, hPool, cube.gethObject(), vType, ViewName, vName, ViewNameLen, isPublic);
 }
 
-View::View(const Cube &cube, TM1_INDEX i):Object(cube),cube(cube) {
+View::View(const Cube &cube, TM1_INDEX i, bool isMDX, bool isPublic):Object(cube),cube(cube), vType(isMDX ? TM1ValIndex(hPool, 357) : TM1CubeViews()) {
 	//получаем дескриптор представления
-	if (0 < i && i <= cube.getCountViews())
-		hObject = utilities::getObjectByIndex(hUser, hPool, cube.gethObject(), TM1CubeViews(), i);
+	if (0 < i && i <= cube.getCountViews(isPublic,isMDX))
+		hObject = utilities::getObjectByIndex(hUser, hPool, cube.gethObject(), vType, i, isPublic);
 	else {
 		this->~View();
 		std::ostringstream sout;
@@ -19,9 +19,9 @@ View::View(const Cube &cube, TM1_INDEX i):Object(cube),cube(cube) {
 	}
 }
 
-bool View::exist() noexcept {
+bool View::exist(bool isPublic) noexcept {
 	if (vName != nullptr)
-		hObject = utilities::getObjectByName(hUser, hPool, cube.gethObject(), TM1CubeViews(), vName);
+		hObject = utilities::getObjectByName(hUser, hPool, cube.gethObject(), vType, vName, isPublic);
 	return hObject != nullptr;
 }
 
@@ -71,22 +71,37 @@ void View::makeNew() {
 	hNewObject = TM1ViewCreate(hPool, cube.gethObject(), hTitleSubsetArray, hColumnSubsetArray, hRowSubsetArray);	
 }
 
-bool View::registerView(const char * ViewName, TM1_INDEX ViewNameLen) {
+void View::makeNewWithMDX(const char * Expression, TM1_INDEX ExpressionLen) {
+	if(Expression==nullptr)
+		throw std::exception("Не указан MDX-запрос.");
+
+	TM1V vExpression = TM1ValString(hPool, const_cast<char*>(Expression), ExpressionLen);
+	TM1V hNewObject = TM1ViewCreateByExpression(hPool, cube.getServer().gethObject(), vExpression);
+	if (TM1ValType(hUser, hNewObject) == TM1ValTypeString()) {
+		std::ostringstream sout;
+		sout << "Ошибка создания представления на основе выражения MDX (" << Expression << "):\n" << TM1ValStringGet(hUser, hNewObject) << std::endl;
+		throw std::exception(sout.str().c_str());
+	}else
+		this->hNewObject = hNewObject;
+}
+
+bool View::registerView(bool isPublic, const char * ViewName, TM1_INDEX ViewNameLen) {
 	if(hNewObject==nullptr)
 		throw std::exception("Не инициализирован новый объект");
 	else if (ViewName != nullptr)
-		hObject = utilities::registerObject(hUser, hPool, cube.gethObject(), hNewObject, ViewName, vName);
+		hObject = utilities::registerObject(hUser, hPool, cube.gethObject(), hNewObject, isPublic, ViewName, vName);
 	else if (vName != nullptr)
-		hObject = utilities::registerObject(hUser, hPool, cube.gethObject(), hNewObject, vName);
+		hObject = utilities::registerObject(hUser, hPool, cube.gethObject(), hNewObject, isPublic, vName);
 	else
 		throw std::exception("Не указано имя представления");
 	return true;
 }
 
-std::string View::show() const {
-	TM1_INDEX maxN = cube.getCountDimensions();
+std::string View::show(bool isPublic,TM1V hObject) const {
+
+	TM1_INDEX maxN = cube.getCountDimensions(isPublic, getParrent(hObject ? hObject : this->hObject));
 	//получаем список записей представления
-	TM1V hExtractList = TM1ViewExtractCreate(hPool, hObject);
+	TM1V hExtractList = TM1ViewExtractCreate(hPool, hObject? hObject: this->hObject);
 
 	//создаем дополнительный Pool
 	TM1P hPool = TM1ValPoolCreate(hUser);
@@ -95,40 +110,39 @@ std::string View::show() const {
 	TM1_INDEX cnt = 0;
 	TM1_INDEX n;
 	bool is = false;
-	TM1V hOvject = nullptr;
+	TM1V hExtract = nullptr;
 	std::ostringstream sout;
 
 	try {
-		while (nullptr != (hOvject = TM1ViewExtractGetNext(hPool, hExtractList))) {
-			if (TM1ValType(hUser, hOvject) == TM1ValTypeError()) {
+		while (nullptr != (hExtract = TM1ViewExtractGetNext(hPool, hExtractList))) {
+			if (TM1ValType(hUser, hExtract) == TM1ValTypeError()) {
 				std::ostringstream sout;
 				sout << "Не удаётся итерироваться по представлению: " << getName() << "\n\t";
-				getLastError(sout, hOvject, true);
+				getLastError(sout, hExtract, true);
 				//уничтожаем список записей
 				TM1ViewExtractDestroy(hPool, hExtractList);
 				TM1ValPoolDestroy(hPool);
 				throw std::exception(sout.str().c_str());
 			}
-			TM1_INDEX ind = TM1ValType(hUser, hOvject);
+			TM1_INDEX ind = TM1ValType(hUser, hExtract);
 			if (ind == TM1ValTypeIndex()) {
-				n = TM1ValIndexGet(hUser, hOvject);
+				n = TM1ValIndexGet(hUser, hExtract);
 				if (n > 0) {
-					std::cout << (cnt ? ",\n" : "") << "{";
+					sout << (cnt ? ",\n" : "") << "{";
 					++cnt;
 					is = false;
-				}
-				else
+				}else
 					break;
 			}else if (ind == TM1ValTypeString()) {
-				std::cout << (is ? ", " : "");
+				sout << (is ? ", " : "");
 				if (maxN < n)
-					sout << "\"v\":" << TM1ValStringGet(hUser, hOvject) << "\"}";
+					sout << "\"v\":" << TM1ValStringGet(hUser, hExtract) << "\"}";
 				else
-					sout << "\"" << n << "\":\"" << TM1ValStringGet(hUser, hOvject) << "\"";
+					sout << "\"" << n << "\":\"" << TM1ValStringGet(hUser, hExtract) << "\"";
 				is = true;
 				++n;
 			}else if (ind == TM1ValTypeReal()) {
-				sout << (is ? ", " : "") << "\"v\":" << TM1ValRealGet(hUser, hOvject) << '}';
+				sout << (is ? ", " : "") << "\"v\":" << TM1ValRealGet(hUser, hExtract) << '}';
 				is = true;
 				++n;
 			}else

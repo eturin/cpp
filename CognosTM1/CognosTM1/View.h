@@ -12,6 +12,7 @@ class View: public Object {
 private:
 	//свойства
 	const Cube &cube;
+	TM1V vType = nullptr;
 	
 	std::vector<std::string> Titles;
 	std::vector<std::string> Columns;
@@ -19,9 +20,9 @@ private:
 	std::vector<std::string> Elements;	
 public:
 	//создание экземпляра на основе опубликованного представления по имени
-	View(const Cube &cube, const char * ViewName = nullptr, TM1_INDEX ViewNameLen = 0);
+	View(const Cube &cube, const char * ViewName = nullptr, TM1_INDEX ViewNameLen = 0, bool isMDX = false, bool isPublic = true);
 	//создание экземпляра на основе опубликованного представления по индексу
-	View(const Cube &cube, TM1_INDEX i);
+	View(const Cube &cube, TM1_INDEX i, bool isMDX=false, bool isPublic=true);
 	//запрещаем конструкторы
 	View(const View &) = delete;
 	View(View &&) = delete;
@@ -30,12 +31,14 @@ public:
 	View & operator=(View &&) = delete;
 		
 	//проверка опубликовано-ли представление
-	virtual bool exist() noexcept override;
+	virtual bool exist(bool isPublic = true) noexcept override;
 	//создание пустого представления
 	void makeNew();
+	//создание представления на основе MDX-запроса
+	void makeNewWithMDX(const char * Expression, TM1_INDEX ExpressionLen = 0);
 	
 	//публикация представления
-	bool registerView(const char * ViewName = nullptr, TM1_INDEX ViewNameLen = 0);
+	bool registerView(bool isPublic, const char * ViewName = nullptr, TM1_INDEX ViewNameLen = 0);
 	
 	//добавление измерения в заголовок
 	inline void addTitle(const char * DimensionName, TM1_INDEX DimensionNameLen = 0) {
@@ -96,7 +99,7 @@ public:
 			Elements.push_back(ElementName);
 	}
 
-	std::string show() const;	
+	std::string show(bool isPublic = true, TM1V hObject = nullptr) const;
 };
 
 #endif

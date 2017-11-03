@@ -179,6 +179,7 @@ namespace utilities {
 			TM1SubsetSortByHierarchy = (TM1V(WINAPI*)(TM1P hPool, TM1V hSubset))GetProcAddress(tm1api, "TM1SubsetSortByHierarchy");
 			TM1SubsetUpdate = (TM1V(WINAPI*)(TM1P hPool, TM1V hOldSubset, TM1V hNewSubset))GetProcAddress(tm1api, "TM1SubsetUpdate");
 			TM1SubsetCreateByExpression = (TM1V(WINAPI*)(TM1P hPool, TM1V hServer, TM1V sExpression))GetProcAddress(tm1api, "TM1SubsetCreateByExpression");
+			TM1ViewCreateByExpression = (TM1V(WINAPI*)(TM1P hPool, TM1V hServer, TM1V sExpression))GetProcAddress(tm1api, "TM1ViewCreateByExpression");
 			TM1SystemAdminHostGet = (CHAR * (WINAPI*)(TM1U hUser))GetProcAddress(tm1api, "TM1SystemAdminHostGet");
 			TM1SystemAdminHostGetW = (TM1_UTF16_T * (WINAPI*)(TM1U hUser))GetProcAddress(tm1api, "TM1SystemAdminHostGetW");
 			TM1SystemAdminHostGetUTF8 = (TM1_UTF8_T * (WINAPI*)(TM1U hUser))GetProcAddress(tm1api, "TM1SystemAdminHostGetUTF8");
@@ -382,7 +383,7 @@ namespace utilities {
 			TM1TypeSQLNumericColumn = (TM1V(WINAPI*)())GetProcAddress(tm1api, "TM1TypeSQLNumericColumn");
 			TM1TypeSQLStringColumn = (TM1V(WINAPI*)())GetProcAddress(tm1api, "TM1TypeSQLStringColumn");
 			TM1TypeSQLTable = (TM1V(WINAPI*)())GetProcAddress(tm1api, "TM1TypeSQLTable");
-			TM1TypeView = (TM1V(WINAPI*)(void))GetProcAddress(tm1api, "TM1TypeView");
+			TM1TypeView = (TM1V(WINAPI*)(void))GetProcAddress(tm1api, "TM1TypeView");			
 			TM1TypeElementSimple = (TM1V(WINAPI*)(void))GetProcAddress(tm1api, "TM1TypeElementSimple");
 			TM1TypeElementConsolidated = (TM1V(WINAPI*)(void))GetProcAddress(tm1api, "TM1TypeElementConsolidated");
 			TM1TypeElementString = (TM1V(WINAPI*)(void))GetProcAddress(tm1api, "TM1TypeElementString");
@@ -867,25 +868,28 @@ namespace utilities {
 		return rc;
 	}
 
-	TM1_INDEX getCountObjects(TM1U hUser, TM1P hPool, TM1V hParrentObject, TM1V vType) {
+	TM1_INDEX getCountObjects(TM1U hUser, TM1P hPool, TM1V hParrentObject, TM1V vType, bool isPublic) {
 		//выделяем место в пуле под значение
-		TM1V hCount = TM1ObjectListCountGet(hPool, hParrentObject, vType);
+		TM1V hCount = 0;
+		if(isPublic)
+			hCount = TM1ObjectListCountGet(hPool, hParrentObject, vType);
+		else
+			hCount = TM1ObjectPrivateListCountGet(hPool, hParrentObject, vType);
 		//проверяем успешность получения кол-ва объектов
 		if (TM1ValType(hUser, hCount) == TM1ValTypeError()) {
 			std::ostringstream sout;
 			sout << "Не удалось получить кол-во объектов:\n\t";
 			getLastError(sout, hUser, hCount, true);
 			throw std::exception(sout.str().c_str());
-		}
-		else
+		}else
 			return TM1ValIndexGet(hUser, hCount);
 	}
-
-	std::string showObjects(TM1U hUser, TM1P hPool, TM1V hParrentObject, TM1V vType) {
-		TM1_INDEX cnt = getCountObjects(hUser, hPool, hParrentObject, vType);
+	
+	std::string showObjects(TM1U hUser, TM1P hPool, TM1V hParrentObject, TM1V vType, bool isPublic) {
+		TM1_INDEX cnt = getCountObjects(hUser, hPool, hParrentObject, vType, isPublic);
 		std::ostringstream sout;
 		for (TM1_INDEX i = 0; i < cnt; ++i) {
-			TM1V hObject = getObjectByIndex(hUser, hPool, hParrentObject, vType, i + 1);
+			TM1V hObject = getObjectByIndex(hUser, hPool, hParrentObject, vType, i + 1, isPublic);
 			//проверяем успешность получения объекта по индексу
 			if (hObject != nullptr) {
 				TM1V hName = utilities::getObjectProperty(hUser, hPool, hObject, TM1ObjectName());
@@ -895,16 +899,19 @@ namespace utilities {
 		}
 		return std::move(sout.str());
 	}
-
-	TM1V getObjectByIndex(TM1U hUser, TM1P hPool, TM1V hParrentObject, TM1V vType, TM1_INDEX i) noexcept {
+	
+	TM1V getObjectByIndex(TM1U hUser, TM1P hPool, TM1V hParrentObject, TM1V vType, TM1_INDEX i, bool isPublic) noexcept {
 		//выделяем место в пуле под значение
 		TM1V ind = TM1ValIndex(hPool, i);
 		if (ind == 0) {
 			//Не удалось получить индекс в пуле 
 			return nullptr;
 		}
-
-		TM1V hObject = TM1ObjectListHandleByIndexGet(hPool, hParrentObject, vType, ind);
+		TM1V hObject = nullptr;
+		if(isPublic)
+			hObject = TM1ObjectListHandleByIndexGet(hPool, hParrentObject, vType, ind);
+		else
+			hObject = TM1ObjectPrivateListHandleByIndexGet(hPool, hParrentObject, vType, ind);
 		//проверяем успешность получения объекта по индексу
 		if (TM1ValType(hUser, hObject) == TM1ValTypeError()) {
 			std::ostringstream sout;
@@ -914,8 +921,8 @@ namespace utilities {
 		}
 		return hObject;
 	}
-
-	TM1V getObjectByName(TM1U hUser, TM1P hPool, TM1V hParrentObject, TM1V vType, const char *strName, TM1V & vName, TM1_INDEX NameLen) noexcept {
+	
+	TM1V getObjectByName(TM1U hUser, TM1P hPool, TM1V hParrentObject, TM1V vType, const char *strName, TM1V & vName, TM1_INDEX NameLen, bool isPublic) noexcept {
 		//выделяем место в пуле под значения
 		vName = TM1ValString(hPool, const_cast<char*>(strName), NameLen);
 		if (vName == 0) {
@@ -923,23 +930,29 @@ namespace utilities {
 			return nullptr;
 		}
 
-		return getObjectByName(hUser, hPool, hParrentObject, vType, vName);
+		return getObjectByName(hUser, hPool, hParrentObject, vType, vName, isPublic);
 	}
 
-	TM1V getObjectByName(TM1U hUser, TM1P hPool, TM1V hParrentObject, TM1V vType, TM1V vName) noexcept {
-		TM1V hObject = TM1ObjectListHandleByNameGet(hPool, hParrentObject, vType, vName);
+	TM1V getObjectByName(TM1U hUser, TM1P hPool, TM1V hParrentObject, TM1V vType, TM1V vName, bool isPublic) noexcept {
+		TM1V hObject = nullptr;
+		if(isPublic)
+			hObject = TM1ObjectListHandleByNameGet(hPool, hParrentObject, vType, vName);
+		else
+			hObject = TM1ObjectPrivateListHandleByNameGet(hPool, hParrentObject, vType, vName);
+		
 		//проверяем успешность получения объекта по имени
 		if (TM1ValType(hUser, hObject) == TM1ValTypeError()) {
 			std::ostringstream sout;
 			sout << "Не удалось получить объект по имени:" << (vName != nullptr ? TM1ValStringGet(hUser, vName) : "") << "\n\t";
 			getLastError(sout, hUser, hObject, true);
 			return nullptr;
+			
 		}
 
 		return hObject;
 	}
-
-	TM1V getObjectByName(TM1U hUser, TM1P hPool, TM1V hParrentObject, TM1V vType, double val, TM1V & vVal) noexcept {
+	
+	TM1V getObjectByName(TM1U hUser, TM1P hPool, TM1V hParrentObject, TM1V vType, double val, TM1V & vVal, bool isPublic) noexcept {
 		//выделяем место в пуле под значения
 		vVal = TM1ValReal(hPool, val);
 		if (vVal == 0) {
@@ -947,8 +960,11 @@ namespace utilities {
 			vVal = nullptr;
 			return nullptr;
 		}
-
-		TM1V hObject = TM1ObjectListHandleByNameGet(hPool, hParrentObject, vType, vVal);
+		TM1V hObject = nullptr;
+		if(isPublic)
+			hObject = TM1ObjectListHandleByNameGet(hPool, hParrentObject, vType, vVal);
+		else
+			hObject = TM1ObjectPrivateListHandleByNameGet(hPool, hParrentObject, vType, vVal);
 		//проверяем успешность получения объекта по имени
 		if (TM1ValType(hUser, hObject) == TM1ValTypeError()) {
 			std::ostringstream sout;
@@ -959,7 +975,7 @@ namespace utilities {
 
 		return hObject;
 	}
-
+	
 	TM1V getObjectProperty(TM1U hUser, TM1P hPool, TM1V hParrentObject, TM1V vType) {
 		//выделяем место в пуле под значение
 		TM1V hProperty = TM1ObjectPropertyGet(hPool, hParrentObject, vType);
@@ -990,19 +1006,23 @@ namespace utilities {
 		return true;
 	}
 
-	TM1V registerObject(TM1U hUser, TM1P hPool, TM1V hParrentObject, TM1V hObject, const char *strName, TM1V & vName, TM1_INDEX NameLen) {
+	TM1V registerObject(TM1U hUser, TM1P hPool, TM1V hParrentObject, TM1V hObject, bool isPublic, const char *strName, TM1V & vName, TM1_INDEX NameLen) {
 		//выделяем место в пуле под значения
 		vName = TM1ValString(hPool, const_cast<char*>(strName), NameLen);
 		if (vName == 0)
 			throw std::exception("Не удалось получить имя в пуле");
 
-		return registerObject(hUser, hPool, hParrentObject, hObject, vName);
+		return registerObject(hUser, hPool, hParrentObject, hObject, isPublic ,vName);
 	}
-
-	TM1V registerObject(TM1U hUser, TM1P hPool, TM1V hParrentObject, TM1V hObject, TM1V vName) {
+		
+	TM1V registerObject(TM1U hUser, TM1P hPool, TM1V hParrentObject, TM1V hObject, bool isPublic, TM1V vName) {
 		//выделяем место в пуле под значение
-		TM1V hNewObject = TM1ObjectRegister(hPool, hParrentObject, hObject, vName);
-		//проверяем успешность установки значения свойства
+		TM1V hNewObject = nullptr;
+		if(isPublic)
+			hNewObject = TM1ObjectRegister(hPool, hParrentObject, hObject, vName);
+		else
+			hNewObject = TM1ObjectPrivateRegister(hPool, hParrentObject, hObject, vName);
+		//проверяем успешность публикации
 		if (TM1ValType(hUser, hNewObject) == TM1ValTypeError()) {
 			std::ostringstream sout;
 			sout << "Не удалось опубликовать объект:\n\t";
@@ -1011,7 +1031,7 @@ namespace utilities {
 		}
 		return hNewObject;
 	}
-
+	
 	TM1V duplicateObject(TM1U hUser, TM1P hPool, TM1V hObject) {
 		//выделяем место в пуле под значение
 		TM1V hDuplicate = TM1ObjectDuplicate(hPool, hObject);

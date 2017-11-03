@@ -13,9 +13,9 @@ private:
 	
 public:
 	//создание экземпляра на основе опубликованного подмножества по имени
-	Subset(const Dimension &dimension, const char * SubsetName, TM1_INDEX SubsetLen = 0);
+	Subset(const Dimension &dimension, const char * SubsetName, TM1_INDEX SubsetLen = 0, bool isPublic = true);
 	//создание экземпляра на основе опубликованного подмножества по индексу
-	Subset(const Dimension &dimension, TM1_INDEX i);
+	Subset(const Dimension &dimension, TM1_INDEX i, bool isPublic = true);
 	//запрещаем конструкторы
 	Subset(const Subset &)             = delete;
 	Subset(Subset &&)                  = delete;
@@ -24,7 +24,7 @@ public:
 	Subset & operator=(Subset &&)      = delete;
 		
 	//проверка опубликовано-ли измерение
-	virtual bool exist() noexcept override;
+	virtual bool exist(bool isPublic = true) noexcept override;
 	//создание пустого подмножества
 	void makeNew() noexcept;
 	//создание обновляемого на основе MDX подмножества
@@ -34,7 +34,7 @@ public:
 	bool addElement(const char * ElementName, TM1_INDEX ElementNameLen = 0);
 	
 	//публикация 
-	bool registerSubset(const char * SubsetName = nullptr, TM1_INDEX SubsetNameLen = 0);
+	bool registerSubset(bool isPublic, const char * SubsetName = nullptr, TM1_INDEX SubsetNameLen = 0);
 	
 
 	//количество элементов в подмножестве

@@ -2,14 +2,14 @@
 
 #include "Subset.h"
 
-Subset::Subset(const Dimension &dimension, const char * SubsetName, TM1_INDEX SubsetLen):Object(dimension),dimension(dimension) {
+Subset::Subset(const Dimension &dimension, const char * SubsetName, TM1_INDEX SubsetLen, bool isPublic):Object(dimension),dimension(dimension) {
 	//получаем дескриптор подмножества
-	hObject = utilities::getObjectByName(hUser, hPool, dimension.gethObject(), TM1DimensionSubsets(), SubsetName, vName, SubsetLen);
+	hObject = utilities::getObjectByName(hUser, hPool, dimension.gethObject(), TM1DimensionSubsets(), SubsetName, vName, SubsetLen, isPublic);
 }
-Subset::Subset(const Dimension &dimension, TM1_INDEX i) : Object(dimension), dimension(dimension) {
+Subset::Subset(const Dimension &dimension, TM1_INDEX i, bool isPublic) : Object(dimension), dimension(dimension) {
 	//получаем дескриптор измерения
 	if (0 < i && i <= dimension.getCountSubsets())
-		hObject = utilities::getObjectByIndex(hUser, hPool, dimension.gethObject(), TM1DimensionSubsets(), i);
+		hObject = utilities::getObjectByIndex(hUser, hPool, dimension.gethObject(), TM1DimensionSubsets(), i, isPublic);
 	else {
 		this->~Subset();
 		std::ostringstream sout;
@@ -18,9 +18,9 @@ Subset::Subset(const Dimension &dimension, TM1_INDEX i) : Object(dimension), dim
 	}
 }
 
-bool Subset::exist() noexcept {
+bool Subset::exist(bool isPublic) noexcept {
 	if (vName != nullptr)
-		hObject = utilities::getObjectByName(hUser, hPool, dimension.gethObject(), TM1DimensionSubsets(), vName);
+		hObject = utilities::getObjectByName(hUser, hPool, dimension.gethObject(), TM1DimensionSubsets(), vName, isPublic);
 	return hObject != nullptr;
 }
 
@@ -31,7 +31,13 @@ void Subset::makeNew() noexcept {
 
 void Subset::makeNewWithMDX(const char * Expression, TM1_INDEX ExpressionLen) {	
 	TM1V vExpression = TM1ValString(hPool, const_cast<char*>(Expression), ExpressionLen);
-	hNewObject = TM1SubsetCreateByExpression(hPool, dimension.getServer().gethObject(), vExpression);
+	TM1V hNewObject = TM1SubsetCreateByExpression(hPool, dimension.getServer().gethObject(), vExpression);
+	if (TM1ValType(hUser, hNewObject) == TM1ValTypeString()) {
+		std::ostringstream sout;
+		sout << "Ошибка создания подмножества на основе выражения MDX (" << dimension.getName() << "):\n" << TM1ValStringGet(hUser, hNewObject) << std::endl;
+		throw std::exception(sout.str().c_str());
+	}else
+		this->hNewObject = hNewObject;
 }
 
 bool Subset::addElement(const char * ElementName, TM1_INDEX ElementNameLen) {
@@ -57,7 +63,7 @@ bool Subset::addElement(const char * ElementName, TM1_INDEX ElementNameLen) {
 	return true;
 }
 
-bool Subset::registerSubset(const char * SubsetName , TM1_INDEX SubsetNameLen) {
+bool Subset::registerSubset(bool isPublic, const char * SubsetName , TM1_INDEX SubsetNameLen) {
 	if (hNewObject == nullptr)
 		throw std::exception("Подмножество не инициализировано.");
 	else if (hObject != nullptr
@@ -74,10 +80,10 @@ bool Subset::registerSubset(const char * SubsetName , TM1_INDEX SubsetNameLen) {
 		this->hObject = hObject;
 		return true;
 	}else if (SubsetName != nullptr) {
-		TM1V hObject = utilities::registerObject(hUser, hPool, dimension.gethObject(), hNewObject, SubsetName, vName, SubsetNameLen);
+		TM1V hObject = utilities::registerObject(hUser, hPool, dimension.gethObject(), hNewObject, isPublic, SubsetName, vName, SubsetNameLen);
 		this->hObject = hObject;
 	}else if (vName != nullptr) {
-		TM1V hObject = utilities::registerObject(hUser, hPool, dimension.gethObject(), hNewObject, vName);
+		TM1V hObject = utilities::registerObject(hUser, hPool, dimension.gethObject(), hNewObject, isPublic, vName);
 		this->hObject = hObject;
 	}
 

@@ -144,7 +144,7 @@ bool Context::String(const char* str, rapidjson::SizeType length, bool copy) {
 			throw std::exception("Имя подмножества должно прешествовать перечислению элементов");
 		
 		upSubset->makeNewWithMDX(str, length);
-		upSubset->registerSubset();
+		upSubset->registerSubset(true);
 		upSubset.release();
 		upDimension.release();
 	}else if (strKey == "/delete/subsets/names") {
@@ -268,14 +268,14 @@ bool Context::EndArray(rapidjson::SizeType elementCount) {
 		if (upCube.get() != nullptr 
 			&& !upCube->exist()
 			&& upCube->makeNew()
-			&& upCube->registerCube())
+			&& upCube->registerCube(true))
 			;//куб опубликован
 		else
 			throw std::exception("Не удалось опубликовать куб");
 	}else if (strKey == "/create/dimension/elements") {
 		//[операция создания измерения] получены все элементы измерения
 		if (upDimension.get() != nullptr			
-			&& upDimension->registerDimension())
+			&& upDimension->registerDimension(true))
 			//измерение опубликовано
 			upDimension.release();
 		else
@@ -283,7 +283,7 @@ bool Context::EndArray(rapidjson::SizeType elementCount) {
 	}else if (strKey == "/create/subset/elements") {
 		//[операция создания подмножества] получены все элементы измерения
 		if (upSubset.get() != nullptr
-			&& upSubset->registerSubset()) {
+			&& upSubset->registerSubset(true)) {
 			//подмножество опубликовано
 			upSubset.release();
 			upDimension.release();

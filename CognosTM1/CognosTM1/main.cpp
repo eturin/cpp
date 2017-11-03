@@ -25,34 +25,35 @@ int main(int argc, char* argv[]){
 			if (!server.connect("S2018", 0, "admin", 0, "", 0))
 				std::cerr << "Нет соединения\n";
 			else {
-				Dimension dimension(server, "Период_");
-				
-				Subset    subset(dimension, "2011-2012");
-				subset.deleteObject();
-				subset.makeNewWithMDX("{TM1FILTERBYPATTERN(TM1SUBSETALL([Период_]),\"2011.*\"),\
-					                    TM1FILTERBYPATTERN(TM1SUBSETALL([Период_]), \"2012.*\")}");
-				subset.registerSubset();
-				std::cout << subset.getCountElements();
+				Cube cube(server, "}ClientGroups");
+				std::cout << cube.getCountDimensions();
+				View view(cube, "mdx_View_last9", 0, true, true);
+				view.deleteObject();
+				view.makeNewWithMDX(R"(SELECT                                          
+                                            { [}Clients].[Admin] }  ON COLUMNS, 
+                                            { [}Groups].[ADMIN] }  ON ROWS
+                                       FROM [}ClientGroups]                                       
+									)");
+				view.setSkipConsolidated(true,view.gethNewObject());
+				view.setSkipRule(true, view.gethNewObject());
+				view.setSkipZeroes(true, view.gethNewObject());
+				view.setSuppressZeroes(true, view.gethNewObject());
 
-				/*Cube cube(server,"Лимиты BDDS");
+				view.registerView(true);
+				std::cout << view.show(true);
+
+				{   //поиск MDX-view на сервере
+					for (TM1_INDEX j = 1, len = server.getCountCubes(); j <= len; ++j) {
+						Cube cube(server, j);
+						cube.uploadName();
+						for (TM1_INDEX i = 1, cnt = cube.getCountViews(true,true); i <= cnt; ++i) {
+							View view(cube, i,true);
+							view.uploadName();
+							std::cout << cube.getName() << " --> " << view.getName() << std::endl;
+						}
+					}
+				}
 				
-				View view(cube, "Лимиты_");
-				view.deleteView();
-				view.addColumn("ЦФО");
-				view.addRow("Проект_");
-				view.addRow("Подразделение_");
-				
-				view.addRow("Статья бюджета");
-				view.addRow("Регион_");
-				view.addRow("Период_");
-				view.makeNew();
-				view.setSuppressZeroes(true);
-				view.setSkipZeroes(true);
-				view.setSkipConsolidated(true);
-				view.setSkipRule(true);
-				view.registerView("Лимиты_");
-				
-				std::cout << view.show();			*/
 			}
 		}
 

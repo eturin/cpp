@@ -280,6 +280,7 @@ PRE TM1V (WINAPI  *TM1SubsetSort)( TM1P hPool, TM1V hSubset, TM1V bSortDown );
 PRE TM1V (WINAPI  *TM1SubsetSortByHierarchy)( TM1P hPool, TM1V hSubset );
 PRE TM1V (WINAPI  *TM1SubsetUpdate)( TM1P hPool, TM1V hOldSubset, TM1V hNewSubset );
 PRE TM1V (WINAPI  *TM1SubsetCreateByExpression)( TM1P hPool, TM1V hServer, TM1V sExpression );
+PRE TM1V (WINAPI  *TM1ViewCreateByExpression)(TM1P hPool, TM1V hServer, TM1V sExpression);
 
 PRE CHAR * (WINAPI  *TM1SystemAdminHostGet)( TM1U hUser );
 PRE TM1_UTF16_T * (WINAPI  *TM1SystemAdminHostGetW)( TM1U hUser );
@@ -491,45 +492,45 @@ PRE void  (WINAPI  *TM1ValStringGet_CSH)( TM1U hUser, TM1V vString, TCHAR ** str
 PRE TM1V (WINAPI  *TM1ObjectAttributeValuesSet)( TM1P hPool, TM1V hAttribute, TM1V hObjects, TM1V vValues );
 //*********************************************************************
 //  Constant Functions
-PRE TM1_INDEX (WINAPI  *TM1ValTypeReal)( void );
-PRE TM1_INDEX (WINAPI  *TM1ValTypeString)( void );
-PRE TM1_INDEX (WINAPI  *TM1ValTypeStringW)( void );
-PRE TM1_INDEX (WINAPI  *TM1ValTypeIndex)( void );
-PRE TM1_INDEX (WINAPI  *TM1ValTypeBool)( void );
-PRE TM1_INDEX (WINAPI  *TM1ValTypeObject)( void );
-PRE TM1_INDEX (WINAPI  *TM1ValTypeError)( void );
-PRE TM1_INDEX (WINAPI  *TM1ValTypeArray)( void );
+PRE TM1_INDEX (WINAPI  *TM1ValTypeReal)( void );   //1
+PRE TM1_INDEX (WINAPI  *TM1ValTypeString)( void ); //2
+PRE TM1_INDEX (WINAPI  *TM1ValTypeStringW)( void );//14
+PRE TM1_INDEX (WINAPI  *TM1ValTypeIndex)( void );  //3
+PRE TM1_INDEX (WINAPI  *TM1ValTypeBool)( void );   //4
+PRE TM1_INDEX (WINAPI  *TM1ValTypeObject)( void ); //5
+PRE TM1_INDEX (WINAPI  *TM1ValTypeError)( void );  //6
+PRE TM1_INDEX (WINAPI  *TM1ValTypeArray)( void );  //7
 PRE TM1_INDEX (WINAPI  *TM1ValTypeBinary)( void );
 PRE TM1V (WINAPI  *TM1ArrayNull)( void );
 PRE TM1V (WINAPI  *TM1ObjectNull)( void );
 PRE TM1V (WINAPI  *TM1CubeCellValueUndefined)( void );
-PRE TM1V (WINAPI  *TM1Entry)( void);
-PRE TM1V (WINAPI  *TM1TypeAttribute)( void );
-PRE TM1V (WINAPI  *TM1TypeBlob)( void );
-PRE TM1V (WINAPI  *TM1TypeClient)( void );
-PRE TM1V (WINAPI  *TM1TypeChore)( void );
-PRE TM1V (WINAPI  *TM1TypeConnection)( void );
-PRE TM1V (WINAPI  *TM1TypeCube)( void );
-PRE TM1V (WINAPI  *TM1TypeDimension)( void );
-PRE TM1V (WINAPI  *TM1TypeElement)( void );
-PRE TM1V (WINAPI  *TM1TypeGroup)( void );
-PRE TM1V (WINAPI  *TM1TypeProcess)( void );
-PRE TM1V (WINAPI  *TM1TypeRule)( void );
-PRE TM1V (WINAPI  *TM1TypeSubset)( void );
-PRE TM1V (WINAPI  *TM1TypeServer)( void );
-PRE TM1V (WINAPI  *TM1TypeSQLNotSupported)( );
-PRE TM1V (WINAPI  *TM1TypeSQLNumericColumn)( );
-PRE TM1V (WINAPI  *TM1TypeSQLStringColumn)( );
-PRE TM1V (WINAPI  *TM1TypeSQLTable)( );
-PRE TM1V (WINAPI  *TM1TypeView)( void );
-PRE TM1V (WINAPI  *TM1TypeElementSimple)( void );
-PRE TM1V (WINAPI  *TM1TypeElementConsolidated)( void );
-PRE TM1V (WINAPI  *TM1TypeElementString)( void );
-PRE TM1V (WINAPI  *TM1TypeAttributeAlias)( void );
-PRE TM1V (WINAPI  *TM1TypeAttributeString)( void );
-PRE TM1V (WINAPI  *TM1TypeAttributeNumeric)( void );
-PRE TM1V (WINAPI  *TM1TypeRuleCalculation)( void );
-PRE TM1V (WINAPI  *TM1TypeRuleDrill)( void );
+PRE TM1V (WINAPI  *TM1Entry)( void);         
+PRE TM1V (WINAPI  *TM1TypeAttribute)( void );  //18
+PRE TM1V (WINAPI  *TM1TypeBlob)( void );       //10
+PRE TM1V (WINAPI  *TM1TypeClient)( void );     //1
+PRE TM1V (WINAPI  *TM1TypeChore)( void );      //15
+PRE TM1V (WINAPI  *TM1TypeConnection)( void ); //6
+PRE TM1V (WINAPI  *TM1TypeCube)( void );       //8
+PRE TM1V (WINAPI  *TM1TypeDimension)( void );  //4
+PRE TM1V (WINAPI  *TM1TypeElement)( void );    //20
+PRE TM1V (WINAPI  *TM1TypeGroup)( void );      //2
+PRE TM1V (WINAPI  *TM1TypeProcess)( void );    //16
+PRE TM1V (WINAPI  *TM1TypeRule)( void );       //12
+PRE TM1V (WINAPI  *TM1TypeSubset)( void );     //7
+PRE TM1V (WINAPI  *TM1TypeServer)( void );     //3
+PRE TM1V (WINAPI  *TM1TypeSQLNotSupported)( ); //39
+PRE TM1V (WINAPI  *TM1TypeSQLNumericColumn)( );//37
+PRE TM1V (WINAPI  *TM1TypeSQLStringColumn)( ); //38
+PRE TM1V (WINAPI  *TM1TypeSQLTable)( );        //36
+PRE TM1V (WINAPI  *TM1TypeView)( void );       //9
+PRE TM1V (WINAPI  *TM1TypeElementSimple)( void );//21
+PRE TM1V (WINAPI  *TM1TypeElementConsolidated)( void );//22
+PRE TM1V (WINAPI  *TM1TypeElementString)( void );//23
+PRE TM1V (WINAPI  *TM1TypeAttributeAlias)( void );//24
+PRE TM1V (WINAPI  *TM1TypeAttributeString)( void );//25
+PRE TM1V (WINAPI  *TM1TypeAttributeNumeric)( void );//26
+PRE TM1V (WINAPI  *TM1TypeRuleCalculation)( void );//13
+PRE TM1V (WINAPI  *TM1TypeRuleDrill)( void );//14
 PRE TM1V (WINAPI  *TM1ObjectAttributes)( void );      
 PRE TM1V (WINAPI  *TM1ObjectChangedSinceLoaded)( void );                         
 PRE TM1V (WINAPI  *TM1ObjectLastTimeUpdated)( void ); 
@@ -598,7 +599,7 @@ PRE TM1V (WINAPI  *TM1SubsetExpression)( void );
 PRE TM1V (WINAPI  *TM1CubeDimensions)( void );       
 PRE TM1V (WINAPI  *TM1CubeLogChanges)( void );                           
 PRE TM1V (WINAPI  *TM1CubeRule)( void );                                 
-PRE TM1V (WINAPI  *TM1CubeViews)( void );                                
+PRE TM1V (WINAPI  *TM1CubeViews)( void ); 
 PRE TM1V (WINAPI  *TM1CubePerspectivesMaxMemory)( void );
 PRE TM1V (WINAPI  *TM1CubePerspectivesMinTime)( void );
 PRE TM1V (WINAPI  *TM1CubeMeasuresDimension)( void );

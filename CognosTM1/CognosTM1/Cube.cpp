@@ -2,15 +2,21 @@
 #include "Cube.h"
 #include "Dimension.h"
 
-Cube::Cube(const Server &server, const char * CubeName, TM1_INDEX CubeNameLen) :Object(server),server(server){
+Cube::Cube(const Server &server, const char * CubeName, TM1_INDEX CubeNameLen, bool isPublic) :Object(server),server(server){
 	//получаем хендл куба
 	if (CubeName != nullptr) 
-		hObject = utilities::getObjectByName(hUser, hPool, server.gethObject(), TM1ServerCubes(), CubeName, vName, CubeNameLen);
+		hObject = utilities::getObjectByName(hUser, hPool, server.gethObject(), TM1ServerCubes(), CubeName, vName, CubeNameLen, isPublic);
+}
+Cube::Cube(const Server &server, TM1_INDEX i, bool isPublic) : Object(server), server(server) {
+	if (0 < i && i <= server.getCountCubes())
+		hObject = utilities::getObjectByIndex(hUser, hPool, server.gethObject(), TM1ServerCubes(), i, isPublic);
+	else
+		throw std::exception("На сервере нет куба с таким номером.");
 }
 
-bool Cube::exist() noexcept {
+bool Cube::exist(bool isPublic) noexcept {
 	if(vName!=nullptr)
-		hObject = utilities::getObjectByName(hUser, hPool, server.gethObject(), TM1ServerCubes(), vName);
+		hObject = utilities::getObjectByName(hUser, hPool, server.gethObject(), TM1ServerCubes(), vName, isPublic);
 	return hObject != nullptr;
 }
 
@@ -55,17 +61,17 @@ void Cube::addDimension(const char * DimensionName, TM1_INDEX DimensionNameLen) 
 	Dimensions.push_back(std::string(DimensionName, DimensionName + (DimensionNameLen ? DimensionNameLen : std::strlen(DimensionName))));
 }
 
-bool Cube::registerCube(const char * CubeName, TM1_INDEX CubeNameLen) {
+bool Cube::registerCube(bool isPublic, const char * CubeName, TM1_INDEX CubeNameLen) {
 	if (hNewObject == nullptr)
 		return false; //новый куб или его изменения не инициализированы
 	else if (CubeName != nullptr) {
-		TM1V hObject = utilities::registerObject(hUser, hPool, server.gethObject(), hNewObject, CubeName, vName, CubeNameLen);
+		TM1V hObject = utilities::registerObject(hUser, hPool, server.gethObject(), hNewObject, isPublic, CubeName, vName, CubeNameLen);
 		if (hObject != nullptr)
 			this->hObject = hObject;
 		else
 			return false; //не удалось зарегистрировать куб
 	}else if (vName != nullptr) {
-		TM1V hObject = utilities::registerObject(hUser, hPool, server.gethObject(), hNewObject, vName);
+		TM1V hObject = utilities::registerObject(hUser, hPool, server.gethObject(), hNewObject, isPublic, vName);
 		if (hObject != nullptr)
 			this->hObject = hObject;
 		else

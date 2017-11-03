@@ -64,7 +64,7 @@ public:
 	}
 	
 	//проверка опубликованности
-	virtual bool exist() noexcept = 0;
+	virtual bool exist(bool isPublic = true) noexcept = 0;
 	//получение дескриптора родителя
 	inline TM1V getParrent(TM1V hObject = nullptr)const {
 		if (hObject || this->hObject)
@@ -107,38 +107,39 @@ public:
 	}
 	
 	//получение количества дочерних объектов определенного типа
-	inline TM1_INDEX getListCount(TM1V vType, TM1V hObject=nullptr)const {
-		if (hObject || this->hObject)
-			return utilities::getCountObjects(hUser, hPool, hObject ? hObject:this->hObject, vType);
+	inline TM1_INDEX getListCount(TM1V vType, bool isPublic=true, TM1V hObject=nullptr)const {
+		if (hObject || this->hObject)			
+			return utilities::getCountObjects(hUser, hPool, hObject ? hObject:this->hObject, vType, isPublic);
 		else
 			throw std::exception("Объект не инициализирован");
 	}
+	
 	//показать дочерние объекты
-	inline std::string showList(TM1V vType, TM1V hObject = nullptr)const {
+	inline std::string showList(TM1V vType, bool isPublic = true, TM1V hObject = nullptr)const {
 		if (hObject || this->hObject)
-			return std::move(utilities::showObjects(hUser, hPool, hObject ? hObject : this->hObject, vType));
+			return std::move(utilities::showObjects(hUser, hPool, hObject ? hObject : this->hObject, vType, isPublic));
 		else
 			throw std::exception("Объект не инициализирован");
-
 	}
+	
 	//получение дочернего объекта по имени
-	inline TM1V getListItemByName(TM1V vType, const char *Name, TM1V &vName, TM1_INDEX NameLen, TM1V hObject = nullptr) const{
+	inline TM1V getListItemByName(TM1V vType, const char *Name, TM1V &vName, TM1_INDEX NameLen, TM1V hObject = nullptr, bool isPublic = true) const{
 		if (hObject || this->hObject)
-			return utilities::getObjectByName(hUser, hPool, hObject ? hObject : this->hObject, vType, const_cast<char*>(Name), vName, NameLen);
+			return utilities::getObjectByName(hUser, hPool, hObject ? hObject : this->hObject, vType, const_cast<char*>(Name), vName, NameLen, isPublic);
 		else
 			throw std::exception("Объект не инициализирован");
 	}
 	//получение дочернего объекта по имени из пула
-	inline TM1V getListItemByName(const TM1V &vName, TM1V vType, TM1V hObject = nullptr) const {
+	inline TM1V getListItemByName(const TM1V &vName, TM1V vType, TM1V hObject = nullptr, bool isPublic = true) const {
 		if (hObject || this->hObject)
-			return utilities::getObjectByName(hUser, hPool, hObject ? hObject : this->hObject, vType, vName);
+			return utilities::getObjectByName(hUser, hPool, hObject ? hObject : this->hObject, vType, vName, isPublic);
 		else
 			throw std::exception("Объект не инициализирован");
 	}
 	//получение дочернего объекта по индексу
-	inline TM1V getListItemByIndex(TM1_INDEX i, TM1V vType, TM1V hObject = nullptr) const{
+	inline TM1V getListItemByIndex(TM1_INDEX i, TM1V vType, TM1V hObject = nullptr, bool isPublic=true) const{
 		if (hObject || this->hObject)
-			return utilities::getObjectByIndex(hUser, hPool, hObject ? hObject : this->hObject, vType, i);
+			return utilities::getObjectByIndex(hUser, hPool, hObject ? hObject : this->hObject, vType, i, isPublic);
 		else
 			throw std::exception("Объект не инициализирован");
 	}

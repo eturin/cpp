@@ -26,7 +26,7 @@ public:
 	
 	//проверка соединения
 	bool isConnected() noexcept;
-	inline virtual bool exist() noexcept override {
+	inline virtual bool exist(bool isPublic = true) noexcept override {
 		return isConnected();
 	}
 	//подключение

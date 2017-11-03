@@ -24,19 +24,21 @@ namespace utilities {
 
 	TM1_INDEX getLastError(std::ostringstream & sout, TM1U hUser, TM1V val, bool isShow = false) noexcept;
 
-	TM1_INDEX   getCountObjects(TM1U hUser, TM1P hPool, TM1V hParrentObject, TM1V vType);
-	std::string showObjects(TM1U hUser, TM1P hPool, TM1V hParrentObject, TM1V vType);
+	TM1_INDEX   getCountObjects(TM1U hUser, TM1P hPool, TM1V hParrentObject, TM1V vType, bool isPublic);
+	
+	std::string showObjects(TM1U hUser, TM1P hPool, TM1V hParrentObject, TM1V vType, bool isPublic);	
 
-	TM1V        getObjectByIndex(TM1U hUser, TM1P hPool, TM1V hParrentObject, TM1V vType, TM1_INDEX i) noexcept;
-	TM1V        getObjectByName(TM1U hUser, TM1P hPool, TM1V hParrentObject, TM1V vType, const char *strName, TM1V & vName, TM1_INDEX NameLen = 0)noexcept;
-	TM1V        getObjectByName(TM1U hUser, TM1P hPool, TM1V hParrentObject, TM1V vType, TM1V vName) noexcept;
-	TM1V        getObjectByName(TM1U hUser, TM1P hPool, TM1V hParrentObject, TM1V vType, double val, TM1V & vVal) noexcept;
-
+	TM1V        getObjectByIndex(TM1U hUser, TM1P hPool, TM1V hParrentObject, TM1V vType, TM1_INDEX i, bool isPublic) noexcept;
+	TM1V        getObjectByName(TM1U hUser, TM1P hPool, TM1V hParrentObject, TM1V vType, const char *strName, TM1V & vName, TM1_INDEX NameLen = 0, bool isPublic=true)noexcept;
+	TM1V        getObjectByName(TM1U hUser, TM1P hPool, TM1V hParrentObject, TM1V vType, TM1V vName, bool isPublic) noexcept;
+	TM1V        getObjectByName(TM1U hUser, TM1P hPool, TM1V hParrentObject, TM1V vType, double val, TM1V & vVal, bool isPublic) noexcept;
+	
 	TM1V        getObjectProperty(TM1U hUser, TM1P hPool, TM1V hParrentObject, TM1V vType);
 	bool        setObjectProperty(TM1U hUser, TM1P hPool, TM1V hParrentObject, TM1V vType, TM1V val);
 
-	TM1V	    registerObject(TM1U hUser, TM1P hPool, TM1V hParrentObject, TM1V hObject, const char *strName, TM1V & vName, TM1_INDEX NameLen = 0);
-	TM1V	    registerObject(TM1U hUser, TM1P hPool, TM1V hParrentObject, TM1V hObject, TM1V vName);
+	TM1V	    registerObject(TM1U hUser, TM1P hPool, TM1V hParrentObject, TM1V hObject, bool isPublic, const char *strName, TM1V & vName, TM1_INDEX NameLen = 0);
+	TM1V	    registerObject(TM1U hUser, TM1P hPool, TM1V hParrentObject, TM1V hObject, bool isPublic, TM1V vName);
+	
 
 	TM1V	    duplicateObject(TM1U hUser, TM1P hPool, TM1V hObject);
 

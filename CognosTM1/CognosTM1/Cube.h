@@ -18,7 +18,9 @@ private:
 	std::vector<std::string> Dimensions;	
 public:
 	//конструктор
-	Cube(const Server &server, const char * CubeName=nullptr, TM1_INDEX CubeNameLen=0);
+	Cube(const Server &server, const char * CubeName=nullptr, TM1_INDEX CubeNameLen=0, bool isPublic = true);
+	//создание экземпляра на основе опубликованного куба по индексу
+	Cube(const Server &server, TM1_INDEX i, bool isPublic = true);
 	//запрещаем конструкторы
 	Cube(const Cube &)             = delete;
 	Cube(Cube &&)                  = delete;
@@ -27,18 +29,18 @@ public:
 	Cube & operator=(Cube &&)      = delete;
 		
 	//проверка опубликован-ли куб
-	virtual bool exist() noexcept override;
+	virtual bool exist(bool isPublic = true) noexcept override;
 	//создание пустого куба
 	bool   makeNew();
 	
 	//добавление опубликованного измерения в куб
 	void   addDimension(const char * DimensionName, TM1_INDEX DimensionNameLen = 0);
 	//публикация куба
-	bool   registerCube(const char * CubeName=nullptr, TM1_INDEX CubeNameLen = 0);
+	bool   registerCube(bool isPublic, const char * CubeName=nullptr, TM1_INDEX CubeNameLen = 0);
 		
 	//получени кол-ва измерений
-	inline TM1_INDEX getCountDimensions()const {
-		return getListCount(TM1CubeDimensions());
+	inline TM1_INDEX getCountDimensions(bool isPublic=true,TM1V hObject=nullptr)const {
+		return getListCount(TM1CubeDimensions(), isPublic, (hObject ? hObject : this->hObject));
 	}
 	//получение строки с измерениями
 	inline std::string showDimensions()const {
@@ -55,9 +57,10 @@ public:
 	}
 
 	//получение кол-ва представлений
-	inline TM1_INDEX getCountViews()const {
-		return getListCount(TM1CubeViews());
+	inline TM1_INDEX getCountViews(bool isPublic=true, bool isMDX=false)const {
+		return getListCount(isMDX ? TM1ValIndex(hPool, 357) : TM1CubeViews(), isPublic);
 	}
+	
 	//получение строки с именами представлений
 	inline std::string showViews()const {
 		return std::move(showList(TM1CubeViews()));

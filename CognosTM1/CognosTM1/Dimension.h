@@ -17,11 +17,11 @@ private:
 	
 public:
 	//создание экземпл€ра на основе опубликованного измерени€ по имени
-	Dimension(const Cube &cube, const char * DimensionName, TM1_INDEX DimensionNameLen = 0);
+	Dimension(const Cube &cube, const char * DimensionName, TM1_INDEX DimensionNameLen = 0, bool isPublic = true);
 	//создание экземпл€ра на основе опубликованного измерени€ по индексу
-	Dimension(const Cube &cube, TM1_INDEX i);
+	Dimension(const Cube &cube, TM1_INDEX i, bool isPublic = true);
 	//создание экземпл€ра дл€ нового измерени€ или измерени€ опубликованного на сервере
-	Dimension(const Server &server, const char * DimensionName, TM1_INDEX DimensionNameLen = 0) noexcept;
+	Dimension(const Server &server, const char * DimensionName, TM1_INDEX DimensionNameLen = 0, bool isPublic = true) noexcept;
 	//запрещаем конструкторы
 	Dimension(const Dimension &)             = delete;
 	Dimension(Dimension &&)                  = delete;
@@ -30,7 +30,7 @@ public:
 	Dimension & operator=(Dimension &&)      = delete;
 					
 	//проверка опубликовано-ли измерение
-	virtual bool exist() noexcept override;
+	virtual bool exist(bool isPublic = true) noexcept override;
 	//создание пустого измерени€
 	inline void makeNew() noexcept {
 		hNewObject = TM1DimensionCreateEmpty(hPool, server.gethObject());
@@ -41,7 +41,7 @@ public:
 	//проверка корректности измерени€
 	bool check()const;
 	//публикаци€ измерени€
-	bool registerDimension(const char * DimensionName = nullptr, TM1_INDEX DimensionNameLen = 0);
+	bool registerDimension(bool isPublic, const char * DimensionName = nullptr, TM1_INDEX DimensionNameLen = 0);
 	
 	bool  setElementVal(const char * strVal, TM1_INDEX strValLen = 0);
 	bool  setElementVal(double val);	
