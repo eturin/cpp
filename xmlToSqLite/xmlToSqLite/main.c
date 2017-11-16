@@ -80,6 +80,13 @@ int convertUnicodeToUtf8(wchar_t * unicode_str, char ** putf8){
 	return len;
 }
 
+//запись ошибки в лог-файл
+void saveErrorTo_stderr(const char * title, const char * msg) {
+	time_t t = time(0);
+	struct tm * now = localtime(&t);
+	fprintf(stderr, "[%04d.%02d.%02d %02d:%02d:%02d] %s: %s\n", now->tm_year + 1900, now->tm_mon, now->tm_mday, now->tm_hour, now->tm_min, now->tm_sec, title, msg);
+	fflush(stderr);
+}
 //запись ошибки в базу
 void saveError(sqlite3 *db, char * msg, char * comm, char * strId){
 	//отправляем в sqLite
@@ -97,13 +104,9 @@ void saveError(sqlite3 *db, char * msg, char * comm, char * strId){
 	}else
 		sqlite3_bind_text(stmt, 3, comm, -1, SQLITE_TRANSIENT);
 
-	if (sqlite3_step(stmt) != SQLITE_DONE){
-		time_t t = time(0);  
-		struct tm * now = localtime(&t);		
-		fprintf(stderr, "[%04d.%02d.%02d %02d:%02d:%02d] Не удается выполнить запись ошибки в базу: %s\n", now->tm_year + 1900, now->tm_mon, now->tm_mday, now->tm_hour, now->tm_min, now->tm_sec, sqlite3_errmsg(db));
-		fflush(stderr);
-	}
-
+	if (sqlite3_step(stmt) != SQLITE_DONE)
+		saveErrorTo_stderr("Не удается выполнить запись ошибки в базу", sqlite3_errmsg(db));
+	
 	sqlite3_finalize(stmt);
 }
 
@@ -427,10 +430,7 @@ sqlite3 * initSql(char * path){
 	sqlite3 *db = NULL;
 	int rc = sqlite3_open(path, &db);
 	if(rc){
-		time_t t = time(0);
-		struct tm * now = localtime(&t);		
-		fprintf(stderr, "[%04d.%02d.%02d %02d:%02d:%02d] Не удалось установить соединение: %s\n", now->tm_year + 1900, now->tm_mon, now->tm_mday, now->tm_hour, now->tm_min, now->tm_sec, sqlite3_errmsg(db));
-		fflush(stderr);
+		saveErrorTo_stderr("Не удалось установить соединение", sqlite3_errmsg(db));		
 		sqlite3_close(db);
 		db = NULL;
 	}else{
@@ -495,10 +495,7 @@ sqlite3 * initSql(char * path){
 		} while (rc == SQLITE_BUSY || rc == SQLITE_LOCKED);
 
 		if(rc)	{
-			time_t t = time(0);
-			struct tm * now = localtime(&t);			
-			fprintf(stderr, "[%04d.%02d.%02d %02d:%02d:%02d] Не удалось выполнить DDL:\n%s\n-->%s\n", now->tm_year + 1900, now->tm_mon, now->tm_mday, now->tm_hour, now->tm_min, now->tm_sec, strDDL, sqlite3_errmsg(db));
-			fflush(stderr);
+			saveErrorTo_stderr("Не удалось выполнить DDL", sqlite3_errmsg(db));
 			sqlite3_free(error);
 			free(error);
 			sqlite3_close(db);
@@ -514,9 +511,7 @@ void parseXML(sqlite3 *db, char * job, char * path) {
 	//открываем xml-файл
 	FILE * file = fopen(path, "rb");
 	if (file == NULL) {
-		time_t t = time(0);
-		struct tm * now = localtime(&t);
-		fprintf(stderr, "[%04d.%02d.%02d %02d:%02d:%02d] Не удалось установить соединение: %s:", now->tm_year + 1900, now->tm_mon, now->tm_mday, now->tm_hour, now->tm_min, now->tm_sec);
+		saveErrorTo_stderr("Не удалось открыть файл", path);
 		perror("Не удалось открыть xml-файл");
 		fprintf(stderr, "\n");
 		fflush(stderr);
@@ -607,23 +602,42 @@ int main(int argc, char *argv[]){
 		strcat(strPath, argv[0]);
 		strcat(strPath, ".log");
 		freopen(strPath, "a", stderr);
-		
-		//инициализация базы sqLite
-		sqlite3 *db=initSql(argv[1]);
-		if (db != NULL){
-			//разбор xml-файлов
-			for (int i = 3; i < argc; ++i)
-				parseXML(db, argv[2], argv[i]);
+		//инструмент синхронизации
+		HANDLE ghSemaphore = CreateSemaphore(NULL,           //default security attributes
+			                                 1,              //начальное количество
+			                                 1,              //максимальное количество
+			                                 "xmlToSqLite"); //имя семафора
+		if (ghSemaphore == NULL) 
+			saveErrorTo_stderr("Не удалось создать семафор", "xmlToSqLite"); 			
+		else {
+			//пробуем войти в семафор
+			DWORD  dwWaitResult = WaitForSingleObject(ghSemaphore, INFINITE); //бесконечное ожидание
+			if (WAIT_OBJECT_0 == dwWaitResult) {
+				
+				//инициализация базы sqLite
+				sqlite3 *db = initSql(argv[1]);
+				if (db != NULL) {
+					//разбор xml-файлов
+					for (int i = 3; i < argc; ++i)
+						parseXML(db, argv[2], argv[i]);
 
-			//закрываем соединение
-			sqlite3_close(db);
+					//закрываем соединение
+					sqlite3_close(db);
+				}
+				
+				//пробуем выйти из семафора
+				if (!ReleaseSemaphore(ghSemaphore, 1, NULL)) {
+					saveErrorTo_stderr("Не удалось выйти из семафора", "xmlToSqLite");
+					fprintf(stderr, "%d", GetLastError());
+				}
+			}else
+				saveErrorTo_stderr("Истекло время ожидания семафора", "xmlToSqLite");
+
+			//закрываем семафор
+			CloseHandle(ghSemaphore);
 		}
 	}
 
 	//system("pause");
 	return 0;
 }
-/*
-
-
-*/
