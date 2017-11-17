@@ -1,6 +1,8 @@
 #define _CRT_SECURE_NO_WARNINGS
 
 #include <Windows.h>
+#include <tlhelp32.h>
+
 #include <stdio.h>
 #include <locale.h>
 #include <string.h>
@@ -637,6 +639,32 @@ int main(int argc, char *argv[]){
 			CloseHandle(ghSemaphore);
 		}
 	}
+
+	//найдем процессы с именем OCRProcessor3.exe 
+	PROCESSENTRY32 entry;
+	entry.dwSize = sizeof(PROCESSENTRY32);
+	HANDLE snapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, NULL);
+
+	if (Process32First(snapshot, &entry) == TRUE)
+		while (Process32Next(snapshot, &entry) == TRUE)
+			if (strcmp(entry.szExeFile, "OCRProcessor3.exe") == 0) {
+				HANDLE hProcess = OpenProcess(PROCESS_ALL_ACCESS, FALSE, entry.th32ProcessID);
+
+				//установим приоритет
+				if (GetPriorityClass(hProcess) != BELOW_NORMAL_PRIORITY_CLASS && !SetPriorityClass(hProcess, BELOW_NORMAL_PRIORITY_CLASS)) {
+					DWORD dwError = GetLastError();
+					if (ERROR_PROCESS_MODE_ALREADY_BACKGROUND == dwError)
+						; //нужный приоритет уже установлен
+					else {
+						saveErrorTo_stderr("Ошибка установки приоритета", "OCRProcessor3.exe");
+						fprintf(stderr,"Код ошибки: %d\n", dwError);
+					}
+				}
+
+				CloseHandle(hProcess);
+			}
+
+	CloseHandle(snapshot);
 
 	//system("pause");
 	return 0;
