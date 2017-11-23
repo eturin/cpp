@@ -111,8 +111,8 @@ Quantity<L> operator*(double val, const Quantity<L> & other) noexcept {
 	return Quantity<L>(other.value() * val);
 }
 template<class L>
-Quantity<L> operator*(double val, const Quantity<L> & other) noexcept {
-	return Quantity<L>(val/other.value());
+Quantity<typename Zip<IntList<0,0,0,0,0,0,0>, L, Minus>::type> operator/(double val, const Quantity<L> & other) noexcept {
+	return Quantity<typename Zip<IntList<0, 0, 0, 0, 0, 0, 0>, L, Minus>::type>(val/other.value());
 }
 
 template<int m = 0, int kg = 0, int s = 0, int A = 0, int K = 0, int mol = 0, int cd = 0>
@@ -130,7 +130,7 @@ int main() {
 	LengthQ   l{ 30000 };      // 30 км
 	TimeQ     t{ 10 * 60 };    // 10 минут
 							   // вычисление скорости
-	VelocityQ v = 3 * l / t;     // результат типа VelocityQ, 50 м/с
+	VelocityQ v = 1/(3 * l / t);     // результат типа VelocityQ, 50 м/с
 
 	AccelQ    a{ 9.8 };        // ускорение свободного падения
 	MassQ     m{ 80 };         // 80 кг
