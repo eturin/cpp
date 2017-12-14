@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\etyurin\Downloads\libharu-master\CMakeFiles\30da2704031bf89423373311e9d273c5\INSTALL_force.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{33BF732E-5AB4-30BD-B5BB-98E6412AEB3D}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

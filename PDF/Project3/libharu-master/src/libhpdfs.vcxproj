@@ -1,0 +1,332 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MinSizeRel|x64">
+      <Configuration>MinSizeRel</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|x64">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGUID>{29F9B5F5-E20A-3B92-B141-8C87E78930DD}</ProjectGUID>
+    <Keyword>Win32Proj</Keyword>
+    <Platform>x64</Platform>
+    <ProjectName>libhpdfs</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+    <PropertyGroup>
+      <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+      <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\etyurin\Downloads\libharu-master\src\Debug\</OutDir>
+      <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">libhpdfs.dir\Debug\</IntDir>
+      <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">libhpdfsd</TargetName>
+      <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.lib</TargetExt>
+      <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\etyurin\Downloads\libharu-master\src\Release\</OutDir>
+      <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">libhpdfs.dir\Release\</IntDir>
+      <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">libhpdfs</TargetName>
+      <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.lib</TargetExt>
+      <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\etyurin\Downloads\libharu-master\src\MinSizeRel\</OutDir>
+      <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">libhpdfs.dir\MinSizeRel\</IntDir>
+      <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">libhpdfs</TargetName>
+      <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">.lib</TargetExt>
+      <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\etyurin\Downloads\libharu-master\src\RelWithDebInfo\</OutDir>
+      <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">libhpdfs.dir\RelWithDebInfo\</IntDir>
+      <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">libhpdfs</TargetName>
+      <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">.lib</TargetExt>
+    </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Users\etyurin\Downloads\libharu-master\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>Debug/</AssemblerListingLocation>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <CompileAs>CompileAsC</CompileAs>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;CMAKE_INTDIR="Debug";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;CMAKE_INTDIR=\"Debug\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\etyurin\Downloads\libharu-master\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Users\etyurin\Downloads\libharu-master\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions)  /machine:x64</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Users\etyurin\Downloads\libharu-master\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>Release/</AssemblerListingLocation>
+      <CompileAs>CompileAsC</CompileAs>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;CMAKE_INTDIR="Release";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat></DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;CMAKE_INTDIR=\"Release\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\etyurin\Downloads\libharu-master\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Users\etyurin\Downloads\libharu-master\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions)  /machine:x64</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Users\etyurin\Downloads\libharu-master\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>MinSizeRel/</AssemblerListingLocation>
+      <CompileAs>CompileAsC</CompileAs>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <Optimization>MinSpace</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;CMAKE_INTDIR="MinSizeRel";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat></DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;CMAKE_INTDIR=\"MinSizeRel\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\etyurin\Downloads\libharu-master\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Users\etyurin\Downloads\libharu-master\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions)  /machine:x64</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Users\etyurin\Downloads\libharu-master\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>RelWithDebInfo/</AssemblerListingLocation>
+      <CompileAs>CompileAsC</CompileAs>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;CMAKE_INTDIR="RelWithDebInfo";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;CMAKE_INTDIR=\"RelWithDebInfo\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\etyurin\Downloads\libharu-master\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Users\etyurin\Downloads\libharu-master\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions)  /machine:x64</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\etyurin\Downloads\libharu-master\src\CMakeLists.txt">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule C:/Users/etyurin/Downloads/libharu-master/src/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -HC:/Users/etyurin/Downloads/libharu-master -BC:/Users/etyurin/Downloads/libharu-master --check-stamp-file C:/Users/etyurin/Downloads/libharu-master/src/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:/Users/etyurin/Downloads/libharu-master/src/CMakeLists.txt;C:\Users\etyurin\Downloads\libharu-master\src\CMakeLists.txt;C:\Users\etyurin\Downloads\libharu-master\src\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\etyurin\Downloads\libharu-master\src\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule C:/Users/etyurin/Downloads/libharu-master/src/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -HC:/Users/etyurin/Downloads/libharu-master -BC:/Users/etyurin/Downloads/libharu-master --check-stamp-file C:/Users/etyurin/Downloads/libharu-master/src/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:/Users/etyurin/Downloads/libharu-master/src/CMakeLists.txt;C:\Users\etyurin\Downloads\libharu-master\src\CMakeLists.txt;C:\Users\etyurin\Downloads\libharu-master\src\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\etyurin\Downloads\libharu-master\src\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule C:/Users/etyurin/Downloads/libharu-master/src/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -HC:/Users/etyurin/Downloads/libharu-master -BC:/Users/etyurin/Downloads/libharu-master --check-stamp-file C:/Users/etyurin/Downloads/libharu-master/src/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:/Users/etyurin/Downloads/libharu-master/src/CMakeLists.txt;C:\Users\etyurin\Downloads\libharu-master\src\CMakeLists.txt;C:\Users\etyurin\Downloads\libharu-master\src\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\etyurin\Downloads\libharu-master\src\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule C:/Users/etyurin/Downloads/libharu-master/src/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -HC:/Users/etyurin/Downloads/libharu-master -BC:/Users/etyurin/Downloads/libharu-master --check-stamp-file C:/Users/etyurin/Downloads/libharu-master/src/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:/Users/etyurin/Downloads/libharu-master/src/CMakeLists.txt;C:\Users\etyurin\Downloads\libharu-master\src\CMakeLists.txt;C:\Users\etyurin\Downloads\libharu-master\src\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\etyurin\Downloads\libharu-master\src\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="C:\Users\etyurin\Downloads\libharu-master\src\hpdf_annotation.c"  />
+    <ClCompile Include="C:\Users\etyurin\Downloads\libharu-master\src\hpdf_array.c"  />
+    <ClCompile Include="C:\Users\etyurin\Downloads\libharu-master\src\hpdf_binary.c"  />
+    <ClCompile Include="C:\Users\etyurin\Downloads\libharu-master\src\hpdf_boolean.c"  />
+    <ClCompile Include="C:\Users\etyurin\Downloads\libharu-master\src\hpdf_catalog.c"  />
+    <ClCompile Include="C:\Users\etyurin\Downloads\libharu-master\src\hpdf_destination.c"  />
+    <ClCompile Include="C:\Users\etyurin\Downloads\libharu-master\src\hpdf_dict.c"  />
+    <ClCompile Include="C:\Users\etyurin\Downloads\libharu-master\src\hpdf_doc_png.c"  />
+    <ClCompile Include="C:\Users\etyurin\Downloads\libharu-master\src\hpdf_doc.c"  />
+    <ClCompile Include="C:\Users\etyurin\Downloads\libharu-master\src\hpdf_encoder_cns.c"  />
+    <ClCompile Include="C:\Users\etyurin\Downloads\libharu-master\src\hpdf_encoder_cnt.c"  />
+    <ClCompile Include="C:\Users\etyurin\Downloads\libharu-master\src\hpdf_encoder_jp.c"  />
+    <ClCompile Include="C:\Users\etyurin\Downloads\libharu-master\src\hpdf_encoder_kr.c"  />
+    <ClCompile Include="C:\Users\etyurin\Downloads\libharu-master\src\hpdf_encoder.c"  />
+    <ClCompile Include="C:\Users\etyurin\Downloads\libharu-master\src\hpdf_encrypt.c"  />
+    <ClCompile Include="C:\Users\etyurin\Downloads\libharu-master\src\hpdf_encryptdict.c"  />
+    <ClCompile Include="C:\Users\etyurin\Downloads\libharu-master\src\hpdf_error.c"  />
+    <ClCompile Include="C:\Users\etyurin\Downloads\libharu-master\src\hpdf_ext_gstate.c"  />
+    <ClCompile Include="C:\Users\etyurin\Downloads\libharu-master\src\hpdf_font_cid.c"  />
+    <ClCompile Include="C:\Users\etyurin\Downloads\libharu-master\src\hpdf_font_tt.c"  />
+    <ClCompile Include="C:\Users\etyurin\Downloads\libharu-master\src\hpdf_font_type1.c"  />
+    <ClCompile Include="C:\Users\etyurin\Downloads\libharu-master\src\hpdf_font.c"  />
+    <ClCompile Include="C:\Users\etyurin\Downloads\libharu-master\src\hpdf_fontdef_base14.c"  />
+    <ClCompile Include="C:\Users\etyurin\Downloads\libharu-master\src\hpdf_fontdef_cid.c"  />
+    <ClCompile Include="C:\Users\etyurin\Downloads\libharu-master\src\hpdf_fontdef_cns.c"  />
+    <ClCompile Include="C:\Users\etyurin\Downloads\libharu-master\src\hpdf_fontdef_cnt.c"  />
+    <ClCompile Include="C:\Users\etyurin\Downloads\libharu-master\src\hpdf_fontdef_jp.c"  />
+    <ClCompile Include="C:\Users\etyurin\Downloads\libharu-master\src\hpdf_fontdef_kr.c"  />
+    <ClCompile Include="C:\Users\etyurin\Downloads\libharu-master\src\hpdf_fontdef_tt.c"  />
+    <ClCompile Include="C:\Users\etyurin\Downloads\libharu-master\src\hpdf_fontdef_type1.c"  />
+    <ClCompile Include="C:\Users\etyurin\Downloads\libharu-master\src\hpdf_fontdef.c"  />
+    <ClCompile Include="C:\Users\etyurin\Downloads\libharu-master\src\hpdf_gstate.c"  />
+    <ClCompile Include="C:\Users\etyurin\Downloads\libharu-master\src\hpdf_image_ccitt.c"  />
+    <ClCompile Include="C:\Users\etyurin\Downloads\libharu-master\src\hpdf_image_png.c"  />
+    <ClCompile Include="C:\Users\etyurin\Downloads\libharu-master\src\hpdf_image.c"  />
+    <ClCompile Include="C:\Users\etyurin\Downloads\libharu-master\src\hpdf_info.c"  />
+    <ClCompile Include="C:\Users\etyurin\Downloads\libharu-master\src\hpdf_list.c"  />
+    <ClCompile Include="C:\Users\etyurin\Downloads\libharu-master\src\hpdf_mmgr.c"  />
+    <ClCompile Include="C:\Users\etyurin\Downloads\libharu-master\src\hpdf_name.c"  />
+    <ClCompile Include="C:\Users\etyurin\Downloads\libharu-master\src\hpdf_namedict.c"  />
+    <ClCompile Include="C:\Users\etyurin\Downloads\libharu-master\src\hpdf_null.c"  />
+    <ClCompile Include="C:\Users\etyurin\Downloads\libharu-master\src\hpdf_number.c"  />
+    <ClCompile Include="C:\Users\etyurin\Downloads\libharu-master\src\hpdf_objects.c"  />
+    <ClCompile Include="C:\Users\etyurin\Downloads\libharu-master\src\hpdf_outline.c"  />
+    <ClCompile Include="C:\Users\etyurin\Downloads\libharu-master\src\hpdf_page_label.c"  />
+    <ClCompile Include="C:\Users\etyurin\Downloads\libharu-master\src\hpdf_page_operator.c"  />
+    <ClCompile Include="C:\Users\etyurin\Downloads\libharu-master\src\hpdf_pages.c"  />
+    <ClCompile Include="C:\Users\etyurin\Downloads\libharu-master\src\hpdf_real.c"  />
+    <ClCompile Include="C:\Users\etyurin\Downloads\libharu-master\src\hpdf_streams.c"  />
+    <ClCompile Include="C:\Users\etyurin\Downloads\libharu-master\src\hpdf_string.c"  />
+    <ClCompile Include="C:\Users\etyurin\Downloads\libharu-master\src\hpdf_u3d.c"  />
+    <ClCompile Include="C:\Users\etyurin\Downloads\libharu-master\src\hpdf_utils.c"  />
+    <ClCompile Include="C:\Users\etyurin\Downloads\libharu-master\src\hpdf_xref.c"  />
+    <ClCompile Include="C:\Users\etyurin\Downloads\libharu-master\src\hpdf_pdfa.c"  />
+    <ClCompile Include="C:\Users\etyurin\Downloads\libharu-master\src\hpdf_3dmeasure.c"  />
+    <ClCompile Include="C:\Users\etyurin\Downloads\libharu-master\src\hpdf_exdata.c"  />
+    <ClCompile Include="C:\Users\etyurin\Downloads\libharu-master\src\hpdf_encoder_utf.c"  />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="C:\Users\etyurin\Downloads\libharu-master\ZERO_CHECK.vcxproj">
+      <Project>{EE0CE593-C7FA-3834-BD93-286C0578236A}</Project>
+      <Name>ZERO_CHECK</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
