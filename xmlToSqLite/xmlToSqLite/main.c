@@ -509,87 +509,76 @@ sqlite3 * initSql(char * path){
 }
 
 //в этой функции парсится отдельный xml-файл
-void parseXML(sqlite3 *db, char * job, char * path) {
-	//открываем xml-файл
-	FILE * file = fopen(path, "rb");
-	if (file == NULL) {
-		saveErrorTo_stderr("Не удалось открыть файл", path);
-		perror("Не удалось открыть xml-файл");
-		fprintf(stderr, "\n");
-		fflush(stderr);
-	}
-	else {
-		//структура доступная в парсере xml 
-		struct DataContent deepCont = { db, job, 0 };
+void parseXML(sqlite3 *db, char * job, FILE * file) {
+	//структура доступная в парсере xml 
+	struct DataContent deepCont = { db, job, 0 };
 
-		//создаем парсер
-		XML_Parser parser = XML_ParserCreate("UTF-8");
-		//связываем его с нашей структурой
-		XML_SetUserData(parser, &deepCont);
-		//устанавливаем обработчики событий
-		XML_SetElementHandler(parser, startElement, endElement);
-		XML_SetCharacterDataHandler(parser, startData);
+	//создаем парсер
+	XML_Parser parser = XML_ParserCreate("UTF-8");
+	//связываем его с нашей структурой
+	XML_SetUserData(parser, &deepCont);
+	//устанавливаем обработчики событий
+	XML_SetElementHandler(parser, startElement, endElement);
+	XML_SetCharacterDataHandler(parser, startData);
 
-		int done;
-		char buf[BUFSIZ];
-		do {
-			//очередной блок байт
-			size_t len = fread(buf, sizeof(char), sizeof(buf), file);
-			done = len < sizeof(buf); //если прочитали меньше, чем размер буфера, значит повторять цикл не нужно
+	int done;
+	char buf[BUFSIZ];
+	do {
+		//очередной блок байт
+		size_t len = fread(buf, sizeof(char), sizeof(buf), file);
+		done = len < sizeof(buf); //если прочитали меньше, чем размер буфера, значит повторять цикл не нужно
 
-									  //парсим блок байт
-			if (XML_Parse(parser, buf, len, done) == XML_STATUS_ERROR) {
-				char msg[20] = { 0 };
-				sprintf(msg, "%" XML_FMT_INT_MOD "u line", XML_GetCurrentLineNumber(parser));
-				saveError(db, XML_ErrorString(XML_GetErrorCode(parser)), msg, "");
-				done = 1;
-			}
-		} while (!done);
-
-		//отправляем в sqLite
-		if (deepCont.task != NULL) {
-			char * strDML = "insert or replace into xml values(?,?)";
-			sqlite3_stmt *stmt;
-			sqlite3_prepare(db, strDML, -1, &stmt, NULL);
-			sqlite3_bind_text(stmt, 1, deepCont.task, -1, SQLITE_TRANSIENT);
-
-			fseek(file, 0, SEEK_END);             //смещаемся в конец 
-			size_t size = ftell(file);            //получаем смещение в байтах
-			rewind(file);                         //смещаемся в начало файла 
-												  //fseek(file, 0, SEEK_SET);
-
-												  //переносим весь файл в буфер 
-			char *buf = (char *)malloc(size);
-			memset(buf, 0, size);
-			if (fread(buf, sizeof(char), size, file) < size) {
-				perror("Не удается выполнить запись текста xml-файла в базу");
-				saveError(db, "I/O error", "Не удается выполнить запись текста xml-файла", deepCont.task);
-			}else {
-				char * utf8 = NULL;
-				int len = convertUnicodeToUtf8(buf, &utf8);
-				if (utf8 != NULL)
-					sqlite3_bind_blob(stmt, 2, utf8, len, SQLITE_TRANSIENT);
-				else
-					sqlite3_bind_blob(stmt, 2, buf, size, SQLITE_TRANSIENT);
-
-				int rc = 0;
-				do {
-					rc = sqlite3_step(stmt);
-				} while (rc == SQLITE_BUSY || rc == SQLITE_LOCKED);
-
-				if (rc != SQLITE_DONE)
-					saveError(db, sqlite3_errmsg(db), "Не удается выполнить запись текста xml-файла", deepCont.task);
-
-				free(utf8);
-			}
-			free(buf);
-			sqlite3_finalize(stmt);
+	    //парсим блок байт
+		if (XML_Parse(parser, buf, len, done) == XML_STATUS_ERROR) {
+			char msg[20] = { 0 };
+			sprintf(msg, "%" XML_FMT_INT_MOD "u line", XML_GetCurrentLineNumber(parser));
+			saveError(db, XML_ErrorString(XML_GetErrorCode(parser)), msg, "");
+			done = 1;
 		}
+	} while (!done);
 
-		//освобождение ресурсов
-		fclose(file);
-		XML_ParserFree(parser);
+	//отправляем в sqLite
+	if (deepCont.task != NULL) {
+		char * strDML = "insert or replace into xml values(?,?)";
+		sqlite3_stmt *stmt;
+		sqlite3_prepare(db, strDML, -1, &stmt, NULL);
+		sqlite3_bind_text(stmt, 1, deepCont.task, -1, SQLITE_TRANSIENT);
+
+		fseek(file, 0, SEEK_END);             //смещаемся в конец 
+		size_t size = ftell(file);            //получаем смещение в байтах
+		rewind(file);                         //смещаемся в начало файла 
+											  //fseek(file, 0, SEEK_SET);
+
+											  //переносим весь файл в буфер 
+		char *buf = (char *)malloc(size);
+		memset(buf, 0, size);
+		if (fread(buf, sizeof(char), size, file) < size) {
+			perror("Не удается выполнить запись текста xml-файла в базу");
+			saveError(db, "I/O error", "Не удается выполнить запись текста xml-файла", deepCont.task);
+		}else {
+			char * utf8 = NULL;
+			int len = convertUnicodeToUtf8(buf, &utf8);
+			if (utf8 != NULL)
+				sqlite3_bind_blob(stmt, 2, utf8, len, SQLITE_TRANSIENT);
+			else
+				sqlite3_bind_blob(stmt, 2, buf, size, SQLITE_TRANSIENT);
+
+			int rc = 0;
+			do {
+				rc = sqlite3_step(stmt);
+			} while (rc == SQLITE_BUSY || rc == SQLITE_LOCKED);
+
+			if (rc != SQLITE_DONE)
+				saveError(db, sqlite3_errmsg(db), "Не удается выполнить запись текста xml-файла", deepCont.task);
+
+			free(utf8);
+		}
+		free(buf);
+		sqlite3_finalize(stmt);
 	}
+
+	//освобождение ресурсов
+	XML_ParserFree(parser);	
 }
 
 int main(int argc, char *argv[]){
@@ -612,16 +601,29 @@ int main(int argc, char *argv[]){
 		if (ghSemaphore == NULL) 
 			saveErrorTo_stderr("Не удалось создать семафор", "xmlToSqLite"); 			
 		else {
+			//открываем все обрабатываемые файлы
+			FILE ** mFiles = (FILE *)malloc(sizeof(FILE *)*(argc - 3));
+			memset(mFiles, 0, sizeof(FILE *)*(argc - 3));
+			for (int i = 3; i < argc; ++i) {
+				FILE *file = mFiles[i - 3] = fopen(argv[i], "rb");
+				if (file == NULL) {
+					saveErrorTo_stderr("Не удалось открыть файл", argv[i]);
+					perror("Не удалось открыть xml-файл");
+					fprintf(stderr, "\n");
+					fflush(stderr);
+				}
+			}
+
 			//пробуем войти в семафор
 			DWORD  dwWaitResult = WaitForSingleObject(ghSemaphore, INFINITE); //бесконечное ожидание
 			if (WAIT_OBJECT_0 == dwWaitResult) {
 				
 				//инициализация базы sqLite
 				sqlite3 *db = initSql(argv[1]);
-				if (db != NULL) {
+				if (db != NULL) {					
 					//разбор xml-файлов
 					for (int i = 3; i < argc; ++i)
-						parseXML(db, argv[2], argv[i]);
+						parseXML(db, argv[2], mFiles[i - 3]);
 
 					//закрываем соединение
 					sqlite3_close(db);
@@ -637,6 +639,10 @@ int main(int argc, char *argv[]){
 
 			//закрываем семафор
 			CloseHandle(ghSemaphore);
+
+			//освобождение ресурсов
+			for (int i = 3; i < argc; ++i) 
+				fclose(mFiles[i - 3]);			
 		}
 	}
 
