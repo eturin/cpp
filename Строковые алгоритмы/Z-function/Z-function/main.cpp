@@ -16,8 +16,10 @@ std::vector<std::size_t> zFunc(std::string &str){
 
 		while(i + z[i] < len && str[i + z[i]] == str[z[i]]) ++z[i];
 
-		iL = i;
-		iR = i + z[i] - 1;
+		if(iR < i + z[i] - 1){
+			iL = i;
+			iR = i + z[i] - 1;
+		}
 	}
 
 	return z;
