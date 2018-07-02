@@ -2,7 +2,7 @@
 #include <iomanip>
 
 #include <vector>
-#include <string>
+#include <string> 
 #include <algorithm>
 
 std::string lcs(const std::string &a, const std::string &b){
