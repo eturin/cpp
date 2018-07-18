@@ -12,6 +12,11 @@
 #include "expat.h"
 #include "sqlite3.h"
 
+#include <sql.h>
+#include <sqlext.h>
+
+#define MAX_DATA 255
+
 #ifdef XML_LARGE_SIZE
 #if defined(XML_USE_MSC_EXTENSIONS) && _MSC_VER < 1400
 #define XML_FMT_INT_MOD "I64"
@@ -581,6 +586,32 @@ void parseXML(sqlite3 *db, char * job, FILE * file) {
 	XML_ParserFree(parser);	
 }
 
+void printErr(HSTMT hstmt){
+	unsigned      char szSQLSTATE[10];
+	SDWORD        nErr;
+	unsigned char msg[SQL_MAX_MESSAGE_LENGTH + 1];
+	SWORD         cbmsg;
+	unsigned char szData[MAX_DATA];
+
+	while(SQLError(0, 0, hstmt, szSQLSTATE, &nErr, msg, sizeof(msg), &cbmsg) == SQL_SUCCESS){
+		sprintf_s((char *)szData, sizeof(szData), "Error:\nSQLSTATE=%s, Native error=%ld, msg='%s'", szSQLSTATE, nErr, msg);
+		saveErrorTo_stderr("Ошибка запроса к SQL серверу (отправка письма)", (const char *)szData);
+	}
+}
+
+void printErrD(HDBC hdbc){
+	SQLRETURN  rc;
+	SQLINTEGER NativeError;
+	SQLCHAR       SqlState[6], Msg[SQL_MAX_MESSAGE_LENGTH];
+	SQLLEN     numRecs = 0;
+	SQLGetDiagField(SQL_HANDLE_DBC, hdbc, 0, SQL_DIAG_NUMBER, &numRecs, 0, 0);
+	SQLSMALLINT i = 1, MsgLen;
+	while(i <= numRecs && (rc = SQLGetDiagRec(SQL_HANDLE_DBC, hdbc, i, SqlState, &NativeError, Msg, sizeof(Msg), &MsgLen)) != SQL_NO_DATA){
+		saveErrorTo_stderr("Ошибка подключения к SQL серверу (отправка письма)", (const char *)Msg);
+		i++;
+	}
+}
+
 int main(int argc, char *argv[]){
 	//локализация консоли
 	setlocale(LC_ALL, "russian");
@@ -614,32 +645,90 @@ int main(int argc, char *argv[]){
 				}
 			}
 
-			//пробуем войти в семафор
-			DWORD  dwWaitResult = WaitForSingleObject(ghSemaphore, INFINITE); //бесконечное ожидание
-			if (WAIT_OBJECT_0 == dwWaitResult) {
-				
-				//инициализация базы sqLite
-				sqlite3 *db = initSql(argv[1]);
-				if (db != NULL) {					
-					//разбор xml-файлов
-					for (int i = 3; i < argc; ++i)
-						parseXML(db, argv[2], mFiles[i - 3]);
+			for(int i = 0; i < 3; ++i){ //до 3-х равз по часу ждем
+				//пробуем войти в семафор
+				DWORD  dwWaitResult = WaitForSingleObject(ghSemaphore, 3600000); //INFINITE(бесконечное ожидание)
+				if(WAIT_OBJECT_0 == dwWaitResult){
 
-					//закрываем соединение
-					sqlite3_close(db);
-				}
-				
-				//пробуем выйти из семафора
-				if (!ReleaseSemaphore(ghSemaphore, 1, NULL)) {
-					saveErrorTo_stderr("Не удалось выйти из семафора", "xmlToSqLite");
-					fprintf(stderr, "%d", GetLastError());
-				}
-			}else
-				saveErrorTo_stderr("Истекло время ожидания семафора", "xmlToSqLite");
+					//инициализация базы sqLite
+					sqlite3 *db = initSql(argv[1]);
+					if(db != NULL){
+						//разбор xml-файлов
+						for(int i = 3; i < argc; ++i)
+							parseXML(db, argv[2], mFiles[i - 3]);
 
+						//закрываем соединение
+						sqlite3_close(db);
+					}
+
+					//пробуем выйти из семафора
+					if(!ReleaseSemaphore(ghSemaphore, 1, NULL)){
+						saveErrorTo_stderr("Не удалось выйти из семафора", "xmlToSqLite");
+						fprintf(stderr, "%d", GetLastError());
+					}
+
+					break;
+				} else{
+					saveErrorTo_stderr("Истекло время ожидания семафора", argv[i]);
+					//отправка письма
+					SQLHENV henv;
+					SQLAllocEnv(&henv);
+
+					SQLHDBC    hdbc;
+					SQLHSTMT   hstmt = NULL;
+					SQLAllocConnect(henv, &hdbc);
+					while(1){
+						//подключение
+						SQLCHAR connStr[] = "DRIVER={SQL Server}; Server=edo.maxus.lan\\EDO; Database=EDO; App=EDO; UID=connect_1c; PWD=#&bP8RN7;";
+						SQLCHAR OutConnStr[MAX_DATA] = {0};
+						SQLSMALLINT OutConnStrLen = 0;
+						RETCODE rc = SQLDriverConnect(hdbc,
+													  NULL,
+													  connStr,
+													  sizeof(connStr),
+													  OutConnStr,
+													  MAX_DATA,
+													  &OutConnStrLen,
+													  SQL_DRIVER_NOPROMPT);
+						if(rc != SQL_SUCCESS && rc != SQL_SUCCESS_WITH_INFO){
+							printf("%s %d\n", connStr, sizeof(connStr));
+							printErrD(hdbc);
+							break;
+						}
+
+						//запрос
+						rc = SQLAllocStmt(hdbc, &hstmt);
+						SQLCHAR strSql[] = "\
+						EXECUTE AS LOGIN = 'maxus\\sql.mail.services';                      \
+						exec msdb.dbo.sp_send_dbmail @profile_name = 'edo.mail.service',    \
+						@recipients            = 'etyurin@maxus.ru',                        \
+						@from_address          = '',                                        \
+						@reply_to              = '',                                        \
+						@copy_recipients       = 'dharitonova@svyaznoy.ru',                 \
+						@blind_copy_recipients = '',                                        \
+						@body_format           = 'html',                                    \
+						@body                  = '<html><body><b>КАРАУЛ я опять сломался.</b><br><i>Не могу записать статистику и наверно очередь уже растет.</i><br><br><br>Добрый день.<br>См. выше.<br>С наилучшими пожеланиями, Ваш Recognition Server 3.0.<br><br><i><b>PS:</b>Помогите! Перезагрузите. Пните кого-нибудь.</i></body></html>',\
+						@subject               = 'Double trouble, coldren bubble',          \
+						@importance            = 'High'                                     \
+						REVERT;";
+						rc = SQLExecDirect(hstmt, strSql, SQL_NTS);
+						if(rc != SQL_SUCCESS && rc != SQL_SUCCESS_WITH_INFO)
+							printErr(hstmt);
+
+						break;
+					}
+
+					//отключение
+					SQLFreeStmt(hstmt, SQL_DROP);
+					SQLDisconnect(hdbc);
+					SQLFreeConnect(hdbc);
+					SQLFreeEnv(henv);
+				}
+			}
+			
 			//закрываем семафор
 			CloseHandle(ghSemaphore);
-
+			
 			//освобождение ресурсов
 			for (int i = 3; i < argc; ++i) 
 				fclose(mFiles[i - 3]);			
