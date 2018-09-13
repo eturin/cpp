@@ -649,6 +649,16 @@ int main(int argc, char *argv[]){
 				//пробуем войти в семафор
 				DWORD  dwWaitResult = WaitForSingleObject(ghSemaphore, 3600000); //INFINITE(бесконечное ожидание)
 				if(WAIT_OBJECT_0 == dwWaitResult){
+					//записываем сведения о процессе удерживающем семафор
+					char strPathToInf[256] = {0};
+					strcat(strPathToInf, argv[0]);
+					strcat(strPathToInf, ".pid");
+					FILE *file = fopen(strPathToInf, "wb");
+					if(file != NULL){
+						DWORD pid = GetCurrentProcessId();
+						fwrite(&pid, sizeof(DWORD), 1, file);
+						fclose(file);
+					}
 
 					//инициализация базы sqLite
 					sqlite3 *db = initSql(argv[1]);
@@ -670,6 +680,26 @@ int main(int argc, char *argv[]){
 					break;
 				} else{
 					saveErrorTo_stderr("Истекло время ожидания семафора", argv[i]);
+					//извлекаем последний процесс, который заходил в семафор, и ищем его среди живых процессов
+					char strPathToInf[256] = {0};
+					strcat(strPathToInf, argv[0]);
+					strcat(strPathToInf, ".pid");
+					FILE *file = fopen(strPathToInf, "rb");
+					DWORD pid = 0;
+					char  isOk = 0;
+					if(file != NULL){
+						fread(&pid, sizeof(DWORD), 1, file);
+						fclose(file);
+
+						HANDLE Handle = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ,
+							                        FALSE,
+							                        pid);
+						if(Handle){
+							CloseHandle(Handle);
+							isOk = 1;
+						}
+					}
+
 					//отправка письма
 					SQLHENV henv;
 					SQLAllocEnv(&henv);
@@ -698,19 +728,90 @@ int main(int argc, char *argv[]){
 
 						//запрос
 						rc = SQLAllocStmt(hdbc, &hstmt);
-						SQLCHAR strSql[] = "\
+						SQLCHAR strSql[10000] = {0};						
+						sprintf(strSql, "\
 						EXECUTE AS LOGIN = 'maxus\\sql.mail.services';                      \
 						exec msdb.dbo.sp_send_dbmail @profile_name = 'edo.mail.service',    \
 						@recipients            = 'etyurin@maxus.ru',                        \
+						@copy_recipients       = 'dharitonova@svyaznoy.ru',                 \
 						@from_address          = '',                                        \
 						@reply_to              = '',                                        \
-						@copy_recipients       = 'dharitonova@svyaznoy.ru',                 \
 						@blind_copy_recipients = '',                                        \
 						@body_format           = 'html',                                    \
-						@body                  = '<html><body><b>КАРАУЛ я опять сломался.</b><br><i>Не могу записать статистику и наверно очередь уже растет.</i><br><br><br>Добрый день.<br>См. выше.<br>С наилучшими пожеланиями, Ваш Recognition Server 3.0.<br><br><i><b>PS:</b>Помогите! Перезагрузите. Пните кого-нибудь.</i></body></html>',\
-						@subject               = 'Double trouble, coldren bubble',          \
-						@importance            = 'High'                                     \
-						REVERT;";
+						@body                  = '<html>                                    \
+						<head>                                                              \
+							<style>                                                         \
+								.a{                                                         \
+									margin           : 1em 0 0.5em 0;                       \
+									font-weight	     : normal;                              \
+									position         : relative;                            \
+									font-size	     : 28px;                                \
+									line-height	     : 40px;                                \
+									background       : #4D1E88;                             \
+									border           : 1px solid #fff;                      \
+									padding          : 5px 15px;                            \
+									color            : white;                               \
+									border-radius    : 0 10px 0 10px;                       \
+									box-shadow	     : inset 0 0 5px rgba(53,86,129, 0.5);  \
+								}                                                           \
+								.b{                                                         \
+									margin           : 1em 0 0.5em 0;                       \
+									font-weight	     : 600;                                 \
+									position         : relative;                            \
+									font-size	     : 22px;                                \
+									line-height	     : 40px;                                \
+									color            : #0000FF;                             \
+									text-transform   : uppercase;                           \
+									text-decoration  : underline;                           \
+									border-bottom    : 1px solid rgba(53,86,129, 0.3)       \
+									font-style       : italic                               \
+								}                                                           \
+								.c{                                                         \
+									font-weight      : bold;                                \
+									border           : 1px solid #D5B3FF;                   \
+									text-align       : right;                               \
+								}                                                           \
+								.d{                                                         \
+									border           : 1px solid #D5B3FF;                   \
+								}                                                           \
+								body{                                                       \
+									font-family      : ''Svyaznoy Sans'';                   \
+								}                                                           \
+							</style>                                                        \
+						</head>                                                             \
+						<body>                                                              \
+							<p class = ''a''>Recognition Server 3.0 (as-msk-n7060)</p>      \
+							<p class = ''b''>СВЕДЕНИЯ</p>                                   \
+							<table>                                                         \
+								<tr>                                                        \
+									<td class=''c''>Процесс</td><td class =''d''>%d</td>    \
+								</tr>                                                       \
+								<tr>                                                        \
+									<td class=''c''>Состояние</td><td class =''d''>%s</td>  \
+								</tr>                                                       \
+								<tr>                                                        \
+									<td class=''c''>Проблема</td><td class =''d''>Не отпустил семафор.Возможно проблемы на сервере.</td>\
+								</tr>                                                       \
+							</table>                                                        \
+							<br>                                                            \
+							<p width=100%>                                                  \
+							<table class = MsoNormalTable border = 0 cellspacing = 0 cellpadding = 0 width=""100%"" style=''width:100.0%'' align=''right''>     \
+								<tr style = ''height:2.25pt''>                                                                                   \
+									<td style=''padding:.75pt .75pt .75pt .75pt;height:2.25pt''></td>                                            \
+									<td style=''padding:.75pt .75pt .75pt .75pt;height:2.25pt''></td>                                            \
+									<td style=''padding:.75pt .75pt .75pt .75pt;height:2.25pt''></td>                                            \
+									<td style=''padding:.75pt .75pt .75pt .75pt;height:2.25pt''></td>                                            \
+									<td width=233 style=''width:233.0pt;background:#4C2A7E;padding:.75pt .75pt .75pt .75pt;height:2.25pt''></td> \
+									<td width=233 style=''width:233.0pt;background:#FFCA08;padding:.75pt .75pt .75pt .75pt;height:2.25pt''></td> \
+								</tr>                                                                                                            \
+							</table>         </p>                                                                                                \
+							<p>Новый «Связной» - еще ни все уволились.</p>                                                                       \
+						</body>                                                                                                                  \
+						</html>',                                                                                                                \
+						@subject = 'Double trouble, coldren bubble',                                                                             \
+						@importance = 'High'                                                                                                     \
+						REVERT;", pid, isOk ? "живой" : "нет");
+						
 						rc = SQLExecDirect(hstmt, strSql, SQL_NTS);
 						if(rc != SQL_SUCCESS && rc != SQL_SUCCESS_WITH_INFO)
 							printErr(hstmt);
